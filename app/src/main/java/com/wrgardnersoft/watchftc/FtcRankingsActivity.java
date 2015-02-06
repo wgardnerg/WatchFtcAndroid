@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -25,7 +27,7 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
 
     private ArrayList<TeamFtcRanked> team;
     private ListView listView;
-    TeamsTask teamsTask;
+    ClientTask clientTask;
 
     public FtcRankingsActivity() {
         team = new ArrayList<TeamFtcRanked>();
@@ -49,9 +51,9 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
         getSupportActionBar().setIcon(R.drawable.ic_launcher);
         setContentView(R.layout.activity_ftc_rankings);
 
-        teamsTask = new TeamsTask();
-        teamsTask.delegate = this;
-        teamsTask.execute();
+        clientTask = new ClientTask();
+        clientTask.delegate = this;
+        clientTask.execute();
 
     }
 
@@ -60,6 +62,25 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
                 R.layout.list_item_ftc_ranking, team);
         listView = (ListView) findViewById(R.id.ftc_rankings_list_view);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TeamFtcRanked teamPicked = (TeamFtcRanked) parent.getItemAtPosition(position);
+
+                MyApp myApp = (MyApp) getApplication();
+
+                if (myApp.selectedTeams.contains(teamPicked.number)) {
+                    myApp.selectedTeams.remove(Integer.valueOf(teamPicked.number));
+                } else {
+                    myApp.selectedTeams.add(teamPicked.number);
+                }
+                listView.invalidateViews();
+            }
+        });
+
+
     }
 
     @Override
@@ -91,7 +112,7 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
     }
 
     // AsyncTask
-    public class TeamsTask extends AsyncTask<Void, Void, Void> {
+    public class ClientTask extends AsyncTask<Void, Void, Void> {
         public AsyncResponse delegate;
 
         ProgressDialog mProgressDialog;
@@ -123,14 +144,12 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
 
                 teamsUrl = "http://" + myApp.serverAddressString(myApp.division()) +
                         urlSuffix[i] + "/" + pageSuffix;
-                Document teamsDocument;
                 try {
                     // Connect to the web site
                     Document document = Jsoup.connect(teamsUrl).get();
                     // Get the html document title
                     title = document.title();
                     serverOK = true;
-                    teamsDocument = document;
 
                     Element table = document.select("table").get(0); //select the first table.
                     Elements rows = table.select("tr");
