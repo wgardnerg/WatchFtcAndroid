@@ -82,8 +82,7 @@
         android:singleLine="true"
         android:text="254"
         android:textColor="@color/black"
-        android:textSize="21sp"
-        android:textStyle="bold" />
+        android:textSize="21sp" />
 
 
 </LinearLayout>

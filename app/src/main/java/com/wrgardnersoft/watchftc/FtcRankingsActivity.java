@@ -20,18 +20,13 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 
 public class FtcRankingsActivity extends ActionBarActivity implements AsyncResponse {
 
-    private ArrayList<TeamFtcRanked> team;
     private ListView listView;
     ClientTask clientTask;
 
-    public FtcRankingsActivity() {
-        team = new ArrayList<TeamFtcRanked>();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,19 +42,25 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
         } else {
             setTitle(" " + getString(R.string.ftcRankings));
         }
+
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.drawable.ic_launcher);
         setContentView(R.layout.activity_ftc_rankings);
 
-        clientTask = new ClientTask();
-        clientTask.delegate = this;
-        clientTask.execute();
-
+        if (myApp.teamFtcRanked.size() >0) {
+            inflateMe();
+        } else {
+            clientTask = new ClientTask();
+            clientTask.delegate = this;
+            clientTask.execute();
+        }
     }
 
     private void inflateMe() {
+        MyApp myApp = MyApp.getInstance();
+
         FtcRankingsListAdapter adapter = new FtcRankingsListAdapter(this,
-                R.layout.list_item_ftc_ranking, team);
+                R.layout.list_item_ftc_ranking, myApp.teamFtcRanked);
         listView = (ListView) findViewById(R.id.ftc_rankings_list_view);
         listView.setAdapter(adapter);
 
@@ -87,26 +88,18 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         setContentView(R.layout.activity_ftc_rankings);
-        if (team.size() > 0) {
+
+        MyApp myApp = (MyApp) getApplication();
+        if (myApp.teamFtcRanked.size() > 0) {
             inflateMe();
         }
     }
 
     public void processFinish(int result) {
         //this you will received result fired from async class of onPostExecute(result) method.
- /*      TableLayout teamsTableLayout = (TableLayout) findViewById(R.id.teams_tableLayout);
-
-        teamsTableLayout.removeAllViews();
-        BuildTeamsTable(team);*/
-
-        if (team.size() > 0) {
+        MyApp myApp = (MyApp) getApplication();
+        if (myApp.teamFtcRanked.size() > 0) {
             inflateMe();
-        } else {
-            Context context = getApplicationContext();
-            CharSequence text = "Could not download data from server";
-            int duration = Toast.LENGTH_LONG;
-
-            Toast.makeText(context, text, duration).show();
         }
 
     }
@@ -117,7 +110,6 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
 
         ProgressDialog mProgressDialog;
 
-        String title;
         boolean serverOK;
 
         MyApp myApp = (MyApp) getApplication();
@@ -127,7 +119,7 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
             super.onPreExecute();
             mProgressDialog = new ProgressDialog(FtcRankingsActivity.this);
             mProgressDialog.setTitle("Watch FTC");
-            mProgressDialog.setMessage("Accessing server...");
+            mProgressDialog.setMessage("Accessing FTC Rankings...");
             mProgressDialog.setIndeterminate(false);
             mProgressDialog.show();
         }
@@ -147,18 +139,18 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
                 try {
                     // Connect to the web site
                     Document document = Jsoup.connect(teamsUrl).get();
-                    // Get the html document title
-                    title = document.title();
                     serverOK = true;
 
                     Element table = document.select("table").get(0); //select the first table.
                     Elements rows = table.select("tr");
 
+                    myApp.teamFtcRanked.clear();
+
                     for (int j = 1; j < rows.size(); j++) { //first row is the col names so skip it.
                         Element row = rows.get(j);
                         Elements cols = row.select("td");
 
-                        team.add(new TeamFtcRanked(Integer.parseInt(cols.get(0).text()),
+                        myApp.teamFtcRanked.add(new TeamFtcRanked(Integer.parseInt(cols.get(0).text()),
                                 Integer.parseInt(cols.get(1).text()),
                                 cols.get(2).text(),
                                 Integer.parseInt(cols.get(3).text()),
@@ -169,9 +161,15 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
-                    title = teamsUrl + ": Cannot access server";
                     serverOK = false;
                 }
+            }
+            if (!serverOK) {
+                Context context = getApplicationContext();
+                CharSequence text = "Could not download data from server";
+                int duration = Toast.LENGTH_LONG;
+
+                Toast.makeText(context, text, duration).show();
             }
             return null;
         }
@@ -179,7 +177,11 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
         @Override
         protected void onPostExecute(Void result) {
 
-            mProgressDialog.dismiss();
+            try {
+                mProgressDialog.dismiss();
+            } finally {
+
+            }
             delegate.processFinish(RESULT_OK);
         }
     }
@@ -213,16 +215,11 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
             startActivity(getNameScreenIntent);
             finish();
             return true;
-     /*   } else if (id == R.id.action_my_team) {
-            Intent getNameScreenIntent = new Intent(this, MyTeamActivity.class);
-            startActivity(getNameScreenIntent);
-            finish();
-            return true;*/
-        } else if (id == R.id.action_ftc_rankings) {
+ /*       } else if (id == R.id.action_ftc_rankings) {
             Intent getNameScreenIntent = new Intent(this, FtcRankingsActivity.class);
             startActivity(getNameScreenIntent);
             //          finish();
-            return true;
+            return true; */
         } else if (id == R.id.action_matches) {
             Intent getNameScreenIntent = new Intent(this, MatchesActivity.class);
             startActivity(getNameScreenIntent);
@@ -239,6 +236,7 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
             //         finish();
             return true;
         } else if (id == R.id.action_refresh) {
+            myApp.teamFtcRanked.clear();
             Intent intent = getIntent();
             finish();
             startActivity(intent);

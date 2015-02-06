@@ -26,16 +26,11 @@ import java.util.List;
 
 public class MatchesActivity extends ActionBarActivity implements AsyncResponse {
 
-    private ArrayList<Match> match;
-    ClientTask clientTask;
 
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<Match>> listDataChild;
-
-    public MatchesActivity() {
-        match = new ArrayList<Match>();
-    }
+    ClientTask clientTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +51,13 @@ public class MatchesActivity extends ActionBarActivity implements AsyncResponse 
         getSupportActionBar().setIcon(R.drawable.ic_launcher);
         setContentView(R.layout.activity_matches);
 
-
-        clientTask = new ClientTask();
-        clientTask.delegate = this;
-        clientTask.execute();
+        if (myApp.match.size() > 0) {
+            inflateMe();
+        } else {
+            clientTask = new ClientTask();
+            clientTask.delegate = this;
+            clientTask.execute();
+        }
 
     }
 
@@ -76,7 +74,9 @@ public class MatchesActivity extends ActionBarActivity implements AsyncResponse 
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         setContentView(R.layout.activity_matches);
-        if (match.size() > 0) {
+
+        MyApp myApp = (MyApp) getApplication();
+        if (myApp.match.size() > 0) {
             inflateMe();
         }
     }
@@ -95,13 +95,15 @@ public class MatchesActivity extends ActionBarActivity implements AsyncResponse 
         List<Match> semi = new ArrayList<Match>();
         List<Match> finals = new ArrayList<Match>();
 
-        for (int i = 0; i < match.size(); i++) {
-            if (match.get(i).title.startsWith("Q")) {
-                qual.add(match.get(i));
-            } else if (match.get(i).title.startsWith("S")) {
-                semi.add(match.get(i));
+        MyApp myApp = (MyApp) getApplication();
+
+        for (int i = 0; i < myApp.match.size(); i++) {
+            if (myApp.match.get(i).title.startsWith("Q")) {
+                qual.add(myApp.match.get(i));
+            } else if (myApp.match.get(i).title.startsWith("S")) {
+                semi.add(myApp.match.get(i));
             } else {
-                finals.add(match.get(i));
+                finals.add(myApp.match.get(i));
             }
         }
 
@@ -113,17 +115,10 @@ public class MatchesActivity extends ActionBarActivity implements AsyncResponse 
 
     public void processFinish(int result) {
         //this you will received result fired from async class of onPostExecute(result) method.
+        MyApp myApp = (MyApp) getApplication();
 
-        Log.i("Match Size", Integer.toString(match.size()));
-
-        if (match.size() > 0) {
+        if (myApp.match.size() > 0) {
             inflateMe();
-        } else {
-            Context context = getApplicationContext();
-            CharSequence text = "Could not download data from server";
-            int duration = Toast.LENGTH_LONG;
-
-            Toast.makeText(context, text, duration).show();
         }
 
     }
@@ -134,17 +129,14 @@ public class MatchesActivity extends ActionBarActivity implements AsyncResponse 
 
         ProgressDialog mProgressDialog;
 
-        String title;
         boolean serverOK;
-
-        MyApp myApp = (MyApp) getApplication();
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             mProgressDialog = new ProgressDialog(MatchesActivity.this);
             mProgressDialog.setTitle("Watch FTC");
-            mProgressDialog.setMessage("Accessing server...");
+            mProgressDialog.setMessage("Accessing Match Info...");
             mProgressDialog.setIndeterminate(false);
             mProgressDialog.show();
         }
@@ -155,20 +147,18 @@ public class MatchesActivity extends ActionBarActivity implements AsyncResponse 
             String[] urlSuffix = {"", ":8080"};
             String pageSuffix = "MatchDetails";
 
+            MyApp myApp = (MyApp) getApplication();
+
             serverOK = false;
 
             for (int i = 0; (i < urlSuffix.length) && (!serverOK); i++) {
 
                 teamsUrl = "http://" + myApp.serverAddressString(myApp.division()) +
                         urlSuffix[i] + "/" + pageSuffix;
-                Document teamsDocument;
                 try {
                     // Connect to the web site
                     Document document = Jsoup.connect(teamsUrl).get();
-                    // Get the html document title
-                    title = document.title();
                     serverOK = true;
-                    teamsDocument = document;
 
                     Element table = document.select("table").get(0); //select the first table.
                     Elements rows = table.select("tr");
@@ -177,36 +167,13 @@ public class MatchesActivity extends ActionBarActivity implements AsyncResponse 
                     for (int j = 2; j < rows.size(); j++) { //first row is the col names so skip it.
                         Element row = rows.get(j);
                         Elements cols = row.select("td");
-                        Log.i("Match Cols", Integer.toString(rows.size()));
-/*
-                        match.add(new Match(j - 1,
-                                "Rows",
-                                "Cols",
-                                rows.size(),
-                                cols.size(),
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0
-                        )); */
 
                         String redTeamString = cols.get(2).text();
                         String blueTeamString = cols.get(3).text();
                         String redTeam[] = redTeamString.split("\\s+");
                         String blueTeam[] = blueTeamString.split("\\s+");
-                        String errorMsg = ":" + cols.get(1).text() + ":";
-                        Log.i("sResult", errorMsg);
-                        match.add(new Match(j - 1,
+
+                        myApp.match.add(new Match(j - 1,
                                 cols.get(0).text(),
                                 cols.get(1).text(),
                                 redTeam[0],
@@ -230,9 +197,16 @@ public class MatchesActivity extends ActionBarActivity implements AsyncResponse 
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
-                    title = teamsUrl + ": Cannot access server";
                     serverOK = false;
                 }
+            }
+
+            if (!serverOK) {
+                Context context = getApplicationContext();
+                CharSequence text = "Could not download data from server";
+                int duration = Toast.LENGTH_LONG;
+
+                Toast.makeText(context, text, duration).show();
             }
             return null;
         }
@@ -240,7 +214,11 @@ public class MatchesActivity extends ActionBarActivity implements AsyncResponse 
         @Override
         protected void onPostExecute(Void result) {
 
-            mProgressDialog.dismiss();
+            try {
+                mProgressDialog.dismiss();
+            } finally {
+
+            }
             delegate.processFinish(RESULT_OK);
         }
     }
@@ -284,11 +262,11 @@ public class MatchesActivity extends ActionBarActivity implements AsyncResponse 
             startActivity(getNameScreenIntent);
   //          finish();
             return true;
-        } else if (id == R.id.action_matches) {
+  /*      } else if (id == R.id.action_matches) {
             Intent getNameScreenIntent = new Intent(this, MatchesActivity.class);
             startActivity(getNameScreenIntent);
    //         finish();
-            return true;
+            return true; */
         } else if (id == R.id.action_stat_rankings) {
             Intent getNameScreenIntent = new Intent(this, StatRankingsActivity.class);
             startActivity(getNameScreenIntent);

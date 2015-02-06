@@ -9,9 +9,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:textSize="20sp"
-        android:layout_marginTop="8dp"
+        android:textSize="30sp"
+        android:layout_marginTop="12dp"
         android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
-        android:paddingBottom="8dp"/>
+        android:paddingBottom="12dp"/>
 
 </LinearLayout>

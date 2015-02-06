@@ -20,18 +20,13 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 
 public class TeamsActivity extends ActionBarActivity implements AsyncResponse {
 
-    private ArrayList<Team> team;
     private ListView listView;
     ClientTask clientTask;
 
-    public TeamsActivity() {
-        team = new ArrayList<Team>();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,16 +47,22 @@ public class TeamsActivity extends ActionBarActivity implements AsyncResponse {
         getSupportActionBar().setIcon(R.drawable.ic_launcher);
         setContentView(R.layout.activity_teams);
 
-        clientTask = new ClientTask();
-        clientTask.delegate = this;
-        clientTask.execute();
+        if (myApp.team.size() > 0) {
+            inflateMe();
+        } else {
+            clientTask = new ClientTask();
+            clientTask.delegate = this;
+            clientTask.execute();
+        }
 
     }
 
     private void inflateMe() {
 
+        MyApp myApp = (MyApp) getApplication();
+
         TeamListAdapter adapter = new TeamListAdapter(this,
-                R.layout.list_item_team, team);
+                R.layout.list_item_team, myApp.team);
         listView = (ListView) findViewById(R.id.teams_list_view);
         listView.setAdapter(adapter);
 
@@ -90,24 +91,17 @@ public class TeamsActivity extends ActionBarActivity implements AsyncResponse {
         super.onConfigurationChanged(newConfig);
         setContentView(R.layout.activity_teams);
 
-        if (team.size() > 0) {
+        MyApp myApp = (MyApp) getApplication();
+        if (myApp.team.size() > 0) {
             inflateMe();
         }
     }
 
     public void processFinish(int result) {
         //this you will received result fired from async class of onPostExecute(result) method.
-
-        if (team.size() > 0) {
-
+        MyApp myApp = (MyApp) getApplication();
+        if (myApp.team.size() > 0) {
             inflateMe();
-
-        } else {
-            Context context = getApplicationContext();
-            CharSequence text = "Could not download data from server";
-            int duration = Toast.LENGTH_LONG;
-
-            Toast.makeText(context, text, duration).show();
         }
 
     }
@@ -118,17 +112,14 @@ public class TeamsActivity extends ActionBarActivity implements AsyncResponse {
 
         ProgressDialog mProgressDialog;
 
-        String title;
         boolean serverOK;
-
-        MyApp myApp = (MyApp) getApplication();
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             mProgressDialog = new ProgressDialog(TeamsActivity.this);
             mProgressDialog.setTitle("Watch FTC");
-            mProgressDialog.setMessage("Accessing server...");
+            mProgressDialog.setMessage("Accessing Team Info...");
             mProgressDialog.setIndeterminate(false);
             mProgressDialog.show();
         }
@@ -139,29 +130,29 @@ public class TeamsActivity extends ActionBarActivity implements AsyncResponse {
             String[] urlSuffix = {"", ":8080"};
             String pageSuffix = "TeamList";
 
+            MyApp myApp = (MyApp) getApplication();
+
             serverOK = false;
 
             for (int i = 0; (i < urlSuffix.length) && (!serverOK); i++) {
 
                 teamsUrl = "http://" + myApp.serverAddressString(myApp.division()) +
                         urlSuffix[i] + "/" + pageSuffix;
-                Document teamsDocument;
                 try {
                     // Connect to the web site
                     Document document = Jsoup.connect(teamsUrl).get();
-                    // Get the html document title
-                    title = document.title();
                     serverOK = true;
-                    teamsDocument = document;
 
                     Element table = document.select("table").get(0); //select the first table.
                     Elements rows = table.select("tr");
+
+                    myApp.team.clear(); // made it this far, so hopefully good data coming
 
                     for (int j = 1; j < rows.size(); j++) { //first row is the col names so skip it.
                         Element row = rows.get(j);
                         Elements cols = row.select("td");
 
-                        team.add(new Team(Integer.parseInt(cols.get(0).text()),
+                        myApp.team.add(new Team(Integer.parseInt(cols.get(0).text()),
                                         cols.get(1).text(),
                                         cols.get(2).text(),
                                         cols.get(3).text(),
@@ -171,9 +162,16 @@ public class TeamsActivity extends ActionBarActivity implements AsyncResponse {
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
-                    title = teamsUrl + ": Cannot access server";
                     serverOK = false;
                 }
+            }
+
+            if (!serverOK) {
+                Context context = getApplicationContext();
+                CharSequence text = "Could not download data from server";
+                int duration = Toast.LENGTH_LONG;
+
+                Toast.makeText(context, text, duration).show();
             }
             return null;
         }
@@ -221,11 +219,6 @@ public class TeamsActivity extends ActionBarActivity implements AsyncResponse {
             startActivity(getNameScreenIntent);
             finish();
             return true;
-     /*   } else if (id == R.id.action_my_team) {
-            Intent getNameScreenIntent = new Intent(this, MyTeamActivity.class);
-            startActivity(getNameScreenIntent);
-            finish();
-            return true;*/
         } else if (id == R.id.action_ftc_rankings) {
             Intent getNameScreenIntent = new Intent(this, FtcRankingsActivity.class);
             startActivity(getNameScreenIntent);
@@ -241,12 +234,13 @@ public class TeamsActivity extends ActionBarActivity implements AsyncResponse {
             startActivity(getNameScreenIntent);
             //        finish();
             return true;
-        } else if (id == R.id.action_teams) {
+  /*      } else if (id == R.id.action_teams) {
             Intent getNameScreenIntent = new Intent(this, TeamsActivity.class);
             startActivity(getNameScreenIntent);
             //         finish();
-            return true;
+            return true;*/
         } else if (id == R.id.action_refresh) {
+            myApp.team.clear();
             Intent intent = getIntent();
             finish();
             startActivity(intent);

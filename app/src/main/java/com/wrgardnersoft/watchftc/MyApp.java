@@ -20,6 +20,11 @@ public class MyApp extends Application {
     private int division;
     public ArrayList<Integer> selectedTeams;
 
+    public ArrayList<Team> team;  // full team info from team server page
+
+    public ArrayList<TeamFtcRanked> teamFtcRanked;
+
+    public ArrayList<Match> match;
 
     public static MyApp getInstance() {
         return myAppInstance;
@@ -34,6 +39,10 @@ public class MyApp extends Application {
         this.serverAddressString[0]="192.168.11.131";
         this.serverAddressString[1]="192.168.11.135";
         this.selectedTeams = new ArrayList<Integer>();
+
+        this.team = new ArrayList<Team>();
+        this.teamFtcRanked = new ArrayList<TeamFtcRanked>();
+        this.match = new ArrayList<Match>();
     }
 
     public int division() {
