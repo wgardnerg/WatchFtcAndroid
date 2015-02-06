@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Watch FTC</string>
+    <string name="WatchFTC">Watch FTC</string>
+    <string name="setup">Setup</string>
+    <string name="Div1ServerAddress">Div #1 Server Address</string>
+    <string name="Div0ServerAddress">Div #0 Server Address</string>
+    <string name="myTeam">My Team</string>
+    <string name="division">Division</string>
+    <string name="teamNum">Team #</string>
+    <string name="exit">Exit</string>
+    <string name="teams">Teams</string>
+    <string name="matches">Matches</string>
+    <string name="ftcRankings">FTC Rank</string>
+    <string name="statRankings">Stat Rank</string>
+    <string name="hello_world">Hello World</string>
+    <string name="change_division">Change Division</string>
+    <string name="title_activity_launcher">Watch FTC</string>
+    <string name="action_settings">Settings</string>
+
+</resources>

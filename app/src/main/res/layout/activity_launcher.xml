@@ -1,0 +1,37 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.wrgardnersoft.watchftc.LauncherActivity"
+    android:orientation="vertical">
+
+    <TextView android:text="Welcome to Watch FTC!"
+        android:layout_width="match_parent"
+        android:textSize="20sp"
+        android:padding="8dp"
+        android:layout_height="wrap_content" />
+
+    <TextView android:text="This app connects to a server provided by the FTC Tournament Scoring Software and displays live team, match, and ranking information provided by the software."
+        android:textSize="16sp"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView android:text="To use this app, the FTC Scoring software must have the web server enabled, your device must be connected to the same WIFI SSID as the server, and you must enter the server IP addresses on the setup page."
+        android:textSize="16sp"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />\
+
+    <Button
+        android:id="@+id/start_setup_button"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Setup"
+        android:onClick="onClickStartSetupButton"
+        />
+
+</LinearLayout>

@@ -1,0 +1,9 @@
+Save ip addresses and reload
+QR scan of ip addresses?
+add info button for individual teams
+match list
+add info button for match details
+advanced stats computation
+code for :8080 in a clean loop
+division swap
+alliance picker helper?
