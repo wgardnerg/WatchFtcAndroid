@@ -1,4 +1,4 @@
-package com.wrgardnersoft.watchftc;
+package com.wrgardnersoft.watchftc.models;
 
 import android.app.Application;
 
@@ -20,7 +20,7 @@ public class MyApp extends Application {
     private int division;
     public ArrayList<Integer> selectedTeams;
 
-    public ArrayList<Team>[] team = (ArrayList<Team>[])new ArrayList[2];  // full team info from team server page
+    public ArrayList<com.wrgardnersoft.watchftc.models.Team>[] team = (ArrayList<Team>[])new ArrayList[2];  // full team info from team server page
 
     public ArrayList<TeamFtcRanked>[] teamFtcRanked = (ArrayList<TeamFtcRanked>[])new ArrayList[2];
 

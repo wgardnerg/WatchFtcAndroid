@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,18 +7,25 @@
     android:padding="8dp"
     android:textAlignment="center"
     android:weightSum="1"
-    tools:context=".FtcRankingsActivity">
+    tools:context=".MyTeamActivity">
+
+
+    <ListView
+        android:id="@+id/teams_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"> </ListView>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/ftc_rank_container"
+        android:id="@+id/ftc_header_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/teams_list_view"
         android:orientation="horizontal"
         android:paddingRight="10dp">
 
         <TextView
             android:id="@+id/head_rank"
-            android:layout_width="90dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:gravity="center_horizontal"
@@ -29,7 +36,7 @@
 
         <TextView
             android:id="@+id/head_number"
-            android:layout_width="90dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:gravity="right"
             android:singleLine="true"
@@ -44,7 +51,7 @@
 
         <TextView
             android:id="@+id/head_qp"
-            android:layout_width="66dp"
+            android:layout_width="45dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:gravity="center_horizontal"
@@ -54,7 +61,7 @@
 
         <TextView
             android:id="@+id/head_rp"
-            android:layout_width="66dp"
+            android:layout_width="45dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:gravity="center_horizontal"
@@ -64,7 +71,7 @@
 
         <TextView
             android:id="@+id/head_mp"
-            android:layout_width="66dp"
+            android:layout_width="45dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:gravity="center_horizontal"
@@ -74,7 +81,7 @@
 
         <TextView
             android:id="@+id/head_highest"
-            android:layout_width="90dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:gravity="center_horizontal"
@@ -95,10 +102,17 @@
 
     </LinearLayout>
 
-
     <ListView
         android:id="@+id/ftc_rankings_list_view"
+        android:layout_below="@+id/ftc_header_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="wrap_content"> </ListView>
 
-</LinearLayout>
+    <ExpandableListView
+        android:id="@+id/matches_expListView"
+        android:layout_below="@id/ftc_rankings_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+</RelativeLayout>

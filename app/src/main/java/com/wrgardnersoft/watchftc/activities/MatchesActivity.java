@@ -1,24 +1,20 @@
-package com.wrgardnersoft.watchftc;
+package com.wrgardnersoft.watchftc.activities;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import com.wrgardnersoft.watchftc.R;
+import com.wrgardnersoft.watchftc.adapters.MatchesExpandableListAdapter;
+import com.wrgardnersoft.watchftc.interfaces.AsyncResponse;
+import com.wrgardnersoft.watchftc.internet.ClientTask;
+import com.wrgardnersoft.watchftc.models.Match;
+import com.wrgardnersoft.watchftc.models.MyApp;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,7 +50,7 @@ public class MatchesActivity extends ActionBarActivity implements AsyncResponse 
         if (myApp.match[myApp.division()].size() > 0) {
             inflateMe();
         } else {
-            clientTask = new ClientTask();
+            clientTask = new ClientTask(this);
             clientTask.delegate = this;
             clientTask.execute();
         }
@@ -122,103 +118,6 @@ public class MatchesActivity extends ActionBarActivity implements AsyncResponse 
         }
 
     }
-
-    // AsyncTask
-    public class ClientTask extends AsyncTask<Void, Void, Void> {
-        public AsyncResponse delegate;
-
-        ProgressDialog mProgressDialog;
-
-        boolean serverOK;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mProgressDialog = new ProgressDialog(MatchesActivity.this);
-            mProgressDialog.setTitle("Watch FTC");
-            mProgressDialog.setMessage("Accessing Match Info...");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.show();
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            String teamsUrl;
-            String[] urlSuffix = {"", ":8080"};
-            String pageSuffix = "MatchDetails";
-
-            MyApp myApp = (MyApp) getApplication();
-
-            serverOK = false;
-
-            for (int i = 0; (i < urlSuffix.length) && (!serverOK); i++) {
-
-                teamsUrl = "http://" + myApp.serverAddressString(myApp.division()) +
-                        urlSuffix[i] + "/" + pageSuffix;
-                try {
-                    // Connect to the web site
-                    Document document = Jsoup.connect(teamsUrl).get();
-                    serverOK = true;
-
-                    Element table = document.select("table").get(0); //select the first table.
-                    Elements rows = table.select("tr");
-                    Log.i("Match Rows", Integer.toString(rows.size()));
-
-                    for (int j = 2; j < rows.size(); j++) { //first row is the col names so skip it.
-                        Element row = rows.get(j);
-                        Elements cols = row.select("td");
-
-                        String redTeamString = cols.get(2).text();
-                        String blueTeamString = cols.get(3).text();
-                        String redTeam[] = redTeamString.split("\\s+");
-                        String blueTeam[] = blueTeamString.split("\\s+");
-
-                        myApp.match[myApp.division()].add(new Match(j - 1,
-                                cols.get(0).text(),
-                                cols.get(1).text(),
-                                redTeam[0],
-                                redTeam[1],
-                                blueTeam[0],
-                                blueTeam[1],
-                                cols.get(4).text(),
-                                cols.get(5).text(),
-                                cols.get(6).text(),
-                                cols.get(7).text(),
-                                cols.get(8).text(),
-                                cols.get(9).text(),
-                                cols.get(10).text(),
-                                cols.get(11).text(),
-                                cols.get(12).text(),
-                                cols.get(13).text(),
-                                cols.get(14).text(),
-                                cols.get(15).text()
-                        ));
-
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    serverOK = false;
-                }
-            }
-
-            if (!serverOK) {
-                Context context = getApplicationContext();
-                CharSequence text = "Could not download data from server";
-                int duration = Toast.LENGTH_LONG;
-
-                Toast.makeText(context, text, duration).show();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-
-                mProgressDialog.dismiss();
-            delegate.processFinish(RESULT_OK);
-        }
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -241,22 +140,15 @@ public class MatchesActivity extends ActionBarActivity implements AsyncResponse 
 
         MyApp myApp = MyApp.getInstance();
 
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_setup) {
             Intent getNameScreenIntent = new Intent(this, SetupActivity.class);
             startActivity(getNameScreenIntent);
             finish();
             return true;
-     /*   } else if (id == R.id.action_my_team) {
-            Intent getNameScreenIntent = new Intent(this, MyTeamActivity.class);
-            startActivity(getNameScreenIntent);
-            finish();
-            return true;*/
         } else if (id == R.id.action_ftc_rankings) {
             Intent getNameScreenIntent = new Intent(this, FtcRankingsActivity.class);
             startActivity(getNameScreenIntent);
-  //          finish();
             return true;
   /*      } else if (id == R.id.action_matches) {
             Intent getNameScreenIntent = new Intent(this, MatchesActivity.class);
@@ -266,17 +158,15 @@ public class MatchesActivity extends ActionBarActivity implements AsyncResponse 
         } else if (id == R.id.action_stat_rankings) {
             Intent getNameScreenIntent = new Intent(this, StatRankingsActivity.class);
             startActivity(getNameScreenIntent);
-    //        finish();
             return true;
         } else if (id == R.id.action_teams) {
             Intent getNameScreenIntent = new Intent(this, TeamsActivity.class);
             startActivity(getNameScreenIntent);
-   //         finish();
             return true;
         } else if (id == R.id.action_refresh) {
-            Intent intent = getIntent();
-            finish();
-            startActivity(intent);
+            clientTask = new ClientTask(this);
+            clientTask.delegate = this;
+            clientTask.execute();
             return true;
         } else if (myApp.dualDivision()) {
             if (id== R.id.action_change_division) {

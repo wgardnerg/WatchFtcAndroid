@@ -1,11 +1,18 @@
-package com.wrgardnersoft.watchftc;
+package com.wrgardnersoft.watchftc.activities;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
+
+import com.wrgardnersoft.watchftc.R;
+import com.wrgardnersoft.watchftc.adapters.FtcRankingsListAdapter;
+import com.wrgardnersoft.watchftc.adapters.MatchesExpandableListAdapter;
+import com.wrgardnersoft.watchftc.models.Match;
+import com.wrgardnersoft.watchftc.models.MyApp;
+import com.wrgardnersoft.watchftc.models.Team;
+import com.wrgardnersoft.watchftc.models.TeamFtcRanked;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,19 +62,19 @@ public class MyTeamActivity extends ActionBarActivity {
         }
  //       inflateMeTeam();
 
-        Log.i("FtcRankedSize: ", String.valueOf(myApp.teamFtcRanked[myApp.division()].size()));
+  //      Log.i("FtcRankedSize: ", String.valueOf(myApp.teamFtcRanked[myApp.division()].size()));
         if (myApp.teamFtcRanked[myApp.division()].size() > 0) {
             for (TeamFtcRanked t : myApp.teamFtcRanked[myApp.division()]) {
                 if (t.number == myApp.currentTeamNumber) {
                     myTeamFtcRanked.add(t);
                 }
             }
-            Log.i("FtcRankedSize: ", String.valueOf(myTeamFtcRanked.size()));
+   //         Log.i("FtcRankedSize: ", String.valueOf(myTeamFtcRanked.size()));
             if (myTeamFtcRanked.size() > 0) {
                 inflateMeTeamFtcRanked();
             }
         }
-        Log.i("MatchSize: ", String.valueOf(myApp.match[myApp.division()].size()));
+   //     Log.i("MatchSize: ", String.valueOf(myApp.match[myApp.division()].size()));
         if (myApp.match[myApp.division()].size() > 0) {
             for (Match m : myApp.match[myApp.division()]) {
                 if ((m.rTeam0 == myApp.currentTeamNumber) ||
@@ -77,7 +84,7 @@ public class MyTeamActivity extends ActionBarActivity {
                     myMatch.add(m);
                 }
             }
-            Log.i("MatchSize: ", String.valueOf(myMatch.size()));
+   //         Log.i("MatchSize: ", String.valueOf(myMatch.size()));
             if (myMatch.size() > 0) {
                 inflateMeMatch();
             }
@@ -85,7 +92,7 @@ public class MyTeamActivity extends ActionBarActivity {
     }
 
     private void inflateMeTeamFtcRanked() {
- Log.i("Inflater", "got here");
+ //Log.i("Inflater", "got here");
         FtcRankingsListAdapter adapter = new FtcRankingsListAdapter(this,
                 R.layout.list_item_ftc_ranking, myTeamFtcRanked);
         ListView listViewTeamFtcRanked;
@@ -104,7 +111,7 @@ public class MyTeamActivity extends ActionBarActivity {
 */
     private void inflateMeMatch() {
         expListView = (ExpandableListView) findViewById(R.id.matches_expListView);
-          Log.i("exp list view", expListView.toString());
+  //        Log.i("exp list view", expListView.toString());
         prepareListData();
         MatchesExpandableListAdapter listAdapter = new MatchesExpandableListAdapter(this,
                 listDataHeader, listDataChild);

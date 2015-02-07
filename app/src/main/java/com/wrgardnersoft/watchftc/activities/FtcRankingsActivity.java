@@ -1,10 +1,7 @@
-package com.wrgardnersoft.watchftc;
+package com.wrgardnersoft.watchftc.activities;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -12,14 +9,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
+import com.wrgardnersoft.watchftc.R;
+import com.wrgardnersoft.watchftc.adapters.FtcRankingsListAdapter;
+import com.wrgardnersoft.watchftc.interfaces.AsyncResponse;
+import com.wrgardnersoft.watchftc.internet.ClientTask;
+import com.wrgardnersoft.watchftc.models.MyApp;
+import com.wrgardnersoft.watchftc.models.TeamFtcRanked;
 
 
 public class FtcRankingsActivity extends ActionBarActivity implements AsyncResponse {
@@ -47,10 +43,10 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
         getSupportActionBar().setIcon(R.drawable.ic_launcher);
         setContentView(R.layout.activity_ftc_rankings);
 
-        if (myApp.teamFtcRanked[myApp.division()].size() >0) {
+        if (myApp.teamFtcRanked[myApp.division()].size() > 0) {
             inflateMe();
         } else {
-            clientTask = new ClientTask();
+            clientTask = new ClientTask(this);
             clientTask.delegate = this;
             clientTask.execute();
         }
@@ -70,7 +66,7 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
                 TeamFtcRanked teamPicked = (TeamFtcRanked) parent.getItemAtPosition(position);
 
                 MyApp myApp = (MyApp) getApplication();
-                myApp.currentTeamNumber=teamPicked.number;
+                myApp.currentTeamNumber = teamPicked.number;
 
                 Intent getNameScreenIntent = new Intent(view.getContext(), MyTeamActivity.class);
                 startActivity(getNameScreenIntent);
@@ -118,7 +114,7 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
         }
 
     }
-
+/*
     // AsyncTask
     public class ClientTask extends AsyncTask<Void, Void, Void> {
         public AsyncResponse delegate;
@@ -192,12 +188,13 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
         @Override
         protected void onPostExecute(Void result) {
 
-                mProgressDialog.dismiss();
+
+            mProgressDialog.dismiss();
 
             delegate.processFinish(RESULT_OK);
         }
     }
-
+*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -248,14 +245,13 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
             //         finish();
             return true;
         } else if (id == R.id.action_refresh) {
-            myApp.teamFtcRanked[myApp.division()].clear();
-            Intent intent = getIntent();
-            finish();
-            startActivity(intent);
+            clientTask = new ClientTask(this);
+            clientTask.delegate = this;
+            clientTask.execute();
             return true;
         } else if (myApp.dualDivision()) {
-            if (id== R.id.action_change_division) {
-                if (myApp.division() ==0) {
+            if (id == R.id.action_change_division) {
+                if (myApp.division() == 0) {
                     myApp.setDivision(1);
                 } else {
                     myApp.setDivision(0);

@@ -1,4 +1,4 @@
-package com.wrgardnersoft.watchftc;
+package com.wrgardnersoft.watchftc.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,6 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.wrgardnersoft.watchftc.R;
+import com.wrgardnersoft.watchftc.models.MyApp;
+import com.wrgardnersoft.watchftc.models.Team;
 
 import java.util.ArrayList;
 
@@ -47,7 +51,7 @@ public class TeamListAdapter extends ArrayAdapter<Team> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
-        TeamHolder holder = null;
+        TeamHolder holder;
 
 
         if (row == null) {

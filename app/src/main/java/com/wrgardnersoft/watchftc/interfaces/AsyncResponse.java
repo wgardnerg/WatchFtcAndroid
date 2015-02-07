@@ -1,4 +1,4 @@
-package com.wrgardnersoft.watchftc;
+package com.wrgardnersoft.watchftc.interfaces;
 
 /**
  * Created by Bill on 2/3/2015.

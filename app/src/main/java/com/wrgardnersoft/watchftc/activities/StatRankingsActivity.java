@@ -1,10 +1,13 @@
-package com.wrgardnersoft.watchftc;
+package com.wrgardnersoft.watchftc.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.wrgardnersoft.watchftc.R;
+import com.wrgardnersoft.watchftc.models.MyApp;
 
 
 public class StatRankingsActivity extends ActionBarActivity {
@@ -13,7 +16,7 @@ public class StatRankingsActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        MyApp myApp = (MyApp) getApplication();
+        com.wrgardnersoft.watchftc.models.MyApp myApp = (MyApp) getApplication();
 
         setTitle(" "+getString(R.string.statRankings) + ", Division " + Integer.toString(myApp.division() + 1));
         getSupportActionBar().setDisplayShowHomeEnabled(true);

@@ -1,4 +1,4 @@
-package com.wrgardnersoft.watchftc;
+package com.wrgardnersoft.watchftc.models;
 
 /**
  * Created by Bill on 2/3/2015.

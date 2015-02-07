@@ -1,11 +1,13 @@
-package com.wrgardnersoft.watchftc;
+package com.wrgardnersoft.watchftc.activities;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.wrgardnersoft.watchftc.R;
 
 
 public class LauncherActivity extends ActionBarActivity {
@@ -45,7 +47,7 @@ public class LauncherActivity extends ActionBarActivity {
     public void onClickStartSetupButton(View view) {
 
         // jump to next activity
-        Intent getNameScreenIntent = new Intent(this, SetupActivity.class );
+        Intent getNameScreenIntent = new Intent(this, com.wrgardnersoft.watchftc.activities.SetupActivity.class );
         startActivity(getNameScreenIntent);
         finish();
     }

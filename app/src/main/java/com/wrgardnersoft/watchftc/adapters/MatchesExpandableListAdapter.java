@@ -1,4 +1,4 @@
-package com.wrgardnersoft.watchftc;
+package com.wrgardnersoft.watchftc.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -8,6 +8,10 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import com.wrgardnersoft.watchftc.R;
+import com.wrgardnersoft.watchftc.models.Match;
+import com.wrgardnersoft.watchftc.models.MyApp;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,7 +20,7 @@ public class MatchesExpandableListAdapter extends BaseExpandableListAdapter {
     private Context _context;
     private List<String> _listDataHeader; // header titles
     // child data in format of header title, child title
-    private HashMap<String, List<Match>> _listDataChild;
+    private HashMap<String, List<com.wrgardnersoft.watchftc.models.Match>> _listDataChild;
 
     public MatchesExpandableListAdapter(Context context, List<String> listDataHeader,
                                  HashMap<String, List<Match>> listChildData) {
@@ -40,7 +44,7 @@ public class MatchesExpandableListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
         View row = convertView;
-        MatchHolder holder = null;
+        MatchHolder holder;
 
 //        final String childText = (String) getChild(groupPosition, childPosition);
         final Match child = (Match) getChild(groupPosition, childPosition);

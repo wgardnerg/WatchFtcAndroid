@@ -1,10 +1,7 @@
-package com.wrgardnersoft.watchftc;
+package com.wrgardnersoft.watchftc.activities;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -12,14 +9,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
+import com.wrgardnersoft.watchftc.R;
+import com.wrgardnersoft.watchftc.adapters.TeamListAdapter;
+import com.wrgardnersoft.watchftc.interfaces.AsyncResponse;
+import com.wrgardnersoft.watchftc.internet.ClientTask;
+import com.wrgardnersoft.watchftc.models.MyApp;
+import com.wrgardnersoft.watchftc.models.Team;
 
 
 public class TeamsActivity extends ActionBarActivity implements AsyncResponse {
@@ -48,9 +44,18 @@ public class TeamsActivity extends ActionBarActivity implements AsyncResponse {
         if (myApp.team[myApp.division()].size() > 0) {
             inflateMe();
         } else {
-            clientTask = new ClientTask();
+            clientTask = new ClientTask(this);
             clientTask.delegate = this;
             clientTask.execute();
+        }
+
+    }
+
+    public void processFinish(int result) {
+        //this you will received result fired from async class of onPostExecute(result) method.
+        MyApp myApp = (MyApp) getApplication();
+        if (myApp.team[myApp.division()].size() > 0) {
+            inflateMe();
         }
 
     }
@@ -70,7 +75,7 @@ public class TeamsActivity extends ActionBarActivity implements AsyncResponse {
                 Team teamPicked = (Team) parent.getItemAtPosition(position);
 
                 MyApp myApp = (MyApp) getApplication();
-                myApp.currentTeamNumber=teamPicked.number;
+                myApp.currentTeamNumber = teamPicked.number;
 
                 Intent getNameScreenIntent = new Intent(view.getContext(), MyTeamActivity.class);
                 startActivity(getNameScreenIntent);
@@ -107,94 +112,6 @@ public class TeamsActivity extends ActionBarActivity implements AsyncResponse {
         MyApp myApp = (MyApp) getApplication();
         if (myApp.team[myApp.division()].size() > 0) {
             inflateMe();
-        }
-    }
-
-    public void processFinish(int result) {
-        //this you will received result fired from async class of onPostExecute(result) method.
-        MyApp myApp = (MyApp) getApplication();
-        if (myApp.team[myApp.division()].size() > 0) {
-            inflateMe();
-        }
-
-    }
-
-    // AsyncTask
-    public class ClientTask extends AsyncTask<Void, Void, Void> {
-        public AsyncResponse delegate;
-
-        ProgressDialog mProgressDialog;
-
-        boolean serverOK;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mProgressDialog = new ProgressDialog(TeamsActivity.this);
-            mProgressDialog.setTitle("Watch FTC");
-            mProgressDialog.setMessage("Accessing Team Info...");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.show();
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            String teamsUrl;
-            String[] urlSuffix = {"", ":8080"};
-            String pageSuffix = "TeamList";
-
-            MyApp myApp = (MyApp) getApplication();
-
-            serverOK = false;
-
-            for (int i = 0; (i < urlSuffix.length) && (!serverOK); i++) {
-
-                teamsUrl = "http://" + myApp.serverAddressString(myApp.division()) +
-                        urlSuffix[i] + "/" + pageSuffix;
-                try {
-                    // Connect to the web site
-                    Document document = Jsoup.connect(teamsUrl).get();
-                    serverOK = true;
-
-                    Element table = document.select("table").get(0); //select the first table.
-                    Elements rows = table.select("tr");
-
-                    myApp.team[myApp.division()].clear(); // made it this far, so hopefully good data coming
-
-                    for (int j = 1; j < rows.size(); j++) { //first row is the col names so skip it.
-                        Element row = rows.get(j);
-                        Elements cols = row.select("td");
-
-                        myApp.team[myApp.division()].add(new Team(Integer.parseInt(cols.get(0).text()),
-                                        cols.get(1).text(),
-                                        cols.get(2).text(),
-                                        cols.get(3).text(),
-                                        cols.get(4).text(),
-                                        cols.get(5).text())
-                        );
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    serverOK = false;
-                }
-            }
-
-            if (!serverOK) {
-                Context context = getApplicationContext();
-                CharSequence text = "Could not download data from server";
-                int duration = Toast.LENGTH_LONG;
-
-                Toast.makeText(context, text, duration).show();
-            }
-            return null;
-        }
-
-
-        @Override
-        protected void onPostExecute(Void result) {
-
-                mProgressDialog.dismiss();
-            delegate.processFinish(RESULT_OK);
         }
     }
 
@@ -249,14 +166,13 @@ public class TeamsActivity extends ActionBarActivity implements AsyncResponse {
             //         finish();
             return true;*/
         } else if (id == R.id.action_refresh) {
-            myApp.team[myApp.division()].clear();
-            Intent intent = getIntent();
-            finish();
-            startActivity(intent);
+            clientTask = new ClientTask(this);
+            clientTask.delegate = this;
+            clientTask.execute();
             return true;
         } else if (myApp.dualDivision()) {
-            if (id== R.id.action_change_division) {
-                if (myApp.division() ==0) {
+            if (id == R.id.action_change_division) {
+                if (myApp.division() == 0) {
                     myApp.setDivision(1);
                 } else {
                     myApp.setDivision(0);
