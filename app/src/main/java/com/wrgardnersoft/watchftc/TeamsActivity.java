@@ -35,8 +35,6 @@ public class TeamsActivity extends ActionBarActivity implements AsyncResponse {
 
         MyApp myApp = (MyApp) getApplication();
 
-        //     team = new ArrayList<Team>();
-
         if (myApp.dualDivision()) {
             setTitle(" " + getString(R.string.teams) + ", Division " + Integer.toString(myApp.division() + 1));
         } else {
@@ -47,7 +45,7 @@ public class TeamsActivity extends ActionBarActivity implements AsyncResponse {
         getSupportActionBar().setIcon(R.drawable.ic_launcher);
         setContentView(R.layout.activity_teams);
 
-        if (myApp.team.size() > 0) {
+        if (myApp.team[myApp.division()].size() > 0) {
             inflateMe();
         } else {
             clientTask = new ClientTask();
@@ -62,9 +60,24 @@ public class TeamsActivity extends ActionBarActivity implements AsyncResponse {
         MyApp myApp = (MyApp) getApplication();
 
         TeamListAdapter adapter = new TeamListAdapter(this,
-                R.layout.list_item_team, myApp.team);
+                R.layout.list_item_team, myApp.team[myApp.division()]);
         listView = (ListView) findViewById(R.id.teams_list_view);
         listView.setAdapter(adapter);
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Team teamPicked = (Team) parent.getItemAtPosition(position);
+
+                MyApp myApp = (MyApp) getApplication();
+                myApp.currentTeamNumber=teamPicked.number;
+
+                Intent getNameScreenIntent = new Intent(view.getContext(), MyTeamActivity.class);
+                startActivity(getNameScreenIntent);
+
+                return true;
+            }
+        });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -92,7 +105,7 @@ public class TeamsActivity extends ActionBarActivity implements AsyncResponse {
         setContentView(R.layout.activity_teams);
 
         MyApp myApp = (MyApp) getApplication();
-        if (myApp.team.size() > 0) {
+        if (myApp.team[myApp.division()].size() > 0) {
             inflateMe();
         }
     }
@@ -100,7 +113,7 @@ public class TeamsActivity extends ActionBarActivity implements AsyncResponse {
     public void processFinish(int result) {
         //this you will received result fired from async class of onPostExecute(result) method.
         MyApp myApp = (MyApp) getApplication();
-        if (myApp.team.size() > 0) {
+        if (myApp.team[myApp.division()].size() > 0) {
             inflateMe();
         }
 
@@ -146,13 +159,13 @@ public class TeamsActivity extends ActionBarActivity implements AsyncResponse {
                     Element table = document.select("table").get(0); //select the first table.
                     Elements rows = table.select("tr");
 
-                    myApp.team.clear(); // made it this far, so hopefully good data coming
+                    myApp.team[myApp.division()].clear(); // made it this far, so hopefully good data coming
 
                     for (int j = 1; j < rows.size(); j++) { //first row is the col names so skip it.
                         Element row = rows.get(j);
                         Elements cols = row.select("td");
 
-                        myApp.team.add(new Team(Integer.parseInt(cols.get(0).text()),
+                        myApp.team[myApp.division()].add(new Team(Integer.parseInt(cols.get(0).text()),
                                         cols.get(1).text(),
                                         cols.get(2).text(),
                                         cols.get(3).text(),
@@ -180,11 +193,7 @@ public class TeamsActivity extends ActionBarActivity implements AsyncResponse {
         @Override
         protected void onPostExecute(Void result) {
 
-            try {
                 mProgressDialog.dismiss();
-            } finally {
-
-            }
             delegate.processFinish(RESULT_OK);
         }
     }
@@ -240,7 +249,7 @@ public class TeamsActivity extends ActionBarActivity implements AsyncResponse {
             //         finish();
             return true;*/
         } else if (id == R.id.action_refresh) {
-            myApp.team.clear();
+            myApp.team[myApp.division()].clear();
             Intent intent = getIntent();
             finish();
             startActivity(intent);
@@ -253,7 +262,7 @@ public class TeamsActivity extends ActionBarActivity implements AsyncResponse {
                     myApp.setDivision(0);
                 }
                 // restart activity to load data from new division
-                Intent intent = getIntent();
+                Intent intent = new Intent(this, TeamsActivity.class);
                 finish();
                 startActivity(intent);
             }

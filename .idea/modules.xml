@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/WatchFTC.iml" filepath="$PROJECT_DIR$/WatchFTC.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WatchFtcAndroid.iml" filepath="$PROJECT_DIR$/WatchFtcAndroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

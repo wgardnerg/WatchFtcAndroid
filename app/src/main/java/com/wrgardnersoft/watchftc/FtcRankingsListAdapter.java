@@ -3,6 +3,7 @@ package com.wrgardnersoft.watchftc;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by Bill on 2/3/2015.
+ *   Created by Bill on 2/3/2015.
  */
 public class FtcRankingsListAdapter extends ArrayAdapter<TeamFtcRanked> {
     Context context;
@@ -24,6 +25,7 @@ public class FtcRankingsListAdapter extends ArrayAdapter<TeamFtcRanked> {
         this.layoutResourceId = resource;
         this.context = context;
         this.team = teamData;
+        Log.i("Inflater constructer", "got here");
     }
 
     /**
@@ -47,7 +49,7 @@ public class FtcRankingsListAdapter extends ArrayAdapter<TeamFtcRanked> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
-        TeamHolder holder = null;
+        TeamHolder holder;
 
 
         if (row == null) {
@@ -77,6 +79,7 @@ public class FtcRankingsListAdapter extends ArrayAdapter<TeamFtcRanked> {
         } else {
             row.setBackgroundColor(Color.WHITE);
         }
+        Log.i("Ftc adapter", "got here");
         holder.rankView.setText("#"+String.format("%d", thisTeam.rank));
         holder.numView.setText(String.format("%5d",thisTeam.number));
         holder.nameView.setText(thisTeam.name);

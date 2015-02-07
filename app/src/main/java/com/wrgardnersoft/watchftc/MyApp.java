@@ -5,7 +5,7 @@ import android.app.Application;
 import java.util.ArrayList;
 
 /**
- * Created by Bill on 2/2/2015.
+ *   Created by Bill on 2/2/2015.
  */
 public class MyApp extends Application {
     static MyApp myAppInstance;
@@ -20,11 +20,13 @@ public class MyApp extends Application {
     private int division;
     public ArrayList<Integer> selectedTeams;
 
-    public ArrayList<Team> team;  // full team info from team server page
+    public ArrayList<Team>[] team = (ArrayList<Team>[])new ArrayList[2];  // full team info from team server page
 
-    public ArrayList<TeamFtcRanked> teamFtcRanked;
+    public ArrayList<TeamFtcRanked>[] teamFtcRanked = (ArrayList<TeamFtcRanked>[])new ArrayList[2];
 
-    public ArrayList<Match> match;
+    public ArrayList<Match>[] match = (ArrayList<Match>[])new ArrayList[2];
+
+    public int currentTeamNumber;
 
     public static MyApp getInstance() {
         return myAppInstance;
@@ -38,11 +40,18 @@ public class MyApp extends Application {
         this.dualDivision=true;
         this.serverAddressString[0]="192.168.11.131";
         this.serverAddressString[1]="192.168.11.135";
-        this.selectedTeams = new ArrayList<Integer>();
+        this.selectedTeams = new ArrayList<>();
 
-        this.team = new ArrayList<Team>();
-        this.teamFtcRanked = new ArrayList<TeamFtcRanked>();
-        this.match = new ArrayList<Match>();
+        this.team[0] = new ArrayList<>();
+        this.team[1] = new ArrayList<>();
+
+        this.teamFtcRanked[0] = new ArrayList<>();
+        this.teamFtcRanked[1] = new ArrayList<>();
+
+        this.match[0] = new ArrayList<>();
+        this.match[1] = new ArrayList<>();
+
+        this.currentTeamNumber=-1;
     }
 
     public int division() {

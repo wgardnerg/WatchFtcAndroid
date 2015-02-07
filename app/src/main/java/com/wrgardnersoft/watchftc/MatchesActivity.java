@@ -51,7 +51,7 @@ public class MatchesActivity extends ActionBarActivity implements AsyncResponse 
         getSupportActionBar().setIcon(R.drawable.ic_launcher);
         setContentView(R.layout.activity_matches);
 
-        if (myApp.match.size() > 0) {
+        if (myApp.match[myApp.division()].size() > 0) {
             inflateMe();
         } else {
             clientTask = new ClientTask();
@@ -76,14 +76,14 @@ public class MatchesActivity extends ActionBarActivity implements AsyncResponse 
         setContentView(R.layout.activity_matches);
 
         MyApp myApp = (MyApp) getApplication();
-        if (myApp.match.size() > 0) {
+        if (myApp.match[myApp.division()].size() > 0) {
             inflateMe();
         }
     }
 
     private void prepareListData() {
-        listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, List<Match>>();
+        listDataHeader = new ArrayList<>();
+        listDataChild = new HashMap<>();
 
         // Adding child data
         listDataHeader.add("Qualifier");
@@ -91,19 +91,19 @@ public class MatchesActivity extends ActionBarActivity implements AsyncResponse 
         listDataHeader.add("Final");
 
         // Adding child data
-        List<Match> qual = new ArrayList<Match>();
-        List<Match> semi = new ArrayList<Match>();
-        List<Match> finals = new ArrayList<Match>();
+        List<Match> qual = new ArrayList<>();
+        List<Match> semi = new ArrayList<>();
+        List<Match> finals = new ArrayList<>();
 
         MyApp myApp = (MyApp) getApplication();
 
-        for (int i = 0; i < myApp.match.size(); i++) {
-            if (myApp.match.get(i).title.startsWith("Q")) {
-                qual.add(myApp.match.get(i));
-            } else if (myApp.match.get(i).title.startsWith("S")) {
-                semi.add(myApp.match.get(i));
+        for (int i = 0; i < myApp.match[myApp.division()].size(); i++) {
+            if (myApp.match[myApp.division()].get(i).title.startsWith("Q")) {
+                qual.add(myApp.match[myApp.division()].get(i));
+            } else if (myApp.match[myApp.division()].get(i).title.startsWith("S")) {
+                semi.add(myApp.match[myApp.division()].get(i));
             } else {
-                finals.add(myApp.match.get(i));
+                finals.add(myApp.match[myApp.division()].get(i));
             }
         }
 
@@ -117,7 +117,7 @@ public class MatchesActivity extends ActionBarActivity implements AsyncResponse 
         //this you will received result fired from async class of onPostExecute(result) method.
         MyApp myApp = (MyApp) getApplication();
 
-        if (myApp.match.size() > 0) {
+        if (myApp.match[myApp.division()].size() > 0) {
             inflateMe();
         }
 
@@ -173,7 +173,7 @@ public class MatchesActivity extends ActionBarActivity implements AsyncResponse 
                         String redTeam[] = redTeamString.split("\\s+");
                         String blueTeam[] = blueTeamString.split("\\s+");
 
-                        myApp.match.add(new Match(j - 1,
+                        myApp.match[myApp.division()].add(new Match(j - 1,
                                 cols.get(0).text(),
                                 cols.get(1).text(),
                                 redTeam[0],
@@ -214,11 +214,7 @@ public class MatchesActivity extends ActionBarActivity implements AsyncResponse 
         @Override
         protected void onPostExecute(Void result) {
 
-            try {
                 mProgressDialog.dismiss();
-            } finally {
-
-            }
             delegate.processFinish(RESULT_OK);
         }
     }
@@ -290,7 +286,7 @@ public class MatchesActivity extends ActionBarActivity implements AsyncResponse 
                     myApp.setDivision(0);
                 }
                 // restart activity to load data from new division
-                Intent intent = getIntent();
+                Intent intent = new Intent(this, TeamsActivity.class);
                 finish();
                 startActivity(intent);
             }

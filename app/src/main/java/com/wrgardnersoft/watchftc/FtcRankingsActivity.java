@@ -47,7 +47,7 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
         getSupportActionBar().setIcon(R.drawable.ic_launcher);
         setContentView(R.layout.activity_ftc_rankings);
 
-        if (myApp.teamFtcRanked.size() >0) {
+        if (myApp.teamFtcRanked[myApp.division()].size() >0) {
             inflateMe();
         } else {
             clientTask = new ClientTask();
@@ -60,9 +60,24 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
         MyApp myApp = MyApp.getInstance();
 
         FtcRankingsListAdapter adapter = new FtcRankingsListAdapter(this,
-                R.layout.list_item_ftc_ranking, myApp.teamFtcRanked);
+                R.layout.list_item_ftc_ranking, myApp.teamFtcRanked[myApp.division()]);
         listView = (ListView) findViewById(R.id.ftc_rankings_list_view);
         listView.setAdapter(adapter);
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                TeamFtcRanked teamPicked = (TeamFtcRanked) parent.getItemAtPosition(position);
+
+                MyApp myApp = (MyApp) getApplication();
+                myApp.currentTeamNumber=teamPicked.number;
+
+                Intent getNameScreenIntent = new Intent(view.getContext(), MyTeamActivity.class);
+                startActivity(getNameScreenIntent);
+
+                return true;
+            }
+        });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -90,7 +105,7 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
         setContentView(R.layout.activity_ftc_rankings);
 
         MyApp myApp = (MyApp) getApplication();
-        if (myApp.teamFtcRanked.size() > 0) {
+        if (myApp.teamFtcRanked[myApp.division()].size() > 0) {
             inflateMe();
         }
     }
@@ -98,7 +113,7 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
     public void processFinish(int result) {
         //this you will received result fired from async class of onPostExecute(result) method.
         MyApp myApp = (MyApp) getApplication();
-        if (myApp.teamFtcRanked.size() > 0) {
+        if (myApp.teamFtcRanked[myApp.division()].size() > 0) {
             inflateMe();
         }
 
@@ -144,13 +159,13 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
                     Element table = document.select("table").get(0); //select the first table.
                     Elements rows = table.select("tr");
 
-                    myApp.teamFtcRanked.clear();
+                    myApp.teamFtcRanked[myApp.division()].clear();
 
                     for (int j = 1; j < rows.size(); j++) { //first row is the col names so skip it.
                         Element row = rows.get(j);
                         Elements cols = row.select("td");
 
-                        myApp.teamFtcRanked.add(new TeamFtcRanked(Integer.parseInt(cols.get(0).text()),
+                        myApp.teamFtcRanked[myApp.division()].add(new TeamFtcRanked(Integer.parseInt(cols.get(0).text()),
                                 Integer.parseInt(cols.get(1).text()),
                                 cols.get(2).text(),
                                 Integer.parseInt(cols.get(3).text()),
@@ -177,11 +192,8 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
         @Override
         protected void onPostExecute(Void result) {
 
-            try {
                 mProgressDialog.dismiss();
-            } finally {
 
-            }
             delegate.processFinish(RESULT_OK);
         }
     }
@@ -236,7 +248,7 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
             //         finish();
             return true;
         } else if (id == R.id.action_refresh) {
-            myApp.teamFtcRanked.clear();
+            myApp.teamFtcRanked[myApp.division()].clear();
             Intent intent = getIntent();
             finish();
             startActivity(intent);
@@ -249,7 +261,7 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
                     myApp.setDivision(0);
                 }
                 // restart activity to load data from new division
-                Intent intent = getIntent();
+                Intent intent = new Intent(this, TeamsActivity.class);
                 finish();
                 startActivity(intent);
             }
