@@ -23,5 +23,11 @@ public class Team {
         this.state=sState;
         this.country=sCountry;
     }
+
+    public String toString() {
+        String output;
+        output = this.number + "," + this.name + "," + this.school + "," + this.city + "," + this.state + "," + this.country + System.getProperty("line.separator");
+        return output;
+    }
 }
 

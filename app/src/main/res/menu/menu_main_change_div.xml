@@ -45,4 +45,9 @@
         android:orderInCategory="6"
         android:title="@string/change_division"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_share"
+        android:orderInCategory="10"
+        android:title="@string/share"
+        app:showAsAction="never" />
 </menu>

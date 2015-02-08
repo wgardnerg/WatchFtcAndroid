@@ -15,7 +15,7 @@ import com.wrgardnersoft.watchftc.adapters.FtcRankingsListAdapter;
 import com.wrgardnersoft.watchftc.interfaces.AsyncResponse;
 import com.wrgardnersoft.watchftc.internet.ClientTask;
 import com.wrgardnersoft.watchftc.models.MyApp;
-import com.wrgardnersoft.watchftc.models.TeamFtcRanked;
+import com.wrgardnersoft.watchftc.models.Team;
 
 
 public class FtcRankingsActivity extends ActionBarActivity implements AsyncResponse {
@@ -59,27 +59,10 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
                 R.layout.list_item_ftc_ranking, myApp.teamFtcRanked[myApp.division()]);
         listView = (ListView) findViewById(R.id.ftc_rankings_list_view);
         listView.setAdapter(adapter);
-
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                TeamFtcRanked teamPicked = (TeamFtcRanked) parent.getItemAtPosition(position);
-
-                MyApp myApp = (MyApp) getApplication();
-                myApp.currentTeamNumber = teamPicked.number;
-
-                Intent getNameScreenIntent = new Intent(view.getContext(), MyTeamActivity.class);
-                startActivity(getNameScreenIntent);
-
-                return true;
-            }
-        });
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TeamFtcRanked teamPicked = (TeamFtcRanked) parent.getItemAtPosition(position);
+                Team teamPicked = (Team) parent.getItemAtPosition(position);
 
                 MyApp myApp = (MyApp) getApplication();
 
@@ -89,9 +72,23 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
                     myApp.selectedTeams.add(teamPicked.number);
                 }
                 listView.invalidateViews();
+                return true;
             }
         });
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Team teamPicked = (Team) parent.getItemAtPosition(position);
+
+                MyApp myApp = (MyApp) getApplication();
+                myApp.currentTeamNumber = teamPicked.number;
+
+                Intent getNameScreenIntent = new Intent(view.getContext(), MyTeamActivity.class);
+                startActivity(getNameScreenIntent);
+            }
+        });
 
     }
 

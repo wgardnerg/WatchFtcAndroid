@@ -41,4 +41,9 @@
         android:orderInCategory="5"
         android:title="@string/teams"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_share"
+        android:orderInCategory="10"
+        android:title="@string/share"
+        app:showAsAction="never" />
 </menu>

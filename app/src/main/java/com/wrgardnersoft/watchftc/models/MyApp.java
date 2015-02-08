@@ -26,7 +26,7 @@ public class MyApp extends Application {
 
     public ArrayList<Match>[] match = (ArrayList<Match>[])new ArrayList[2];
 
-    public int currentTeamNumber;
+    public int currentTeamNumber, currentMatchNumber;
 
     public static MyApp getInstance() {
         return myAppInstance;

@@ -22,5 +22,16 @@
     <string name="dualDivisionTournament">Dual Division Tournament?</string>
     <string name="division1ServerAddress">Division #1 Server Address</string>
     <string name="division2ServerAddress">Division #2 Server Address</string>
+    <string name="back">Back</string>
+    <string name="myMatch">My Match</string>
+    <string name="Teams">Teams</string>
+    <string name="total">Total</string>
+    <string name="penalty">Penalty</string>
+    <string name="endGame">End Game</string>
+    <string name="teleop">Teleop</string>
+    <string name="autoBonus">Auto Bonus</string>
+    <string name="auto">Auto</string>
+    <string name="autonomous">Autonomous</string>
+    <string name="share">Share</string>
 
 </resources>

@@ -4,9 +4,9 @@ package com.wrgardnersoft.watchftc.models;
  * Created by Bill on 2/3/2015.
  */
 public class TeamFtcRanked {
-    public int rank, number;
+    public int rank,number;
     public String name;
-    public int qp, rp, highest, matches;
+    public int qp,rp,highest,matches;
 
     public TeamFtcRanked() {
         this.rank=0;
@@ -17,7 +17,7 @@ public class TeamFtcRanked {
         this.highest=0;
         this.matches=0;
     }
-    public TeamFtcRanked(int rank, int num, String sName, int qp, int rp, int highest, int matches) {
+    public TeamFtcRanked(int rank,int num,String sName,int qp,int rp,int highest,int matches) {
         this.rank=rank;
         this.number=num;
         this.name=sName;
@@ -25,6 +25,11 @@ public class TeamFtcRanked {
         this.rp=rp;
         this.highest=highest;
         this.matches=matches;
+    }
+    public String toString() {
+        String output;
+        output = this.rank + "," + this.number + "," + this.name + "," + this.qp + "," + this.rp + System.getProperty("line.separator");
+        return output;
     }
 }
 

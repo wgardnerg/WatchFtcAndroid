@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ExpandableListView;
 
 import com.wrgardnersoft.watchftc.R;
@@ -64,6 +65,25 @@ public class MatchesActivity extends ActionBarActivity implements AsyncResponse 
         MatchesExpandableListAdapter listAdapter = new MatchesExpandableListAdapter(this,
                 listDataHeader, listDataChild);
         expListView.setAdapter(listAdapter);
+
+        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View view, int groupPosition, int childPosition, long id) {
+
+                Match matchPicked = (Match) parent.getExpandableListAdapter().getChild(groupPosition, childPosition);
+
+                MyApp myApp = (MyApp) getApplication();
+                myApp.currentMatchNumber = matchPicked.number;
+
+                Intent getNameScreenIntent = new Intent(view.getContext(), MyMatchActivity.class);
+                startActivity(getNameScreenIntent);
+                return true;
+
+            }
+
+        });
+
     }
 
     @Override
@@ -118,6 +138,7 @@ public class MatchesActivity extends ActionBarActivity implements AsyncResponse 
         }
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -169,8 +190,8 @@ public class MatchesActivity extends ActionBarActivity implements AsyncResponse 
             clientTask.execute();
             return true;
         } else if (myApp.dualDivision()) {
-            if (id== R.id.action_change_division) {
-                if (myApp.division() ==0) {
+            if (id == R.id.action_change_division) {
+                if (myApp.division() == 0) {
                     myApp.setDivision(1);
                 } else {
                     myApp.setDivision(0);

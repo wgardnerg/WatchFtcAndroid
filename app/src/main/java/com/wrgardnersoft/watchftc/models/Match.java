@@ -5,13 +5,13 @@ package com.wrgardnersoft.watchftc.models;
  */
 public class Match {
     public int number;
-    public int rTeam0, rTeam1, rTeam2;
-    public int bTeam0, bTeam1, bTeam2;
-    public String title, resultStr;
-    public int rTot, rAuto, rAutoB, rTele, rEndG, rPen;
-    public int bTot, bAuto, bAutoB, bTele, bEndG, bPen;
+    public int rTeam0,rTeam1,rTeam2;
+    public int bTeam0,bTeam1,bTeam2;
+    public String title,resultStr;
+    public int rTot,rAuto,rAutoB,rTele,rEndG,rPen;
+    public int bTot,bAuto,bAutoB,bTele,bEndG,bPen;
 
-    public Match(int num, String sName, String sResult,
+    public Match(int num,String sName,String sResult,
                  int rT0,
                  int rT1,
                  int bT0,
@@ -53,7 +53,7 @@ public class Match {
     }
 
 
-    public Match(int num, String sName, String sResult,
+    public Match(int num,String sName,String sResult,
                  String rT0,
                  String rT1,
                  String bT0,
@@ -177,7 +177,7 @@ public class Match {
     }
 
 
-    public Match(int num, String sName, String sResult,
+    public Match(int num,String sName,String sResult,
                  String rT0,
                  String rT1,
                  String rT2,
@@ -304,5 +304,13 @@ public class Match {
 
     }
 
+    public String toString() {
+        String output;
+        output = this.title;
+        output = output + "," + this.rTeam0 + "," + this.rTeam1 + "," + this.rTeam2;
+        output = output + "," + this.bTeam0 + "," + this.bTeam1 + "," + this.bTeam2;
+        output = output + "," + this.rTot + "," + this.bTot + System.getProperty("line.separator");
+        return output;
+    }
 
 }

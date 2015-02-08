@@ -1,8 +1,12 @@
 package com.wrgardnersoft.watchftc.activities;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 
@@ -49,7 +53,7 @@ public class MyTeamActivity extends ActionBarActivity {
 
         inflateMeAll();
 
-        setTitle(" Team " + Integer.toString(myApp.currentTeamNumber)+": "+myTeam.get(0).name);
+        setTitle(" Team " + Integer.toString(myApp.currentTeamNumber) + ": " + myTeam.get(0).name);
     }
 
     private void inflateMeAll() {
@@ -60,21 +64,21 @@ public class MyTeamActivity extends ActionBarActivity {
                 myTeam.add(t);
             }
         }
- //       inflateMeTeam();
+        //       inflateMeTeam();
 
-  //      Log.i("FtcRankedSize: ", String.valueOf(myApp.teamFtcRanked[myApp.division()].size()));
+        //      Log.i("FtcRankedSize: ", String.valueOf(myApp.teamFtcRanked[myApp.division()].size()));
         if (myApp.teamFtcRanked[myApp.division()].size() > 0) {
             for (TeamFtcRanked t : myApp.teamFtcRanked[myApp.division()]) {
                 if (t.number == myApp.currentTeamNumber) {
                     myTeamFtcRanked.add(t);
                 }
             }
-   //         Log.i("FtcRankedSize: ", String.valueOf(myTeamFtcRanked.size()));
+            //         Log.i("FtcRankedSize: ", String.valueOf(myTeamFtcRanked.size()));
             if (myTeamFtcRanked.size() > 0) {
                 inflateMeTeamFtcRanked();
             }
         }
-   //     Log.i("MatchSize: ", String.valueOf(myApp.match[myApp.division()].size()));
+        //     Log.i("MatchSize: ", String.valueOf(myApp.match[myApp.division()].size()));
         if (myApp.match[myApp.division()].size() > 0) {
             for (Match m : myApp.match[myApp.division()]) {
                 if ((m.rTeam0 == myApp.currentTeamNumber) ||
@@ -84,7 +88,7 @@ public class MyTeamActivity extends ActionBarActivity {
                     myMatch.add(m);
                 }
             }
-   //         Log.i("MatchSize: ", String.valueOf(myMatch.size()));
+            //         Log.i("MatchSize: ", String.valueOf(myMatch.size()));
             if (myMatch.size() > 0) {
                 inflateMeMatch();
             }
@@ -92,30 +96,51 @@ public class MyTeamActivity extends ActionBarActivity {
     }
 
     private void inflateMeTeamFtcRanked() {
- //Log.i("Inflater", "got here");
+        //Log.i("Inflater", "got here");
         FtcRankingsListAdapter adapter = new FtcRankingsListAdapter(this,
                 R.layout.list_item_ftc_ranking, myTeamFtcRanked);
         ListView listViewTeamFtcRanked;
         listViewTeamFtcRanked = (ListView) findViewById(R.id.ftc_rankings_list_view);
         listViewTeamFtcRanked.setAdapter(adapter);
-    }
-/*
-    private void inflateMeTeam() {
 
-        TeamListAdapter adapter = new TeamListAdapter(this,
-                R.layout.list_item_team, myTeam);
-       ListView listViewTeam = (ListView) findViewById(R.id.teams_list_view);
-       listViewTeam.setAdapter(adapter);
 
     }
-*/
+
+    /*
+        private void inflateMeTeam() {
+
+            TeamListAdapter adapter = new TeamListAdapter(this,
+                    R.layout.list_item_team, myTeam);
+           ListView listViewTeam = (ListView) findViewById(R.id.teams_list_view);
+           listViewTeam.setAdapter(adapter);
+
+        }
+    */
     private void inflateMeMatch() {
         expListView = (ExpandableListView) findViewById(R.id.matches_expListView);
-  //        Log.i("exp list view", expListView.toString());
+        //        Log.i("exp list view", expListView.toString());
         prepareListData();
         MatchesExpandableListAdapter listAdapter = new MatchesExpandableListAdapter(this,
                 listDataHeader, listDataChild);
         expListView.setAdapter(listAdapter);
+
+        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View view, int groupPosition, int childPosition, long id) {
+
+                Match matchPicked = (Match) parent.getExpandableListAdapter().getChild(groupPosition, childPosition);
+
+                MyApp myApp = (MyApp) getApplication();
+                myApp.currentMatchNumber = matchPicked.number;
+
+                Intent getNameScreenIntent = new Intent(view.getContext(), MyMatchActivity.class);
+                startActivity(getNameScreenIntent);
+                return true;
+
+            }
+
+        });
     }
 
     private void prepareListData() {
@@ -153,6 +178,34 @@ public class MyTeamActivity extends ActionBarActivity {
         setContentView(R.layout.activity_my_team);
 
         inflateMeAll();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        MyApp myApp = MyApp.getInstance();
+
+        getMenuInflater().inflate(R.menu.menu_exit_only, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+
+        MyApp myApp = MyApp.getInstance();
+
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if ((id == R.id.up)||(id==R.id.home)||(id==R.id.action_exit)) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
