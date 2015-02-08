@@ -15,6 +15,8 @@ import com.wrgardnersoft.watchftc.interfaces.AsyncResponse;
 import com.wrgardnersoft.watchftc.internet.ClientTask;
 import com.wrgardnersoft.watchftc.models.Match;
 import com.wrgardnersoft.watchftc.models.MyApp;
+import com.wrgardnersoft.watchftc.models.Team;
+import com.wrgardnersoft.watchftc.models.TeamFtcRanked;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -188,6 +190,44 @@ public class MatchesActivity extends ActionBarActivity implements AsyncResponse 
             clientTask = new ClientTask(this);
             clientTask.delegate = this;
             clientTask.execute();
+            return true;
+        } else if (id == R.id.action_share) {
+            String shareOutput = "";
+            if (myApp.team[0].size() > 0) {
+                shareOutput = shareOutput + "0" + System.getProperty("line.separator");
+                shareOutput = shareOutput + myApp.team[0].size() + System.getProperty("line.separator");
+                for (Team t : myApp.team[0]) {
+                    shareOutput = shareOutput + t;
+                }
+                for (TeamFtcRanked t : myApp.teamFtcRanked[0]) {
+                    shareOutput = shareOutput + t;
+                }
+                for (Match m : myApp.match[0]) {
+                    shareOutput = shareOutput + m;
+                }
+            }
+            if (myApp.team[1].size() > 0) {
+                shareOutput = shareOutput + "1"+ System.getProperty("line.separator");
+                shareOutput = shareOutput + myApp.team[1].size() + System.getProperty("line.separator");
+                for (Team t : myApp.team[1]) {
+                    shareOutput = shareOutput + t;
+                }
+                for (TeamFtcRanked t : myApp.teamFtcRanked[1]) {
+                    shareOutput = shareOutput + t;
+                }
+                for (Match m : myApp.match[1]) {
+                    shareOutput = shareOutput + m;
+                }
+            }
+            if ((myApp.team[0].size() > 0) || (myApp.team[1].size() > 0)) {
+                Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+                intent.setType("message/rfc822");
+
+// Add data to the intent, the receiving app will decide what to do with it.
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Watch FTC Data");
+                intent.putExtra(Intent.EXTRA_TEXT, shareOutput);
+                startActivity(Intent.createChooser(intent, "Select share option"));
+            }
             return true;
         } else if (myApp.dualDivision()) {
             if (id == R.id.action_change_division) {
