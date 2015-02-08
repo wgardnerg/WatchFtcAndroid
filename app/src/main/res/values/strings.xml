@@ -18,5 +18,9 @@
     <string name="change_division">Change Division</string>
     <string name="title_activity_launcher">Watch FTC</string>
     <string name="action_settings">Settings</string>
+    <string name="done">Done</string>
+    <string name="dualDivisionTournament">Dual Division Tournament?</string>
+    <string name="division1ServerAddress">Division #1 Server Address</string>
+    <string name="division2ServerAddress">Division #2 Server Address</string>
 
 </resources>

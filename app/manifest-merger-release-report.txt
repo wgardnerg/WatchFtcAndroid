@@ -39,7 +39,7 @@ MERGED from com.android.support:support-v4:21.0.3:16:5
 		ADDED from AndroidManifest.xml:14:9
 	android:name
 		ADDED from AndroidManifest.xml:10:9
-activity#com.wrgardnersoft.watchftc.LauncherActivity
+activity#com.wrgardnersoft.watchftc.activities.LauncherActivity
 ADDED from AndroidManifest.xml:15:9
 	android:label
 		ADDED from AndroidManifest.xml:17:13
@@ -55,19 +55,19 @@ category#android.intent.category.LAUNCHER
 ADDED from AndroidManifest.xml:20:17
 	android:name
 		ADDED from AndroidManifest.xml:20:27
-activity#com.wrgardnersoft.watchftc.SetupActivity
+activity#com.wrgardnersoft.watchftc.activities.SetupActivity
 ADDED from AndroidManifest.xml:23:9
 	android:label
 		ADDED from AndroidManifest.xml:25:13
 	android:name
 		ADDED from AndroidManifest.xml:24:13
-activity#com.wrgardnersoft.watchftc.MyTeamActivity
+activity#com.wrgardnersoft.watchftc.activities.MyTeamActivity
 ADDED from AndroidManifest.xml:27:9
 	android:label
 		ADDED from AndroidManifest.xml:29:13
 	android:name
 		ADDED from AndroidManifest.xml:28:13
-activity#com.wrgardnersoft.watchftc.TeamsActivity
+activity#com.wrgardnersoft.watchftc.activities.TeamsActivity
 ADDED from AndroidManifest.xml:31:9
 	android:label
 		ADDED from AndroidManifest.xml:34:13
@@ -75,7 +75,7 @@ ADDED from AndroidManifest.xml:31:9
 		ADDED from AndroidManifest.xml:33:13
 	android:name
 		ADDED from AndroidManifest.xml:32:13
-activity#com.wrgardnersoft.watchftc.MatchesActivity
+activity#com.wrgardnersoft.watchftc.activities.MatchesActivity
 ADDED from AndroidManifest.xml:36:9
 	android:label
 		ADDED from AndroidManifest.xml:39:13
@@ -83,7 +83,7 @@ ADDED from AndroidManifest.xml:36:9
 		ADDED from AndroidManifest.xml:38:13
 	android:name
 		ADDED from AndroidManifest.xml:37:13
-activity#com.wrgardnersoft.watchftc.FtcRankingsActivity
+activity#com.wrgardnersoft.watchftc.activities.FtcRankingsActivity
 ADDED from AndroidManifest.xml:41:9
 	android:label
 		ADDED from AndroidManifest.xml:44:13
@@ -91,7 +91,7 @@ ADDED from AndroidManifest.xml:41:9
 		ADDED from AndroidManifest.xml:43:13
 	android:name
 		ADDED from AndroidManifest.xml:42:13
-activity#com.wrgardnersoft.watchftc.StatRankingsActivity
+activity#com.wrgardnersoft.watchftc.activities.StatRankingsActivity
 ADDED from AndroidManifest.xml:46:9
 	android:label
 		ADDED from AndroidManifest.xml:49:13

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wrgardnersoft.watchftc.R;
@@ -23,7 +24,7 @@ public class MatchesExpandableListAdapter extends BaseExpandableListAdapter {
     private HashMap<String, List<com.wrgardnersoft.watchftc.models.Match>> _listDataChild;
 
     public MatchesExpandableListAdapter(Context context, List<String> listDataHeader,
-                                 HashMap<String, List<Match>> listChildData) {
+                                        HashMap<String, List<Match>> listChildData) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
@@ -73,8 +74,10 @@ public class MatchesExpandableListAdapter extends BaseExpandableListAdapter {
         holder.titleView.setText(child.title);
         holder.red0View.setText(String.valueOf(child.rTeam0));
         holder.red1View.setText(String.valueOf(child.rTeam1));
+        holder.red2View.setText(String.valueOf(child.rTeam2));
         holder.blue0View.setText(String.valueOf(child.bTeam0));
         holder.blue1View.setText(String.valueOf(child.bTeam1));
+        holder.blue2View.setText(String.valueOf(child.bTeam2));
 
         MyApp myApp = MyApp.getInstance();
 
@@ -88,6 +91,11 @@ public class MatchesExpandableListAdapter extends BaseExpandableListAdapter {
         } else {
             holder.red1View.setBackgroundResource(R.color.lighter_red);
         }
+        if (myApp.selectedTeams.contains(child.rTeam2)) {
+            holder.red2View.setBackgroundResource(R.color.yellow);
+        } else {
+            holder.red2View.setBackgroundResource(R.color.lighter_red);
+        }
 
         if (myApp.selectedTeams.contains(child.bTeam0)) {
             holder.blue0View.setBackgroundResource(R.color.yellow);
@@ -99,6 +107,27 @@ public class MatchesExpandableListAdapter extends BaseExpandableListAdapter {
         } else {
             holder.blue1View.setBackgroundResource(R.color.lighter_blue);
         }
+        if (myApp.selectedTeams.contains(child.bTeam2)) {
+            holder.blue2View.setBackgroundResource(R.color.yellow);
+        } else {
+            holder.blue2View.setBackgroundResource(R.color.lighter_blue);
+        }
+        if (child.rTeam2 > 0) {
+            LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) holder.red2View.getLayoutParams();
+            param.weight = 1;
+            holder.red2View.setLayoutParams(param);
+            param = (LinearLayout.LayoutParams) holder.blue2View.getLayoutParams();
+            param.weight = 1;
+            holder.blue2View.setLayoutParams(param);
+        } else {
+            LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) holder.red2View.getLayoutParams();
+            param.weight = 0;
+            holder.red2View.setLayoutParams(param);
+            param = (LinearLayout.LayoutParams) holder.blue2View.getLayoutParams();
+            param.weight = 0;
+            holder.blue2View.setLayoutParams(param);
+        }
+
 
         holder.redTotView.setBackgroundResource(R.drawable.no_border_red);
         holder.blueTotView.setBackgroundResource(R.drawable.no_border_blue);
@@ -108,7 +137,7 @@ public class MatchesExpandableListAdapter extends BaseExpandableListAdapter {
             holder.redTotView.setText(String.valueOf(child.rTot));
             holder.blueTotView.setText(String.valueOf(child.bTot));
 
-            if (child.rTot>child.bTot) {
+            if (child.rTot > child.bTot) {
                 holder.redTotView.setBackgroundResource(R.drawable.red_border);
             } else if (child.rTot < child.bTot) {
                 holder.blueTotView.setBackgroundResource(R.drawable.blue_border);
@@ -121,6 +150,7 @@ public class MatchesExpandableListAdapter extends BaseExpandableListAdapter {
 
         return row;
     }
+
 
     static class MatchHolder {
         TextView titleView, red0View, red1View, red2View, blue0View, blue1View, blue2View, redTotView, blueTotView;
@@ -174,4 +204,7 @@ public class MatchesExpandableListAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
     }
+
+
 }
+

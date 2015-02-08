@@ -112,18 +112,35 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
                     Element row = rows.get(j);
                     Elements cols = row.select("td");
 
+                    // special handling for 2 OR 3 team alliances
+                    String redTeam[] = {"0","0","0"};
+                    String blueTeam[] = {"0","0","0"};
+
                     String redTeamString = cols.get(2).text();
                     String blueTeamString = cols.get(3).text();
-                    String redTeam[] = redTeamString.split("\\s+");
-                    String blueTeam[] = blueTeamString.split("\\s+");
+                    String redTeamResult[] = redTeamString.split("\\s+");
+                    String blueTeamResult[] = blueTeamString.split("\\s+");
+
+                    int k=0;
+                    for (String team: redTeamResult) {
+                        redTeam[k]=redTeamResult[k];
+                        k++;
+                    }
+                    k=0;
+                    for (String team: blueTeamResult) {
+                        blueTeam[k]=blueTeamResult[k];
+                        k++;
+                    }
 
                     myApp.match[myApp.division()].add(new Match(j - 1,
                             cols.get(0).text(),
                             cols.get(1).text(),
                             redTeam[0],
                             redTeam[1],
+                            redTeam[2],
                             blueTeam[0],
                             blueTeam[1],
+                            blueTeam[2],
                             cols.get(4).text(),
                             cols.get(5).text(),
                             cols.get(6).text(),
