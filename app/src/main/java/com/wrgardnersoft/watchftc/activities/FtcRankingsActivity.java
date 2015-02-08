@@ -15,7 +15,7 @@ import com.wrgardnersoft.watchftc.adapters.FtcRankingsListAdapter;
 import com.wrgardnersoft.watchftc.interfaces.AsyncResponse;
 import com.wrgardnersoft.watchftc.internet.ClientTask;
 import com.wrgardnersoft.watchftc.models.MyApp;
-import com.wrgardnersoft.watchftc.models.Team;
+import com.wrgardnersoft.watchftc.models.TeamFtcRanked;
 
 
 public class FtcRankingsActivity extends ActionBarActivity implements AsyncResponse {
@@ -62,7 +62,7 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Team teamPicked = (Team) parent.getItemAtPosition(position);
+                TeamFtcRanked teamPicked = (TeamFtcRanked) parent.getItemAtPosition(position);
 
                 MyApp myApp = (MyApp) getApplication();
 
@@ -80,7 +80,7 @@ public class FtcRankingsActivity extends ActionBarActivity implements AsyncRespo
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Team teamPicked = (Team) parent.getItemAtPosition(position);
+                TeamFtcRanked teamPicked = (TeamFtcRanked) parent.getItemAtPosition(position);
 
                 MyApp myApp = (MyApp) getApplication();
                 myApp.currentTeamNumber = teamPicked.number;
