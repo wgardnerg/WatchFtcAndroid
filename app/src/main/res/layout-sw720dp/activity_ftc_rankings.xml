@@ -24,7 +24,7 @@
             android:gravity="center_horizontal"
             android:text="Rank"
             android:textColor="@color/black"
-            android:textSize="24sp"
+            android:textSize="26sp"
             android:textStyle="bold" />
 
         <TextView
@@ -35,7 +35,7 @@
             android:singleLine="true"
             android:text="Team"
             android:textColor="@color/black"
-            android:textSize="24sp"
+            android:textSize="26sp"
             android:textStyle="bold" />
 
 
@@ -50,7 +50,7 @@
             android:gravity="center_horizontal"
             android:text="QP"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/head_rp"
@@ -60,7 +60,7 @@
             android:gravity="center_horizontal"
             android:text="RP"
             android:textColor="@color/black"
-            android:textSize="21sp" />
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/head_mp"
@@ -70,7 +70,7 @@
             android:gravity="center_horizontal"
             android:text="MP"
             android:textColor="@color/gray"
-            android:textSize="21sp" />
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/head_highest"
@@ -80,7 +80,7 @@
             android:gravity="center_horizontal"
             android:text="High"
             android:textColor="@color/gray"
-            android:textSize="21sp" />
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/head_name"
@@ -89,7 +89,7 @@
             android:singleLine="true"
             android:text="Name"
             android:textColor="@color/black"
-            android:textSize="24sp"
+            android:textSize="26sp"
             android:textStyle="bold" />
 
 
