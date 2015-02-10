@@ -177,7 +177,7 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
         delegate.processFinish(Activity.RESULT_OK);
 
         if (!serverOK) {
-            CharSequence text = "Error downloading data.";
+            CharSequence text = "Error downloading data.\nTry tapping refresh.";
             int duration = Toast.LENGTH_LONG;
             Toast.makeText(mContext, text, duration).show();
         }
