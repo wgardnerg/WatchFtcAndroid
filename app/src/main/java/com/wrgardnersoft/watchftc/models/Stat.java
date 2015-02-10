@@ -47,7 +47,7 @@ public class Stat {
         ArrayList<Integer> atn = new ArrayList<>();
 
         int numTeams = ts.size();
-        for (int i=0; i< numTeams; i++) {
+        for (int i = 0; i < numTeams; i++) {
             atn.add(ts.get(i).number);
         }
 
@@ -60,7 +60,7 @@ public class Stat {
             }
         }
 
-        //      if (numMatches >= numTeams) { // too few matches to compute marix stats
+/* ORIGINAL OPR, CCWM, DPR
         //////////////////////////////////////////
         // Matrix based stats: opr, dpr, ccwm
         // For these stats, counting penalties as negative for the alliance incurring the penalty!
@@ -117,12 +117,6 @@ public class Stat {
 
 
         Matrix topr = new Matrix(numTeams, 1);
- /*       Log.i("AtAinvr", String.valueOf(AtAinv.getRowDimension()));
-        Log.i("AtAinvr", String.valueOf(AtAinv.getColumnDimension()));
-        Log.i("At", String.valueOf(A.transpose().getRowDimension()));
-        Log.i("At", String.valueOf(A.transpose().getColumnDimension()));
-        Log.i("B", String.valueOf(Bopr.getRowDimension()));
-        Log.i("B", String.valueOf(Bopr.getColumnDimension()));*/
 
         topr = AtAinv.times(A.transpose().times(Bopr));
 
@@ -148,24 +142,29 @@ public class Stat {
             myApp.teamStatRanked[division].get(i).dpr = tdpr.get(i,0);
 
         }
+*/
 
- /*       } else {
-            // estimate OPR by average offensive score in matches played
-
-            // estimate CCWM by average WM in matches played
-        } */
-
-
+// New and improved OPR, DPR, CCWM
         //////////////////////////////////////////
         // Matrix based stats: opr, dpr, ccwm
         // For these stats, counting penalties as negative for the alliance incurring the penalty!
         // So one alliance isn't rewarded if their opponent happens to get a lot of penalties.
 
-        Matrix AA = new Matrix(2*numMatches, 2*numTeams);
-        Matrix BoprA = new Matrix(2*numMatches, 1);
-        Matrix BccwmA = new Matrix(2*numMatches, 1);
+        double dprPreWeight;
 
-        iM = 0;
+        if ( numMatches <= numTeams) {
+            dprPreWeight = 0;
+        } else {
+            dprPreWeight = 0.5;
+        }
+
+        Matrix AA = new Matrix(2 * numMatches, 2 * numTeams);
+        Matrix BoprA = new Matrix(2 * numMatches, 1);
+        Matrix BccwmA = new Matrix(2 * numMatches, 1);
+
+        double meanOffense = 0;
+
+        int iM = 0;
         for (int i = 0; i < myApp.match[myApp.division()].size(); i++) {
             Match m = ms.get(i);
 
@@ -174,20 +173,28 @@ public class Stat {
 
                 AA.set(iM, atn.indexOf(m.rTeam0), 1.0);
                 AA.set(iM, atn.indexOf(m.rTeam1), 1.0);
-                AA.set(iM, numTeams+atn.indexOf(m.bTeam0), -1.0);
-                AA.set(iM, numTeams+atn.indexOf(m.bTeam1), -1.0);
+                AA.set(iM, numTeams + atn.indexOf(m.bTeam0), -2.0 * (dprPreWeight));
+                AA.set(iM, numTeams + atn.indexOf(m.bTeam1), -2.0 * (dprPreWeight));
                 BoprA.set(iM, 0, m.rTot - m.rPen - m.bPen);
-                BccwmA.set(iM, 0, m.rTot - m.bTot);
+                meanOffense += m.rTot - m.rPen - m.bPen;
                 iM++;
                 AA.set(iM, atn.indexOf(m.bTeam0), 1.0);
                 AA.set(iM, atn.indexOf(m.bTeam1), 1.0);
-                AA.set(iM, numTeams+atn.indexOf(m.rTeam0), -1.0);
-                AA.set(iM, numTeams+atn.indexOf(m.rTeam1), -1.0);
+                AA.set(iM, numTeams + atn.indexOf(m.rTeam0), -2.0 * (dprPreWeight));
+                AA.set(iM, numTeams + atn.indexOf(m.rTeam1), -2.0 * (dprPreWeight));
                 BoprA.set(iM, 0, m.bTot - m.bPen - m.rPen);
-                BccwmA.set(iM, 0, m.bTot - m.rTot);
+                meanOffense += m.bTot - m.bPen - m.rPen;
                 iM++;
             }
         }
+        meanOffense /= 2 * numMatches * 2; // 2 for red/blue, 2 for 2 teams per alliance
+        Log.i("Mean Offense ", String.valueOf(meanOffense));
+        for (int i = 0; i < 2 * numMatches; i++) {
+
+            BoprA.set(i, 0, BoprA.get(i, 0) - 2 * meanOffense);
+
+        }
+
 
         // using SVD to solve so get result even when underdetermined!
         SingularValueDecomposition svdA = new SingularValueDecomposition(AA.transpose().times(AA));
@@ -210,7 +217,7 @@ public class Stat {
         //   A' A is positive semidef, so use Cholesky decomposition to solve it.
 
 
-        Matrix toprA = new Matrix(2*numTeams, 1);
+        Matrix toprA = new Matrix(2 * numTeams, 1);
 
  /*       Log.i("AtAinvr", String.valueOf(AtAinv.getRowDimension()));
         Log.i("AtAinvr", String.valueOf(AtAinv.getColumnDimension()));
@@ -223,34 +230,45 @@ public class Stat {
 
         ////////////////////////
         // CCWM:
-        //
-        // Same as OPR, but use team score minus opponent score for B
-/*
-        Matrix tccwmA = new Matrix(numTeams, 1);
-        tccwmA = AtAinvA.times(AA.transpose().times(BccwmA));
 
         ////////////////////////
-        // CCWM = OPR - DPR, so DPR = OPR - CCWM
-        //
-        // = -(OPR - CCWM)
-
-        Matrix tdprA= new Matrix(numTeams, 1);
-        tdprA = AtAinvA.times(AA.transpose().times(BdprA));
-*/
-        for (int i=0; i< numTeams; i++) {
-            myApp.teamStatRanked[division].get(i).ccwmA = toprA.get(i,0) + toprA.get(i+numTeams,0);
-            myApp.teamStatRanked[division].get(i).oprA = toprA.get(i,0);
-            myApp.teamStatRanked[division].get(i).dprA = toprA.get(i+numTeams,0);
+        // CCWM = OPR - DPR
+        for (int i = 0; i < 6; i++) {
+            String msg = "Team " + atn.get(i) + ", OPR " + toprA.get(i, 0) + ", DPR " + toprA.get(i + 6, 0);
+            Log.i(msg, String.valueOf(0));
 
         }
-
-        if (myApp.useAdvancedStats[myApp.division()]) {
-            for (int i=0; i< numTeams; i++) {
-                myApp.teamStatRanked[division].get(i).ccwm = myApp.teamStatRanked[division].get(i).ccwmA;
-                myApp.teamStatRanked[division].get(i).opr = myApp.teamStatRanked[division].get(i).oprA;
-                myApp.teamStatRanked[division].get(i).dpr = myApp.teamStatRanked[division].get(i).dprA;
+        for (int i = 0; i < numTeams; i++) {
+            if (dprPreWeight != 0) {
+                toprA.set(i + numTeams, 0, toprA.get(i + numTeams, 0) * (2.0 * (dprPreWeight)));
             }
+            myApp.teamStatRanked[division].get(i).ccwmA = toprA.get(i, 0) + toprA.get(i + numTeams, 0);
+            myApp.teamStatRanked[division].get(i).oprA = toprA.get(i, 0);
+            myApp.teamStatRanked[division].get(i).dprA = toprA.get(i + numTeams, 0);
+
         }
+
+        // Normalize for average defense and offense
+        double meanDpr = 0;
+        for (int i = 0; i < numTeams; i++) {
+            meanDpr += myApp.teamStatRanked[division].get(i).dprA;
+        }
+        meanDpr /= numTeams;
+
+        for (int i = 0; i < numTeams; i++) {
+            myApp.teamStatRanked[division].get(i).oprA += meanDpr + meanOffense;
+            myApp.teamStatRanked[division].get(i).dprA -= meanDpr;
+        }
+
+        //       if (myApp.useAdvancedStats[myApp.division()]) {
+        for (int i = 0; i < numTeams; i++) {
+            myApp.teamStatRanked[division].get(i).ccwm = myApp.teamStatRanked[division].get(i).ccwmA;
+            myApp.teamStatRanked[division].get(i).opr = myApp.teamStatRanked[division].get(i).oprA;
+            myApp.teamStatRanked[division].get(i).dpr = myApp.teamStatRanked[division].get(i).dprA;
+        }
+        //       }
+
+
 
  /*       } else {
             // estimate OPR by average offensive score in matches played

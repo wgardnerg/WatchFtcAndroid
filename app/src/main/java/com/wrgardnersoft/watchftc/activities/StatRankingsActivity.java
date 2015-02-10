@@ -16,7 +16,6 @@ import com.wrgardnersoft.watchftc.interfaces.AsyncResponse;
 import com.wrgardnersoft.watchftc.internet.ClientTask;
 import com.wrgardnersoft.watchftc.models.Match;
 import com.wrgardnersoft.watchftc.models.MyApp;
-import com.wrgardnersoft.watchftc.models.Stat;
 import com.wrgardnersoft.watchftc.models.Team;
 import com.wrgardnersoft.watchftc.models.TeamFtcRanked;
 import com.wrgardnersoft.watchftc.models.TeamStatRanked;
@@ -50,13 +49,12 @@ public class StatRankingsActivity extends ActionBarActivity implements AsyncResp
         getSupportActionBar().setIcon(R.drawable.ic_launcher);
         setContentView(R.layout.activity_stat_rankings);
 
-        if (myApp.teamStatRanked[myApp.division()].size() > 0) {
+        if (myApp.team[myApp.division()].size() > 0) {
             inflateMe();
         } else {
-            if (myApp.team[myApp.division()].size() > 0) {
-                Stat.computeAll(myApp.division());
-                inflateMe();
-            }
+            clientTask = new ClientTask(this);
+            clientTask.delegate = this;
+            clientTask.execute();
         }
     }
 
@@ -109,13 +107,13 @@ public class StatRankingsActivity extends ActionBarActivity implements AsyncResp
         if (myApp.teamStatRanked[myApp.division()].size() > 0) {
             inflateMe();
         }
+
     }
 
     public void processFinish(int result) {
         //this you will received result fired from async class of onPostExecute(result) method.
         MyApp myApp = (MyApp) getApplication();
-        if (myApp.teamFtcRanked[myApp.division()].size() > 0) {
-            Stat.computeAll(myApp.division());
+        if (myApp.team[myApp.division()].size() > 0) {
             inflateMe();
         }
 

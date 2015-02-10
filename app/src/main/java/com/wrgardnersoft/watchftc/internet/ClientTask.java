@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.wrgardnersoft.watchftc.interfaces.AsyncResponse;
 import com.wrgardnersoft.watchftc.models.Match;
 import com.wrgardnersoft.watchftc.models.MyApp;
+import com.wrgardnersoft.watchftc.models.Stat;
 import com.wrgardnersoft.watchftc.models.Team;
 import com.wrgardnersoft.watchftc.models.TeamFtcRanked;
 
@@ -156,7 +157,7 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
                     ));
 
                 }
-
+                Stat.computeAll(myApp.division());
                 serverOK = true;
             } catch (IOException e) {
                 e.printStackTrace();
