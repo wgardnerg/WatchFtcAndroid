@@ -11,19 +11,19 @@ import android.widget.TextView;
 
 import com.wrgardnersoft.watchftc.R;
 import com.wrgardnersoft.watchftc.models.MyApp;
-import com.wrgardnersoft.watchftc.models.TeamFtcRanked;
+import com.wrgardnersoft.watchftc.models.TeamStatRanked;
 
 import java.util.ArrayList;
 
 /**
  *   Created by Bill on 2/3/2015.
  */
-public class FtcRankingsListAdapter extends ArrayAdapter<com.wrgardnersoft.watchftc.models.TeamFtcRanked> {
+public class StatRankingsListAdapter extends ArrayAdapter<TeamStatRanked> {
     Context context;
     int layoutResourceId;
-    ArrayList<TeamFtcRanked> team;
+    ArrayList<TeamStatRanked> team;
 
-    public FtcRankingsListAdapter(Context context, int resource, ArrayList<TeamFtcRanked> teamData) {
+    public StatRankingsListAdapter(Context context, int resource, ArrayList<TeamStatRanked> teamData) {
         super(context, resource, teamData);
         this.layoutResourceId = resource;
         this.context = context;
@@ -40,7 +40,7 @@ public class FtcRankingsListAdapter extends ArrayAdapter<com.wrgardnersoft.watch
         return team.size();
     }
 
-    public TeamFtcRanked getItem(int position) {
+    public TeamStatRanked getItem(int position) {
         return team.get(position);
     }
 
@@ -59,20 +59,19 @@ public class FtcRankingsListAdapter extends ArrayAdapter<com.wrgardnersoft.watch
             row = inflater.inflate(layoutResourceId, parent, false);
 
             holder = new TeamHolder();
-            holder.rankView = (TextView) row.findViewById(R.id.rank);
             holder.numView = (TextView) row.findViewById(R.id.number);
-            holder.nameView = (TextView) row.findViewById(R.id.name);
-            holder.qpView = (TextView) row.findViewById(R.id.qp);
-            holder.rpView = (TextView) row.findViewById(R.id.rp);
-            holder.mpView = (TextView) row.findViewById(R.id.mp);
-            holder.highestView = (TextView) row.findViewById(R.id.highest);
+            holder.ftcRankView = (TextView) row.findViewById(R.id.ftcRank);
+            holder.winPercentView = (TextView) row.findViewById(R.id.winPercent);
+            holder.oprView = (TextView) row.findViewById(R.id.opr);
+            holder.dprView = (TextView) row.findViewById(R.id.dpr);
+            holder.ccwmView = (TextView) row.findViewById(R.id.ccwm);
 
             row.setTag(holder);
         } else {
             holder = (TeamHolder) row.getTag();
         }
 
-        TeamFtcRanked thisTeam = team.get(position);
+        TeamStatRanked thisTeam = team.get(position);
 
         MyApp myApp = MyApp.getInstance();
 
@@ -82,19 +81,19 @@ public class FtcRankingsListAdapter extends ArrayAdapter<com.wrgardnersoft.watch
             row.setBackgroundColor(Color.WHITE);
         }
    //     Log.i("Ftc adapter", "got here");
-        holder.rankView.setText("#"+String.format("%d", thisTeam.rank));
         holder.numView.setText(String.format("%5d",thisTeam.number));
-        holder.nameView.setText(thisTeam.name);
-        holder.qpView.setText(String.format("%d",thisTeam.qp));
-        holder.rpView.setText(String.format("%d", thisTeam.rp));
-        holder.mpView.setText(String.format("%d", thisTeam.matches));
-        holder.highestView.setText(String.format("%d",thisTeam.highest) );
+        holder.ftcRankView.setText("#"+String.format("%d", thisTeam.ftcRank));
+        holder.winPercentView.setText(String.format("%5.1f",thisTeam.winPercent));
+        holder.oprView.setText(String.format("%5.1f",thisTeam.opr));
+        holder.dprView.setText(String.format("%5.1f",thisTeam.dpr));
+        holder.ccwmView.setText(String.format("%5.1f",thisTeam.ccwm));
+
         return row;
 
     }
 
     static class TeamHolder {
-        TextView rankView, numView, nameView, qpView, rpView, mpView, highestView;
+        TextView numView, ftcRankView, winPercentView, oprView, dprView, ccwmView;
     }
 }
 

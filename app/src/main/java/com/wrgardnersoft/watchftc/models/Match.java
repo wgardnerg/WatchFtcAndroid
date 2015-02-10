@@ -309,7 +309,9 @@ public class Match {
         output = this.title;
         output = output + "," + this.rTeam0 + "," + this.rTeam1 + "," + this.rTeam2;
         output = output + "," + this.bTeam0 + "," + this.bTeam1 + "," + this.bTeam2;
-        output = output + "," + this.rTot + "," + this.bTot + System.getProperty("line.separator");
+        output = output + "," + this.rTot + "," + this.rAuto + "," + this.rAutoB + "," + this.rTele + "," + this.rEndG + "," + this.rPen;
+        output = output + "," + this.bTot + "," + this.bAuto + "," + this.bAutoB + "," + this.bTele + "," + this.bEndG + "," + this.bPen;
+        output = output   + System.getProperty("line.separator");
         return output;
     }
 

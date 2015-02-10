@@ -28,7 +28,7 @@ public class TeamFtcRanked {
     }
     public String toString() {
         String output;
-        output = this.rank + "," + this.number + "," + this.name + "," + this.qp + "," + this.rp + System.getProperty("line.separator");
+        output = this.rank + "," + this.number + "," + this.name + "," + this.qp + "," + this.rp + "," + this.highest + "," + this.matches + System.getProperty("line.separator");
         return output;
     }
 }

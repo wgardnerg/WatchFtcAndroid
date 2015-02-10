@@ -16,15 +16,15 @@ public class MyApp extends Application {
 
 //public class MyApp extends Application {
     private String[] serverAddressString= new String[2];
+    public boolean[] useAdvancedStats = new boolean[2];
     private boolean dualDivision;
     private int division;
     public ArrayList<Integer> selectedTeams;
 
     public ArrayList<com.wrgardnersoft.watchftc.models.Team>[] team = (ArrayList<Team>[])new ArrayList[2];  // full team info from team server page
-
     public ArrayList<TeamFtcRanked>[] teamFtcRanked = (ArrayList<TeamFtcRanked>[])new ArrayList[2];
-
     public ArrayList<Match>[] match = (ArrayList<Match>[])new ArrayList[2];
+    public ArrayList<TeamStatRanked>[] teamStatRanked = (ArrayList<TeamStatRanked>[])new ArrayList[2];
 
     public int currentTeamNumber, currentMatchNumber;
 
@@ -47,6 +47,12 @@ public class MyApp extends Application {
 
         this.teamFtcRanked[0] = new ArrayList<>();
         this.teamFtcRanked[1] = new ArrayList<>();
+
+        this.teamStatRanked[0] = new ArrayList<>();
+        this.teamStatRanked[1] = new ArrayList<>();
+
+        this.useAdvancedStats[0]=false;
+        this.useAdvancedStats[1]=false;
 
         this.match[0] = new ArrayList<>();
         this.match[1] = new ArrayList<>();

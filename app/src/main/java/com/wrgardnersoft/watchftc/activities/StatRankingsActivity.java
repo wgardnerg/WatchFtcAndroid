@@ -1,34 +1,221 @@
 package com.wrgardnersoft.watchftc.activities;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.wrgardnersoft.watchftc.R;
+import com.wrgardnersoft.watchftc.adapters.StatRankingsListAdapter;
+import com.wrgardnersoft.watchftc.interfaces.AsyncResponse;
+import com.wrgardnersoft.watchftc.internet.ClientTask;
+import com.wrgardnersoft.watchftc.models.Match;
 import com.wrgardnersoft.watchftc.models.MyApp;
+import com.wrgardnersoft.watchftc.models.Stat;
+import com.wrgardnersoft.watchftc.models.Team;
+import com.wrgardnersoft.watchftc.models.TeamFtcRanked;
+import com.wrgardnersoft.watchftc.models.TeamStatRanked;
+
+import java.util.Collections;
+import java.util.Comparator;
 
 
-public class StatRankingsActivity extends ActionBarActivity {
+public class StatRankingsActivity extends ActionBarActivity implements AsyncResponse {
+
+    private ListView listView;
+    ClientTask clientTask;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
-        com.wrgardnersoft.watchftc.models.MyApp myApp = (MyApp) getApplication();
+        MyApp myApp = (MyApp) getApplication();
 
-        setTitle(" "+getString(R.string.statRankings) + ", Division " + Integer.toString(myApp.division() + 1));
+        //     team = new ArrayList<Team>();
+
+        if (myApp.dualDivision()) {
+            setTitle(" " + getString(R.string.statRankings) + ", Division " + Integer.toString(myApp.division() + 1));
+        } else {
+            setTitle(" " + getString(R.string.statRankings));
+        }
+
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.drawable.ic_launcher);
         setContentView(R.layout.activity_stat_rankings);
+
+        if (myApp.teamStatRanked[myApp.division()].size() > 0) {
+            inflateMe();
+        } else {
+            if (myApp.team[myApp.division()].size() > 0) {
+                Stat.computeAll(myApp.division());
+                inflateMe();
+            }
+        }
     }
 
+    private void inflateMe() {
+        MyApp myApp = MyApp.getInstance();
+
+        StatRankingsListAdapter adapter = new StatRankingsListAdapter(this,
+                R.layout.list_item_stat_ranking, myApp.teamStatRanked[myApp.division()]);
+        listView = (ListView) findViewById(R.id.stat_rankings_list_view);
+        listView.setAdapter(adapter);
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                TeamStatRanked teamPicked = (TeamStatRanked) parent.getItemAtPosition(position);
+
+                MyApp myApp = (MyApp) getApplication();
+
+                if (myApp.selectedTeams.contains(teamPicked.number)) {
+                    myApp.selectedTeams.remove(Integer.valueOf(teamPicked.number));
+                } else {
+                    myApp.selectedTeams.add(teamPicked.number);
+                }
+                listView.invalidateViews();
+                return true;
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TeamStatRanked teamPicked = (TeamStatRanked) parent.getItemAtPosition(position);
+
+                MyApp myApp = (MyApp) getApplication();
+                myApp.currentTeamNumber = teamPicked.number;
+
+                Intent getNameScreenIntent = new Intent(view.getContext(), MyTeamActivity.class);
+                startActivity(getNameScreenIntent);
+            }
+        });
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        setContentView(R.layout.activity_stat_rankings);
+
+        MyApp myApp = (MyApp) getApplication();
+        if (myApp.teamStatRanked[myApp.division()].size() > 0) {
+            inflateMe();
+        }
+    }
+
+    public void processFinish(int result) {
+        //this you will received result fired from async class of onPostExecute(result) method.
+        MyApp myApp = (MyApp) getApplication();
+        if (myApp.teamFtcRanked[myApp.division()].size() > 0) {
+            Stat.computeAll(myApp.division());
+            inflateMe();
+        }
+
+    }
+
+    public void onClickNumberTextView(View view) {
+
+        // save all setup info to globals in myApp class
+        MyApp myApp = (MyApp) getApplication();
+
+        Comparator<TeamStatRanked> ct = TeamStatRanked.getComparator(TeamStatRanked.SortParameter.NUMBER_SORT);
+        Collections.sort(myApp.teamStatRanked[myApp.division()], ct);
+
+        listView = (ListView) findViewById(R.id.stat_rankings_list_view);
+        listView.invalidateViews();
+    }
+
+    public void onClickFtcRankTextView(View view) {
+
+        // save all setup info to globals in myApp class
+        MyApp myApp = (MyApp) getApplication();
+
+        Comparator<TeamStatRanked> ct = TeamStatRanked.getComparator(TeamStatRanked.SortParameter.FTCRANK_SORT);
+        Collections.sort(myApp.teamStatRanked[myApp.division()], ct);
+
+        listView = (ListView) findViewById(R.id.stat_rankings_list_view);
+        listView.invalidateViews();
+    }
+
+    public void onClickWinPercentTextView(View view) {
+
+        // save all setup info to globals in myApp class
+        MyApp myApp = (MyApp) getApplication();
+
+        Comparator<TeamStatRanked> ct =
+                TeamStatRanked.getComparator(TeamStatRanked.SortParameter.WINPERCENT_SORT,
+                        TeamStatRanked.SortParameter.OPR_SORT,
+                        TeamStatRanked.SortParameter.CCWM_SORT,
+                        TeamStatRanked.SortParameter.FTCRANK_SORT);
+        Collections.sort(myApp.teamStatRanked[myApp.division()], ct);
+
+        listView = (ListView) findViewById(R.id.stat_rankings_list_view);
+        listView.invalidateViews();
+    }
+
+    public void onClickOprTextView(View view) {
+
+        // save all setup info to globals in myApp class
+        MyApp myApp = (MyApp) getApplication();
+
+        Comparator<TeamStatRanked> ct = TeamStatRanked.getComparator(TeamStatRanked.SortParameter.OPR_SORT,
+                TeamStatRanked.SortParameter.CCWM_SORT,
+                TeamStatRanked.SortParameter.WINPERCENT_SORT,
+                TeamStatRanked.SortParameter.FTCRANK_SORT);
+        Collections.sort(myApp.teamStatRanked[myApp.division()], ct);
+
+        listView = (ListView) findViewById(R.id.stat_rankings_list_view);
+        listView.invalidateViews();
+    }
+
+    public void onClickDprTextView(View view) {
+
+        // save all setup info to globals in myApp class
+        MyApp myApp = (MyApp) getApplication();
+
+        Comparator<TeamStatRanked> ct = TeamStatRanked.getComparator(TeamStatRanked.SortParameter.DPR_SORT,
+                TeamStatRanked.SortParameter.OPR_SORT,
+                TeamStatRanked.SortParameter.WINPERCENT_SORT,
+                TeamStatRanked.SortParameter.FTCRANK_SORT);
+        Collections.sort(myApp.teamStatRanked[myApp.division()], ct);
+
+        listView = (ListView) findViewById(R.id.stat_rankings_list_view);
+        listView.invalidateViews();
+    }
+
+    public void onClickCcwmTextView(View view) {
+
+        // save all setup info to globals in myApp class
+        MyApp myApp = (MyApp) getApplication();
+
+        Comparator<TeamStatRanked> ct = TeamStatRanked.getComparator(TeamStatRanked.SortParameter.CCWM_SORT,
+                TeamStatRanked.SortParameter.OPR_SORT,
+                TeamStatRanked.SortParameter.WINPERCENT_SORT,
+                TeamStatRanked.SortParameter.FTCRANK_SORT);
+        Collections.sort(myApp.teamStatRanked[myApp.division()], ct);
+
+        listView = (ListView) findViewById(R.id.stat_rankings_list_view);
+        listView.invalidateViews();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MyApp myApp = MyApp.getInstance();
+
+        if (myApp.dualDivision()) {
+            getMenuInflater().inflate(R.menu.menu_main_change_div, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.menu_main, menu);
+        }
         return true;
     }
 
@@ -39,39 +226,88 @@ public class StatRankingsActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        MyApp myApp = MyApp.getInstance();
+
+
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_setup) {
             Intent getNameScreenIntent = new Intent(this, SetupActivity.class);
             startActivity(getNameScreenIntent);
             finish();
             return true;
-     /*   } else if (id == R.id.action_my_team) {
-            Intent getNameScreenIntent = new Intent(this, MyTeamActivity.class );
-            startActivity(getNameScreenIntent);
-            finish();
-            return true;*/
         } else if (id == R.id.action_ftc_rankings) {
-            Intent getNameScreenIntent = new Intent(this, FtcRankingsActivity.class );
+            Intent getNameScreenIntent = new Intent(this, FtcRankingsActivity.class);
             startActivity(getNameScreenIntent);
-            finish();
             return true;
         } else if (id == R.id.action_matches) {
-            Intent getNameScreenIntent = new Intent(this, MatchesActivity.class );
+            Intent getNameScreenIntent = new Intent(this, MatchesActivity.class);
             startActivity(getNameScreenIntent);
-            finish();
             return true;
-        } else if (id == R.id.action_stat_rankings) {
-            Intent getNameScreenIntent = new Intent(this, StatRankingsActivity.class );
+  /*      } else if (id == R.id.action_stat_rankings) {
+            Intent getNameScreenIntent = new Intent(this, StatRankingsActivity.class);
             startActivity(getNameScreenIntent);
-            finish();
-            return true;
+            return true;*/
         } else if (id == R.id.action_teams) {
-            Intent getNameScreenIntent = new Intent(this, TeamsActivity.class );
+            Intent getNameScreenIntent = new Intent(this, TeamsActivity.class);
             startActivity(getNameScreenIntent);
-            finish();
             return true;
-        } else if (id==R.id.action_exit) {
-            finish();
+        } else if (id == R.id.action_refresh) {
+            clientTask = new ClientTask(this);
+            clientTask.delegate = this;
+            clientTask.execute();
+            return true;
+        } else if (id == R.id.action_share) {
+            String shareOutput = "";
+            if (myApp.team[0].size() > 0) {
+                shareOutput = shareOutput + "0" + System.getProperty("line.separator");
+                shareOutput = shareOutput + myApp.team[0].size() + System.getProperty("line.separator");
+                for (Team t : myApp.team[0]) {
+                    shareOutput = shareOutput + t;
+                }
+                for (TeamFtcRanked t : myApp.teamFtcRanked[0]) {
+                    shareOutput = shareOutput + t;
+                }
+                for (Match m : myApp.match[0]) {
+                    shareOutput = shareOutput + m;
+                }
+            }
+            if (myApp.team[1].size() > 0) {
+                shareOutput = shareOutput + "1" + System.getProperty("line.separator");
+                shareOutput = shareOutput + myApp.team[1].size() + System.getProperty("line.separator");
+                for (Team t : myApp.team[1]) {
+                    shareOutput = shareOutput + t;
+                }
+                for (TeamFtcRanked t : myApp.teamFtcRanked[1]) {
+                    shareOutput = shareOutput + t;
+                }
+                for (Match m : myApp.match[1]) {
+                    shareOutput = shareOutput + m;
+                }
+            }
+            if ((myApp.team[0].size() > 0) || (myApp.team[1].size() > 0)) {
+                Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+                intent.setType("message/rfc822");
+
+// Add data to the intent, the receiving app will decide what to do with it.
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Watch FTC Data");
+                intent.putExtra(Intent.EXTRA_TEXT, shareOutput);
+                startActivity(Intent.createChooser(intent, "Select share option"));
+            }
+            return true;
+        } else if (myApp.dualDivision()) {
+            if (id == R.id.action_change_division) {
+                //////////////////////////////
+                // HIDDEN OPTION!  CHANGE STAT TOGGLE, NOT DIVISION!
+                if (myApp.useAdvancedStats[myApp.division()]) {
+                    myApp.useAdvancedStats[myApp.division()] = false;
+                } else {
+                    myApp.useAdvancedStats[myApp.division()] = true;
+                }
+                // restart activity to load data from new division
+    //            Intent intent = new Intent(this, TeamsActivity.class);
+    //            finish();
+    //            startActivity(intent);
+            }
             return true;
         }
 
