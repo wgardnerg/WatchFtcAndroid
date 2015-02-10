@@ -119,7 +119,9 @@ public class MyTeamActivity extends ActionBarActivity {
     private void inflateMeMatch() {
         expListView = (ExpandableListView) findViewById(R.id.matches_expListView);
         //        Log.i("exp list view", expListView.toString());
-        prepareListData();
+        listDataHeader = new ArrayList<>();
+        listDataChild = new HashMap<>();
+        Match.prepareListData(myMatch, listDataHeader, listDataChild);
         MatchesExpandableListAdapter listAdapter = new MatchesExpandableListAdapter(this,
                 listDataHeader, listDataChild);
         expListView.setAdapter(listAdapter);
@@ -143,34 +145,7 @@ public class MyTeamActivity extends ActionBarActivity {
         });
     }
 
-    private void prepareListData() {
-        listDataHeader = new ArrayList<>();
-        listDataChild = new HashMap<>();
 
-        // Adding child data
-        listDataHeader.add("Qualifier");
-        listDataHeader.add("Semi-Final");
-        listDataHeader.add("Final");
-
-        // Adding child data
-        List<Match> qual = new ArrayList<>();
-        List<Match> semi = new ArrayList<>();
-        List<Match> finals = new ArrayList<>();
-
-        for (int i = 0; i < myMatch.size(); i++) {
-            if (myMatch.get(i).title.startsWith("Q")) {
-                qual.add(myMatch.get(i));
-            } else if (myMatch.get(i).title.startsWith("S")) {
-                semi.add(myMatch.get(i));
-            } else {
-                finals.add(myMatch.get(i));
-            }
-        }
-
-        listDataChild.put(listDataHeader.get(0), qual); // Header, Child data
-        listDataChild.put(listDataHeader.get(1), semi);
-        listDataChild.put(listDataHeader.get(2), finals);
-    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -201,7 +176,7 @@ public class MyTeamActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if ((id == R.id.up)||(id==R.id.home)||(id==R.id.action_exit)) {
+        if ((id == R.id.up) || (id == R.id.home) || (id == R.id.action_exit)) {
             finish();
             return true;
         }

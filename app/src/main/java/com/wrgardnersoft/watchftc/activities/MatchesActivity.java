@@ -58,7 +58,10 @@ public class MatchesActivity extends CommonMenuActivity implements AsyncResponse
     private void inflateMe() {
         expListView = (ExpandableListView) findViewById(R.id.matches_expListView);
         //  Log.i("exp list view", expListView.toString());
-        prepareListData();
+        MyApp myApp = MyApp.getInstance();
+        listDataHeader = new ArrayList<>();
+        listDataChild = new HashMap<>();
+        Match.prepareListData(myApp.match[myApp.division()], listDataHeader, listDataChild);
         MatchesExpandableListAdapter listAdapter = new MatchesExpandableListAdapter(this,
                 listDataHeader, listDataChild);
         expListView.setAdapter(listAdapter);
@@ -92,37 +95,6 @@ public class MatchesActivity extends CommonMenuActivity implements AsyncResponse
         if (myApp.match[myApp.division()].size() > 0) {
             inflateMe();
         }
-    }
-
-    private void prepareListData() {
-        listDataHeader = new ArrayList<>();
-        listDataChild = new HashMap<>();
-
-        // Adding child data
-        listDataHeader.add("Qualifier");
-        listDataHeader.add("Semi-Final");
-        listDataHeader.add("Final");
-
-        // Adding child data
-        List<Match> qual = new ArrayList<>();
-        List<Match> semi = new ArrayList<>();
-        List<Match> finals = new ArrayList<>();
-
-        MyApp myApp = (MyApp) getApplication();
-
-        for (int i = 0; i < myApp.match[myApp.division()].size(); i++) {
-            if (myApp.match[myApp.division()].get(i).title.startsWith("Q")) {
-                qual.add(myApp.match[myApp.division()].get(i));
-            } else if (myApp.match[myApp.division()].get(i).title.startsWith("S")) {
-                semi.add(myApp.match[myApp.division()].get(i));
-            } else {
-                finals.add(myApp.match[myApp.division()].get(i));
-            }
-        }
-
-        listDataChild.put(listDataHeader.get(0), qual); // Header, Child data
-        listDataChild.put(listDataHeader.get(1), semi);
-        listDataChild.put(listDataHeader.get(2), finals);
     }
 
 

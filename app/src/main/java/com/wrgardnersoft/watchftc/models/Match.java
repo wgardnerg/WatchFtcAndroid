@@ -1,5 +1,9 @@
 package com.wrgardnersoft.watchftc.models;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 /**
  * Created by Bill on 2/3/2015.
  */
@@ -303,6 +307,35 @@ public class Match {
 
 
     }
+    public static void prepareListData(ArrayList<Match> m, List<String> listDataHeader,
+                                 HashMap<String, List<Match>> listDataChild) {
+
+
+        // Adding child data
+        listDataHeader.add("Qualifier");
+        listDataHeader.add("Semi-Final");
+        listDataHeader.add("Final");
+
+        // Adding child data
+        List<Match> qual = new ArrayList<>();
+        List<Match> semi = new ArrayList<>();
+        List<Match> finals = new ArrayList<>();
+
+        for (int i = 0; i < m.size(); i++) {
+            if (m.get(i).title.startsWith("Q")) {
+                qual.add(m.get(i));
+            } else if (m.get(i).title.startsWith("S")) {
+                semi.add(m.get(i));
+            } else {
+                finals.add(m.get(i));
+            }
+        }
+
+        listDataChild.put(listDataHeader.get(0), qual); // Header, Child data
+        listDataChild.put(listDataHeader.get(1), semi);
+        listDataChild.put(listDataHeader.get(2), finals);
+    }
+
     public static String shareHeader() {
         String output;
         output = "Name,Result,Red0,Red1,Red2,Blue0,Blue1,Blue2,RedTot,RedAuto,RedAutoB,RedTele,RedEndG,RedPen,BlueTot,BlueRedAuto,BlueAutoB,BlueTele,BlueEndG,BluePen"+ System.getProperty("line.separator");
