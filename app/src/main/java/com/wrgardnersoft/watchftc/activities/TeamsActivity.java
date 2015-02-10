@@ -174,27 +174,33 @@ public class TeamsActivity extends ActionBarActivity implements AsyncResponse {
         } else if (id == R.id.action_share) {
             String shareOutput = "";
             if (myApp.team[0].size() > 0) {
-                shareOutput = shareOutput + "0" + System.getProperty("line.separator");
-                shareOutput = shareOutput + myApp.team[0].size() + System.getProperty("line.separator");
+                shareOutput = shareOutput + "Division,0" + System.getProperty("line.separator");
+                shareOutput = shareOutput + "Teams," + myApp.team[0].size() + System.getProperty("line.separator");
+                shareOutput = shareOutput + Team.shareHeader();
                 for (Team t : myApp.team[0]) {
                     shareOutput = shareOutput + t;
                 }
+                shareOutput = shareOutput + TeamFtcRanked.shareHeader();
                 for (TeamFtcRanked t : myApp.teamFtcRanked[0]) {
                     shareOutput = shareOutput + t;
                 }
+                shareOutput = shareOutput + Match.shareHeader();
                 for (Match m : myApp.match[0]) {
                     shareOutput = shareOutput + m;
                 }
             }
             if (myApp.team[1].size() > 0) {
-                shareOutput = shareOutput + "1"+ System.getProperty("line.separator");
-                shareOutput = shareOutput + myApp.team[1].size() + System.getProperty("line.separator");
+                shareOutput = shareOutput + "Division,1"+ System.getProperty("line.separator");
+                shareOutput = shareOutput + "Teams," +myApp.team[1].size() + System.getProperty("line.separator");
+                shareOutput = shareOutput + Team.shareHeader();
                 for (Team t : myApp.team[1]) {
                     shareOutput = shareOutput + t;
                 }
+                shareOutput = shareOutput + TeamFtcRanked.shareHeader();
                 for (TeamFtcRanked t : myApp.teamFtcRanked[1]) {
                     shareOutput = shareOutput + t;
                 }
+                shareOutput = shareOutput + Match.shareHeader();
                 for (Match m : myApp.match[1]) {
                     shareOutput = shareOutput + m;
                 }

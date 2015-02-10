@@ -103,10 +103,12 @@ ADDED from AndroidManifest.xml:47:9
 		ADDED from AndroidManifest.xml:48:13
 activity#com.wrgardnersoft.watchftc.activities.StatRankingsActivity
 ADDED from AndroidManifest.xml:52:9
-	android:label
+	android:screenOrientation
 		ADDED from AndroidManifest.xml:55:13
-	android:configChanges
+	android:label
 		ADDED from AndroidManifest.xml:54:13
+	android:configChanges
+		ADDED from AndroidManifest.xml:56:13
 	android:name
 		ADDED from AndroidManifest.xml:53:13
 uses-sdk

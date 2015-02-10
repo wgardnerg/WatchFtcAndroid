@@ -303,10 +303,14 @@ public class Match {
 
 
     }
-
+    public static String shareHeader() {
+        String output;
+        output = "Name,Result,Red0,Red1,Red2,Blue0,Blue1,Blue2,RedTot,RedAuto,RedAutoB,RedTele,RedEndG,RedPen,BlueTot,BlueRedAuto,BlueAutoB,BlueTele,BlueEndG,BluePen"+ System.getProperty("line.separator");
+        return output;
+    }
     public String toString() {
         String output;
-        output = this.title;
+        output = this.title+","+this.resultStr;
         output = output + "," + this.rTeam0 + "," + this.rTeam1 + "," + this.rTeam2;
         output = output + "," + this.bTeam0 + "," + this.bTeam1 + "," + this.bTeam2;
         output = output + "," + this.rTot + "," + this.rAuto + "," + this.rAutoB + "," + this.rTele + "," + this.rEndG + "," + this.rPen;

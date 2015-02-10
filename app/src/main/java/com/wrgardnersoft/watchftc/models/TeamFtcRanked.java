@@ -26,6 +26,11 @@ public class TeamFtcRanked {
         this.highest=highest;
         this.matches=matches;
     }
+    public static String shareHeader() {
+        String output;
+        output = "Rank,Number,Name,QP,RP,Highest,Matches"+ System.getProperty("line.separator");
+        return output;
+    }
     public String toString() {
         String output;
         output = this.rank + "," + this.number + "," + this.name + "," + this.qp + "," + this.rp + "," + this.highest + "," + this.matches + System.getProperty("line.separator");

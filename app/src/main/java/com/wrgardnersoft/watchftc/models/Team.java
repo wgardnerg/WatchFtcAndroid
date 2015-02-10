@@ -24,6 +24,11 @@ public class Team {
         this.country=sCountry;
     }
 
+    public static String shareHeader() {
+        String output;
+        output = "Number,Name,School,City,State,Country"+ System.getProperty("line.separator");
+        return output;
+    }
     public String toString() {
         String output;
         output = this.number + "," + this.name + "," + this.school + "," + this.city + "," + this.state + "," + this.country + System.getProperty("line.separator");

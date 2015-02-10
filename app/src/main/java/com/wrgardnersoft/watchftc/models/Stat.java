@@ -1,8 +1,6 @@
 package com.wrgardnersoft.watchftc.models;
 
 
-import android.util.Log;
-
 import java.util.ArrayList;
 
 import Jama.Matrix;
@@ -188,7 +186,7 @@ public class Stat {
             }
         }
         meanOffense /= 2 * numMatches * 2; // 2 for red/blue, 2 for 2 teams per alliance
-        Log.i("Mean Offense ", String.valueOf(meanOffense));
+//        Log.i("Mean Offense ", String.valueOf(meanOffense));
         for (int i = 0; i < 2 * numMatches; i++) {
 
             BoprA.set(i, 0, BoprA.get(i, 0) - 2 * meanOffense);
@@ -233,11 +231,11 @@ public class Stat {
 
         ////////////////////////
         // CCWM = OPR - DPR
-        for (int i = 0; i < 6; i++) {
+  /*      for (int i = 0; i < 6; i++) {
             String msg = "Team " + atn.get(i) + ", OPR " + toprA.get(i, 0) + ", DPR " + toprA.get(i + 6, 0);
             Log.i(msg, String.valueOf(0));
 
-        }
+        }*/
         for (int i = 0; i < numTeams; i++) {
             if (dprPreWeight != 0) {
                 toprA.set(i + numTeams, 0, toprA.get(i + numTeams, 0) * (2.0 * (dprPreWeight)));
