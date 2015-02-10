@@ -294,17 +294,15 @@ public class StatRankingsActivity extends ActionBarActivity implements AsyncResp
             return true;
         } else if (myApp.dualDivision()) {
             if (id == R.id.action_change_division) {
-                //////////////////////////////
-                // HIDDEN OPTION!  CHANGE STAT TOGGLE, NOT DIVISION!
-                if (myApp.useAdvancedStats[myApp.division()]) {
-                    myApp.useAdvancedStats[myApp.division()] = false;
+                if (myApp.division() == 0) {
+                    myApp.setDivision(1);
                 } else {
-                    myApp.useAdvancedStats[myApp.division()] = true;
+                    myApp.setDivision(0);
                 }
                 // restart activity to load data from new division
-    //            Intent intent = new Intent(this, TeamsActivity.class);
-    //            finish();
-    //            startActivity(intent);
+                Intent intent = new Intent(this, TeamsActivity.class);
+                finish();
+                startActivity(intent);
             }
             return true;
         }

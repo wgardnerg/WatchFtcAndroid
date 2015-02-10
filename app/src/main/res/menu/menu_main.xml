@@ -33,8 +33,8 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/action_stat_rankings"
-        android:orderInCategory="4"
-        android:title="@string/statRankings"
+        android:orderInCategory="6"
+        android:title="@string/stats"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_teams"

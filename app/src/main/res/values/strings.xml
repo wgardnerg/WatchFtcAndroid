@@ -33,5 +33,6 @@
     <string name="auto">Auto</string>
     <string name="autonomous">Autonomous</string>
     <string name="share">Share</string>
+    <string name="stats">Stats</string>
 
 </resources>
