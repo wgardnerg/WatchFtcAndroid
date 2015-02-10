@@ -8,20 +8,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.wrgardnersoft.watchftc.R;
 import com.wrgardnersoft.watchftc.models.MyApp;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 
 public class SetupActivity extends ActionBarActivity {
 
     private EditText[] serverAddressEditText = new EditText[2];
     private CheckBox dualDivisionCheckBox;
+    private String setupFileName = "WatchFtcSetupInfo";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,16 +44,23 @@ public class SetupActivity extends ActionBarActivity {
         MyApp myApp = (MyApp) getApplication();
 
         try {
-            FileReader fr = new FileReader("WatchFtcSetupInfo");
+            FileInputStream fi = openFileInput(setupFileName);
+            InputStreamReader fr = new InputStreamReader(fi);
             BufferedReader br = new BufferedReader(fr);
-            dualDivisionCheckBox.setChecked(Boolean.parseBoolean(br.readLine()));
+
             serverAddressEditText[0].setText(br.readLine());
             serverAddressEditText[1].setText(br.readLine());
+
+            boolean dd;
+            dd = Boolean.parseBoolean(br.readLine());
+            dualDivisionCheckBox.setChecked(dd);
+
             fr.close();
         } catch (IOException e) {
+ //           Log.i("Setup Activity", "Exception reading setup data");
             dualDivisionCheckBox.setChecked(myApp.dualDivision());
-            serverAddressEditText[0].setText(myApp.serverAddressString(0));
-            serverAddressEditText[1].setText(myApp.serverAddressString(1));
+            serverAddressEditText[0].setText(myApp.serverAddressString[0], TextView.BufferType.EDITABLE);
+            serverAddressEditText[1].setText(myApp.serverAddressString[1], TextView.BufferType.EDITABLE);
         }
 
     }
@@ -92,11 +103,17 @@ public class SetupActivity extends ActionBarActivity {
         myApp.setServerAddressString(1, String.valueOf(serverAddressEditText[1].getText()));
 
         try {
-            FileOutputStream fOut = openFileOutput("WatchFtcSetupInfo", MODE_PRIVATE);
-            fOut.write(String.valueOf(myApp.dualDivision()).getBytes());
-            fOut.write(String.valueOf(serverAddressEditText[0].getText()).getBytes());
-            fOut.write(String.valueOf(serverAddressEditText[1].getText()).getBytes());
-            fOut.close();
+            this.deleteFile(setupFileName);
+            FileOutputStream fOut = openFileOutput(setupFileName, MODE_PRIVATE);
+            OutputStreamWriter fw = new OutputStreamWriter(fOut);
+
+            fw.write(serverAddressEditText[0].getText().toString() + "\n");
+            fw.write(serverAddressEditText[1].getText().toString() + "\n");
+
+            //        fw.write(myApp.serverAddressString[0] + "\n");
+            //        fw.write(myApp.serverAddressString[1] + "\n");
+            fw.write(String.valueOf(myApp.dualDivision()));
+            fw.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

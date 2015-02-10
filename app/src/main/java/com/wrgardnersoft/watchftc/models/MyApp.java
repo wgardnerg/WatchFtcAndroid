@@ -15,7 +15,7 @@ public class MyApp extends Application {
 
 
 //public class MyApp extends Application {
-    private String[] serverAddressString= new String[2];
+    public String[] serverAddressString= new String[2];
     public boolean[] useAdvancedStats = new boolean[2];
     private boolean dualDivision;
     private int division;

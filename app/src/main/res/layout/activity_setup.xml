@@ -61,6 +61,7 @@
                 <EditText
                     android:id="@+id/div0ServerAddressEditText"
                     android:layout_width="match_parent"
+                    android:minWidth="150dp"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
                     android:inputType="textUri" />
@@ -92,6 +93,7 @@
                 <EditText
                     android:id="@+id/div1ServerAddressEditText"
                     android:layout_width="match_parent"
+                    android:minWidth="150dp"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
                     android:inputType="textUri" />
