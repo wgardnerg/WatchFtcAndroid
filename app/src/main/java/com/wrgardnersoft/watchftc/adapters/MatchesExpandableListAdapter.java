@@ -134,8 +134,8 @@ public class MatchesExpandableListAdapter extends BaseExpandableListAdapter {
 
         if (child.rTot >= 0) {
 
-            holder.redTotView.setText(String.valueOf(child.rTot));
-            holder.blueTotView.setText(String.valueOf(child.bTot));
+            holder.redTotView.setText(String.format("%3.0f", child.rTot));
+            holder.blueTotView.setText(String.format("%3.0f", child.bTot));
             if (child.predicted) {
                 holder.redTotView.setTypeface(null, Typeface.ITALIC);
                 holder.blueTotView.setTypeface(null, Typeface.ITALIC);

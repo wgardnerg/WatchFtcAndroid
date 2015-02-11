@@ -6,36 +6,41 @@ import java.util.Comparator;
  * Created by Bill on 2/3/2015.
  */
 public class TeamStatRanked {
+    public enum StatType {
+        TOTAL, AUTONOMOUS, AUTO_BONUS, TELEOP, END_GAME, PENALTY;
+    }
+
     public int number;
     public int ftcRank;
     public double winPercent;
-    public double opr, oprA;
-    public double dpr, dprA;
-    public double ccwm, ccwmA;
+    public double oprA[];
+    public double dprA[];
+    public double ccwmA[];
+
 
     public TeamStatRanked() {
         this.number = 0;
         this.ftcRank = 0;
         this.winPercent = 0;
-        this.opr = 0; this.oprA=0;
-        this.dpr = 0; this.dprA=0;
-        this.ccwm = 0; this.ccwmA=0;
+        this.oprA = new double[StatType.values().length];
+        this.dprA = new double[StatType.values().length];
+        this.ccwmA = new double[StatType.values().length];
     }
 
     public TeamStatRanked(int num) {
         this.number = num;
         this.ftcRank = 0;
         this.winPercent = 0;
-        this.opr = 0; this.oprA=0;
-        this.dpr = 0; this.dprA=0;
-        this.ccwm = 0; this.ccwmA=0;
+        this.oprA = new double[StatType.values().length];
+        this.dprA = new double[StatType.values().length];
+        this.ccwmA = new double[StatType.values().length];
     }
 
     public String toString() {
         String output;
         output = this.number + "," + this.ftcRank + "," + this.winPercent;
-        output = output + "," + this.ccwm + this.opr + "," + this.dpr;
-        output = output + "," + this.ccwmA + this.oprA + "," + this.dprA;
+        output = output + "," + this.ccwmA[StatType.TOTAL.ordinal()] + "," + this.oprA[StatType.TOTAL.ordinal()]
+                + "," + this.dprA[StatType.TOTAL.ordinal()];
         output = output + System.getProperty("line.separator");
         return output;
     }
@@ -72,15 +77,15 @@ public class TeamStatRanked {
                         if (comparison!=0) return comparison;
                         break;
                     case OPR_SORT:
-                        comparison = (int)(-100000 * (o1.opr - o2.opr));
+                        comparison = (int)(-100000 * (o1.oprA[StatType.TOTAL.ordinal()] - o2.oprA[StatType.TOTAL.ordinal()]));
                         if (comparison!=0) return comparison;
                         break;
                     case DPR_SORT:
-                        comparison = (int)(-100000 * (o1.dpr - o2.dpr));
+                        comparison = (int)(-100000 * (o1.dprA[StatType.TOTAL.ordinal()] - o2.dprA[StatType.TOTAL.ordinal()]));
                         if (comparison!=0) return comparison;
                         break;
                     case CCWM_SORT:
-                        comparison = (int)(-100000 * (o1.ccwm - o2.ccwm));
+                        comparison = (int)(-100000 * (o1.ccwmA[StatType.TOTAL.ordinal()] - o2.ccwmA[StatType.TOTAL.ordinal()]));
                         if (comparison!=0) return comparison;
                         break;
                 }

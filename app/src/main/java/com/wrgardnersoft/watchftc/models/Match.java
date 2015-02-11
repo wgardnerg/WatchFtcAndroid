@@ -12,8 +12,8 @@ public class Match {
     public int rTeam0, rTeam1, rTeam2;
     public int bTeam0, bTeam1, bTeam2;
     public String title, resultStr;
-    public int rTot, rAuto, rAutoB, rTele, rEndG, rPen;
-    public int bTot, bAuto, bAutoB, bTele, bEndG, bPen;
+    public double rTot, rAuto, rAutoB, rTele, rEndG, rPen;
+    public double bTot, bAuto, bAutoB, bTele, bEndG, bPen;
     public boolean predicted;
 /*
     public Match(int num,String sName,String sResult,
@@ -135,73 +135,73 @@ public class Match {
             this.resultStr = sResult;
             try {
                 if (rTot != null)
-                    this.rTot = Integer.parseInt(rTot);
+                    this.rTot = Double.parseDouble(rTot);
             } catch (NumberFormatException e) {
                 this.rTot = -1;
             }
             try {
                 if (rAuto != null)
-                    this.rAuto = Integer.parseInt(rAuto);
+                    this.rAuto = Double.parseDouble(rAuto);
             } catch (NumberFormatException e) {
                 this.rAuto = -1;
             }
             try {
                 if (rAutoB != null)
-                    this.rAutoB = Integer.parseInt(rAutoB);
+                    this.rAutoB = Double.parseDouble(rAutoB);
             } catch (NumberFormatException e) {
                 this.rAutoB = -1;
             }
             try {
                 if (rTele != null)
-                    this.rTele = Integer.parseInt(rTele);
+                    this.rTele = Double.parseDouble(rTele);
             } catch (NumberFormatException e) {
                 this.rTele = -1;
             }
             try {
                 if (rEndG != null)
-                    this.rEndG = Integer.parseInt(rEndG);
+                    this.rEndG = Double.parseDouble(rEndG);
             } catch (NumberFormatException e) {
                 this.rEndG = -1;
             }
             try {
                 if (rPen != null)
-                    this.rPen = Integer.parseInt(rPen);
+                    this.rPen = Double.parseDouble(rPen);
             } catch (NumberFormatException e) {
                 this.rPen = -1;
             }
             try {
                 if (bTot != null)
-                    this.bTot = Integer.parseInt(bTot);
+                    this.bTot = Double.parseDouble(bTot);
             } catch (NumberFormatException e) {
                 this.bTot = -1;
             }
             try {
                 if (bAuto != null)
-                    this.bAuto = Integer.parseInt(bAuto);
+                    this.bAuto = Double.parseDouble(bAuto);
             } catch (NumberFormatException e) {
                 this.bAuto = -1;
             }
             try {
                 if (bAutoB != null)
-                    this.bAutoB = Integer.parseInt(bAutoB);
+                    this.bAutoB = Double.parseDouble(bAutoB);
             } catch (NumberFormatException e) {
                 this.bAutoB = -1;
             }
             try {
                 if (bTele != null)
-                    this.bTele = Integer.parseInt(bTele);
+                    this.bTele = Double.parseDouble(bTele);
             } catch (NumberFormatException e) {
                 this.bTele = -1;
             }
             try {
                 if (bEndG != null)
-                    this.bEndG = Integer.parseInt(bEndG);
+                    this.bEndG = Double.parseDouble(bEndG);
             } catch (NumberFormatException e) {
                 this.bEndG = -1;
             }
             try {
                 if (bPen != null)
-                    this.bPen = Integer.parseInt(bPen);
+                    this.bPen = Double.parseDouble(bPen);
             } catch (NumberFormatException e) {
                 this.bPen = -1;
             }
@@ -263,73 +263,73 @@ public class Match {
             this.resultStr = sResult;
             try {
                 if (rTot != null)
-                    this.rTot = Integer.parseInt(rTot);
+                    this.rTot = Double.parseDouble(rTot);
             } catch (NumberFormatException e) {
                 this.rTot = -1;
             }
             try {
                 if (rAuto != null)
-                    this.rAuto = Integer.parseInt(rAuto);
+                    this.rAuto = Double.parseDouble(rAuto);
             } catch (NumberFormatException e) {
                 this.rAuto = -1;
             }
             try {
                 if (rAutoB != null)
-                    this.rAutoB = Integer.parseInt(rAutoB);
+                    this.rAutoB = Double.parseDouble(rAutoB);
             } catch (NumberFormatException e) {
                 this.rAutoB = -1;
             }
             try {
                 if (rTele != null)
-                    this.rTele = Integer.parseInt(rTele);
+                    this.rTele = Double.parseDouble(rTele);
             } catch (NumberFormatException e) {
                 this.rTele = -1;
             }
             try {
                 if (rEndG != null)
-                    this.rEndG = Integer.parseInt(rEndG);
+                    this.rEndG = Double.parseDouble(rEndG);
             } catch (NumberFormatException e) {
                 this.rEndG = -1;
             }
             try {
                 if (rPen != null)
-                    this.rPen = Integer.parseInt(rPen);
+                    this.rPen = Double.parseDouble(rPen);
             } catch (NumberFormatException e) {
                 this.rPen = -1;
             }
             try {
                 if (bTot != null)
-                    this.bTot = Integer.parseInt(bTot);
+                    this.bTot = Double.parseDouble(bTot);
             } catch (NumberFormatException e) {
                 this.bTot = -1;
             }
             try {
                 if (bAuto != null)
-                    this.bAuto = Integer.parseInt(bAuto);
+                    this.bAuto = Double.parseDouble(bAuto);
             } catch (NumberFormatException e) {
                 this.bAuto = -1;
             }
             try {
                 if (bAutoB != null)
-                    this.bAutoB = Integer.parseInt(bAutoB);
+                    this.bAutoB = Double.parseDouble(bAutoB);
             } catch (NumberFormatException e) {
                 this.bAutoB = -1;
             }
             try {
                 if (bTele != null)
-                    this.bTele = Integer.parseInt(bTele);
+                    this.bTele = Double.parseDouble(bTele);
             } catch (NumberFormatException e) {
                 this.bTele = -1;
             }
             try {
                 if (bEndG != null)
-                    this.bEndG = Integer.parseInt(bEndG);
+                    this.bEndG = Double.parseDouble(bEndG);
             } catch (NumberFormatException e) {
                 this.bEndG = -1;
             }
             try {
                 if (bPen != null)
-                    this.bPen = Integer.parseInt(bPen);
+                    this.bPen = Double.parseDouble(bPen);
             } catch (NumberFormatException e) {
                 this.bPen = -1;
             }

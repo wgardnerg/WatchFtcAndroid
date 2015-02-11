@@ -71,12 +71,40 @@ public class MatchesActivity extends CommonMenuActivity implements AsyncResponse
                     if ((mm.rTeam0 == t.number) ||
                             (mm.rTeam1 == t.number) ||
                             (mm.rTeam2 == t.number)) {
-                        mm.rTot += t.oprA;
+                        mm.rAuto += t.oprA[TeamStatRanked.StatType.AUTONOMOUS.ordinal()];
+                        mm.rAutoB += t.oprA[TeamStatRanked.StatType.AUTO_BONUS.ordinal()];
+                        mm.rTele += t.oprA[TeamStatRanked.StatType.TELEOP.ordinal()];
+                        mm.rEndG += t.oprA[TeamStatRanked.StatType.END_GAME.ordinal()];
+                        mm.bPen -= t.oprA[TeamStatRanked.StatType.PENALTY.ordinal()];
+                        mm.rTot += t.oprA[TeamStatRanked.StatType.TOTAL.ordinal()];
+                        mm.bTot -= t.oprA[TeamStatRanked.StatType.PENALTY.ordinal()];
+
+                        mm.bAuto -= t.dprA[TeamStatRanked.StatType.AUTONOMOUS.ordinal()];
+                        mm.bAutoB -= t.dprA[TeamStatRanked.StatType.AUTO_BONUS.ordinal()];
+                        mm.bTele -= t.dprA[TeamStatRanked.StatType.TELEOP.ordinal()];
+                        mm.bEndG -= t.dprA[TeamStatRanked.StatType.END_GAME.ordinal()];
+                        mm.rPen += t.dprA[TeamStatRanked.StatType.PENALTY.ordinal()];
+                        mm.bTot -= t.dprA[TeamStatRanked.StatType.TOTAL.ordinal()];
+                        mm.rTot += t.dprA[TeamStatRanked.StatType.PENALTY.ordinal()];
                     }
                     if ((mm.bTeam0 == t.number) ||
                             (mm.bTeam1 == t.number) ||
                             (mm.bTeam2 == t.number)) {
-                        mm.bTot += t.oprA;
+                        mm.bAuto += t.oprA[TeamStatRanked.StatType.AUTONOMOUS.ordinal()];
+                        mm.bAutoB += t.oprA[TeamStatRanked.StatType.AUTO_BONUS.ordinal()];
+                        mm.bTele += t.oprA[TeamStatRanked.StatType.TELEOP.ordinal()];
+                        mm.bEndG += t.oprA[TeamStatRanked.StatType.END_GAME.ordinal()];
+                        mm.rPen -= t.oprA[TeamStatRanked.StatType.PENALTY.ordinal()];
+                        mm.bTot += t.oprA[TeamStatRanked.StatType.TOTAL.ordinal()];
+                        mm.rTot -= t.oprA[TeamStatRanked.StatType.PENALTY.ordinal()];
+
+                        mm.rAuto -= t.dprA[TeamStatRanked.StatType.AUTONOMOUS.ordinal()];
+                        mm.rAutoB -= t.dprA[TeamStatRanked.StatType.AUTO_BONUS.ordinal()];
+                        mm.rTele -= t.dprA[TeamStatRanked.StatType.TELEOP.ordinal()];
+                        mm.rEndG -= t.dprA[TeamStatRanked.StatType.END_GAME.ordinal()];
+                        mm.bPen += t.dprA[TeamStatRanked.StatType.PENALTY.ordinal()];
+                        mm.rTot -= t.dprA[TeamStatRanked.StatType.TOTAL.ordinal()];
+                        mm.bTot += t.dprA[TeamStatRanked.StatType.PENALTY.ordinal()];
                     }
                 }
 

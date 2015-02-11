@@ -84,9 +84,9 @@ public class StatRankingsListAdapter extends ArrayAdapter<TeamStatRanked> {
         holder.numView.setText(String.format("%5d",thisTeam.number));
         holder.ftcRankView.setText("#"+String.format("%d", thisTeam.ftcRank));
         holder.winPercentView.setText(String.format("%5.1f",thisTeam.winPercent));
-        holder.oprView.setText(String.format("%5.1f",thisTeam.opr));
-        holder.dprView.setText(String.format("%5.1f",thisTeam.dpr));
-        holder.ccwmView.setText(String.format("%5.1f",thisTeam.ccwm));
+        holder.oprView.setText(String.format("%5.1f",thisTeam.oprA[TeamStatRanked.StatType.TOTAL.ordinal()]));
+        holder.dprView.setText(String.format("%5.1f",thisTeam.dprA[TeamStatRanked.StatType.TOTAL.ordinal()]));
+        holder.ccwmView.setText(String.format("%5.1f",thisTeam.ccwmA[TeamStatRanked.StatType.TOTAL.ordinal()]));
 
         return row;
 

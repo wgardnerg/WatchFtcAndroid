@@ -37,5 +37,7 @@
     <string name="forecast">Forecast</string>
     <string name="enableForecast">Enable Forecast</string>
     <string name="disableForecast">Disable Forecast</string>
+    <string name="predictedResult">Predicted Result</string>
+    <string name="noResultYet">No Result Yet</string>
 
 </resources>
