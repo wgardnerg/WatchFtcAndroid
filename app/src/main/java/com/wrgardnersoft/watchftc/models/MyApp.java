@@ -21,6 +21,8 @@ public class MyApp extends Application {
     private int division;
     public ArrayList<Integer> selectedTeams;
 
+    public boolean enableMatchPrediction;
+
     public ArrayList<com.wrgardnersoft.watchftc.models.Team>[] team = (ArrayList<Team>[])new ArrayList[2];  // full team info from team server page
     public ArrayList<TeamFtcRanked>[] teamFtcRanked = (ArrayList<TeamFtcRanked>[])new ArrayList[2];
     public ArrayList<Match>[] match = (ArrayList<Match>[])new ArrayList[2];
@@ -58,6 +60,8 @@ public class MyApp extends Application {
         this.match[1] = new ArrayList<>();
 
         this.currentTeamNumber=-1;
+
+        this.enableMatchPrediction = false;
     }
 
     public int division() {

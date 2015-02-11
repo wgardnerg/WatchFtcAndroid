@@ -14,6 +14,7 @@ import com.wrgardnersoft.watchftc.interfaces.AsyncResponse;
 import com.wrgardnersoft.watchftc.internet.ClientTask;
 import com.wrgardnersoft.watchftc.models.Match;
 import com.wrgardnersoft.watchftc.models.MyApp;
+import com.wrgardnersoft.watchftc.models.TeamStatRanked;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,12 +57,40 @@ public class MatchesActivity extends CommonMenuActivity implements AsyncResponse
     }
 
     private void inflateMe() {
+        MyApp myApp = MyApp.getInstance();
+        ArrayList<Match> localMatch = new ArrayList<>();
+
+        for (Match m : myApp.match[myApp.division()]) {
+
+            Match mm = new Match(m);
+            if ((m.rTot < 0) && (myApp.enableMatchPrediction)) {
+                mm.predicted = true;
+                mm.rTot = 0;
+                mm.bTot = 0;
+                for (TeamStatRanked t : myApp.teamStatRanked[myApp.division()]) {
+                    if ((mm.rTeam0 == t.number) ||
+                            (mm.rTeam1 == t.number) ||
+                            (mm.rTeam2 == t.number)) {
+                        mm.rTot += t.oprA;
+                    }
+                    if ((mm.bTeam0 == t.number) ||
+                            (mm.bTeam1 == t.number) ||
+                            (mm.bTeam2 == t.number)) {
+                        mm.bTot += t.oprA;
+                    }
+                }
+
+            }
+            localMatch.add(mm);
+
+        }
+
         expListView = (ExpandableListView) findViewById(R.id.matches_expListView);
         //  Log.i("exp list view", expListView.toString());
-        MyApp myApp = MyApp.getInstance();
+
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<>();
-        Match.prepareListData(myApp.match[myApp.division()], listDataHeader, listDataChild);
+        Match.prepareListData(localMatch, listDataHeader, listDataChild);
         MatchesExpandableListAdapter listAdapter = new MatchesExpandableListAdapter(this,
                 listDataHeader, listDataChild);
         expListView.setAdapter(listAdapter);

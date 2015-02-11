@@ -76,6 +76,17 @@ public class CommonMenuActivity extends ActionBarActivity {
             startActivity(getNameScreenIntent);
             //         finish();
             return true;
+        } else if (id == R.id.action_toggle_forecast) {
+            if (myApp.enableMatchPrediction) {
+                myApp.enableMatchPrediction = false;
+                item.setTitle(R.string.enableForecast);
+            } else {
+                myApp.enableMatchPrediction = true;
+                item.setTitle(R.string.disableForecast);
+            }
+            item.setChecked(myApp.enableMatchPrediction);
+            this.invalidateOptionsMenu();
+            return true;
         } else if (id == R.id.action_share) {
             String shareOutput = "";
             if (myApp.team[0].size() > 0) {

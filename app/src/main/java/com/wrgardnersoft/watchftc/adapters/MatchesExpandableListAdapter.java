@@ -136,13 +136,18 @@ public class MatchesExpandableListAdapter extends BaseExpandableListAdapter {
 
             holder.redTotView.setText(String.valueOf(child.rTot));
             holder.blueTotView.setText(String.valueOf(child.bTot));
-
-            if (child.rTot > child.bTot) {
-                holder.redTotView.setBackgroundResource(R.drawable.red_border);
-            } else if (child.rTot < child.bTot) {
-                holder.blueTotView.setBackgroundResource(R.drawable.blue_border);
+            if (child.predicted) {
+                holder.redTotView.setTypeface(null, Typeface.ITALIC);
+                holder.blueTotView.setTypeface(null, Typeface.ITALIC);
+            } else {
+                holder.redTotView.setTypeface(null, Typeface.BOLD);
+                holder.blueTotView.setTypeface(null, Typeface.BOLD);
+                if (child.rTot > child.bTot) {
+                    holder.redTotView.setBackgroundResource(R.drawable.red_border);
+                } else if (child.rTot < child.bTot) {
+                    holder.blueTotView.setBackgroundResource(R.drawable.blue_border);
+                }
             }
-
         } else {
             holder.redTotView.setText("");
             holder.blueTotView.setText("");

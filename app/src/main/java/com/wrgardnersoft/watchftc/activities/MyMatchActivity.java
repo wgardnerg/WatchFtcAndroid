@@ -2,20 +2,22 @@ package com.wrgardnersoft.watchftc.activities;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wrgardnersoft.watchftc.R;
+import com.wrgardnersoft.watchftc.interfaces.AsyncResponse;
+import com.wrgardnersoft.watchftc.internet.ClientTask;
 import com.wrgardnersoft.watchftc.models.Match;
 import com.wrgardnersoft.watchftc.models.MyApp;
 
 import java.util.ArrayList;
 
 
-public class MyMatchActivity extends ActionBarActivity {
+public class MyMatchActivity extends CommonMenuActivity implements AsyncResponse {
+
+    ClientTask clientTask;
 
     public ArrayList<Match> myMatch;
 
@@ -39,11 +41,25 @@ public class MyMatchActivity extends ActionBarActivity {
 
 
         setTitle(" Match: " + myMatch.get(0).title);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.ic_launcher);
         setContentView(R.layout.activity_my_match);
 
         inflateMe();
+    }
+
+    public void processFinish(int result) {
+        //this you will received result fired from async class of onPostExecute(result) method.
+        MyApp myApp = MyApp.getInstance();
+
+        myMatch.clear();
+        
+        for (Match m : myApp.match[myApp.division()]) {
+            if (m.number == myApp.currentMatchNumber) {
+                myMatch.add(m);
+            }
+            //          Log.i("Size of match find", String.valueOf(myMatch.size()));
+        }
+        inflateMe();
+
     }
 
     private void inflateMe() {
@@ -120,15 +136,14 @@ public class MyMatchActivity extends ActionBarActivity {
             tv.setLayoutParams(param);
         } else {
             tv.setText("");
-                tv.setBackgroundResource(R.color.lighter_blue);
+            tv.setBackgroundResource(R.color.lighter_blue);
             LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) tv.getLayoutParams();
             param.height = 0;
             tv.setLayoutParams(param);
         }
 
 
-
-        if (myMatch.get(0).rTot>=0) {
+        if (myMatch.get(0).rTot >= 0) {
 
             if (myMatch.get(0).rTot > myMatch.get(0).bTot) {
                 tv = (TextView) findViewById(R.id.mm_rTot);
@@ -209,20 +224,11 @@ public class MyMatchActivity extends ActionBarActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        setContentView(R.layout.activity_my_team);
+        setContentView(R.layout.activity_my_match);
 
         inflateMe();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        MyApp myApp = MyApp.getInstance();
-
-        getMenuInflater().inflate(R.menu.menu_exit_only, menu);
-
-        return true;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -235,8 +241,10 @@ public class MyMatchActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if ((id == R.id.up) || (id == R.id.home) || (id == R.id.action_exit)) {
-            finish();
+        if (id == R.id.action_refresh) {
+            clientTask = new ClientTask(this);
+            clientTask.delegate = this;
+            clientTask.execute();
             return true;
         }
         return super.onOptionsItemSelected(item);

@@ -205,8 +205,14 @@ public class StatRankingsActivity extends CommonMenuActivity implements AsyncRes
 
         MyApp myApp = MyApp.getInstance();
         MenuItem item = menu.findItem(R.id.action_stat_rankings);
-
         item.setVisible(false);
+        item = menu.findItem(R.id.action_toggle_forecast);
+        item.setVisible(true);
+        if (myApp.enableMatchPrediction) {
+            menu.findItem(R.id.action_toggle_forecast).setTitle("Disable Forecast");
+        } else {
+            menu.findItem(R.id.action_toggle_forecast).setTitle("Enable Forecast");
+        }
 
         return true;
     }

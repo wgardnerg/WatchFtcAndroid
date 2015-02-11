@@ -34,5 +34,8 @@
     <string name="autonomous">Autonomous</string>
     <string name="share">Share</string>
     <string name="stats">Stats</string>
+    <string name="forecast">Forecast</string>
+    <string name="enableForecast">Enable Forecast</string>
+    <string name="disableForecast">Disable Forecast</string>
 
 </resources>

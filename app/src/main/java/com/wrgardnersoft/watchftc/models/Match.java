@@ -9,12 +9,13 @@ import java.util.List;
  */
 public class Match {
     public int number;
-    public int rTeam0,rTeam1,rTeam2;
-    public int bTeam0,bTeam1,bTeam2;
-    public String title,resultStr;
-    public int rTot,rAuto,rAutoB,rTele,rEndG,rPen;
-    public int bTot,bAuto,bAutoB,bTele,bEndG,bPen;
-
+    public int rTeam0, rTeam1, rTeam2;
+    public int bTeam0, bTeam1, bTeam2;
+    public String title, resultStr;
+    public int rTot, rAuto, rAutoB, rTele, rEndG, rPen;
+    public int bTot, bAuto, bAutoB, bTele, bEndG, bPen;
+    public boolean predicted;
+/*
     public Match(int num,String sName,String sResult,
                  int rT0,
                  int rT1,
@@ -55,9 +56,35 @@ public class Match {
         this.bEndG = bEndG;
         this.bPen = bPen;
     }
+    */
+
+    public Match(Match m) {
+        this.number = m.number;
+        this.title = m.title;
+        this.resultStr = m.resultStr;
+        this.rTeam0 = m.rTeam0;
+        this.rTeam1 = m.rTeam1;
+        this.rTeam2 = m.rTeam2;
+        this.bTeam0 = m.bTeam0;
+        this.bTeam1 = m.bTeam1;
+        this.bTeam2 = m.bTeam2;
+        this.rTot = m.rTot;
+        this.rAuto = m.rAuto;
+        this.rAutoB = m.rAutoB;
+        this.rTele = m.rTele;
+        this.rEndG = m.rEndG;
+        this.rPen = m.rPen;
+        this.bTot = m.bTot;
+        this.bAuto = m.bAuto;
+        this.bAutoB = m.bAutoB;
+        this.bTele = m.bTele;
+        this.bEndG = m.bEndG;
+        this.bPen = m.bPen;
+        this.predicted = m.predicted;
+    }
 
 
-    public Match(int num,String sName,String sResult,
+    public Match(int num, String sName, String sResult,
                  String rT0,
                  String rT1,
                  String bT0,
@@ -73,7 +100,8 @@ public class Match {
                  String bAutoB,
                  String bTele,
                  String bEndG,
-                 String bPen) {
+                 String bPen,
+                 boolean predicted) {
 
         this.number = num;
         this.title = sName;
@@ -81,28 +109,28 @@ public class Match {
         try {
             this.rTeam0 = Integer.parseInt(rT0);
         } catch (NumberFormatException e) { // catch surrogate match *
-            this.rTeam0 = Integer.parseInt(rT0.substring(0,rT0.length()-1));
+            this.rTeam0 = Integer.parseInt(rT0.substring(0, rT0.length() - 1));
         }
         try {
             this.rTeam1 = Integer.parseInt(rT1);
         } catch (NumberFormatException e) { // catch surrogate match *
-            this.rTeam1 = Integer.parseInt(rT1.substring(0,rT1.length()-1));
+            this.rTeam1 = Integer.parseInt(rT1.substring(0, rT1.length() - 1));
         }
-        this.rTeam2=0;
+        this.rTeam2 = 0;
         try {
             this.bTeam0 = Integer.parseInt(bT0);
         } catch (NumberFormatException e) { // catch surrogate match *
-            this.bTeam0 = Integer.parseInt(bT0.substring(0,bT0.length()-1));
+            this.bTeam0 = Integer.parseInt(bT0.substring(0, bT0.length() - 1));
         }
         try {
             this.bTeam1 = Integer.parseInt(bT1);
         } catch (NumberFormatException e) { // catch surrogate match *
-            this.bTeam1 = Integer.parseInt(bT1.substring(0,bT1.length()-1));
+            this.bTeam1 = Integer.parseInt(bT1.substring(0, bT1.length() - 1));
         }
-        this.bTeam2=0;
+        this.bTeam2 = 0;
 
         if ((sResult == null) || (sResult.startsWith(" "))) {
-            this.resultStr = "notEnteredYet";
+            this.resultStr = "No Result Yet";
         } else {
             this.resultStr = sResult;
             try {
@@ -178,10 +206,11 @@ public class Match {
                 this.bPen = -1;
             }
         }
+        this.predicted = predicted;
     }
 
 
-    public Match(int num,String sName,String sResult,
+    public Match(int num, String sName, String sResult,
                  String rT0,
                  String rT1,
                  String rT2,
@@ -199,36 +228,37 @@ public class Match {
                  String bAutoB,
                  String bTele,
                  String bEndG,
-                 String bPen) {
+                 String bPen,
+                 boolean predicted) {
         this.number = num;
         this.title = sName;
 
         try {
             this.rTeam0 = Integer.parseInt(rT0);
         } catch (NumberFormatException e) { // catch surrogate match *
-            this.rTeam0 = Integer.parseInt(rT0.substring(0,rT0.length()-1));
+            this.rTeam0 = Integer.parseInt(rT0.substring(0, rT0.length() - 1));
         }
         try {
             this.rTeam1 = Integer.parseInt(rT1);
         } catch (NumberFormatException e) { // catch surrogate match *
-            this.rTeam1 = Integer.parseInt(rT1.substring(0,rT1.length()-1));
+            this.rTeam1 = Integer.parseInt(rT1.substring(0, rT1.length() - 1));
         }
         this.rTeam2 = Integer.parseInt(rT2); // can't be surrogate
 
         try {
             this.bTeam0 = Integer.parseInt(bT0);
         } catch (NumberFormatException e) { // catch surrogate match *
-            this.bTeam0 = Integer.parseInt(bT0.substring(0,bT0.length()-1));
+            this.bTeam0 = Integer.parseInt(bT0.substring(0, bT0.length() - 1));
         }
         try {
             this.bTeam1 = Integer.parseInt(bT1);
         } catch (NumberFormatException e) { // catch surrogate match *
-            this.bTeam1 = Integer.parseInt(bT1.substring(0,bT1.length()-1));
+            this.bTeam1 = Integer.parseInt(bT1.substring(0, bT1.length() - 1));
         }
         this.bTeam2 = Integer.parseInt(bT2); // can't be surrogate
 
         if ((sResult == null) || (sResult.startsWith(" "))) {
-            this.resultStr = "notEnteredYet";
+            this.resultStr = "No Result Yet";
         } else {
             this.resultStr = sResult;
             try {
@@ -304,12 +334,12 @@ public class Match {
                 this.bPen = -1;
             }
         }
-
+        this.predicted = predicted;
 
     }
-    public static void prepareListData(ArrayList<Match> m, List<String> listDataHeader,
-                                 HashMap<String, List<Match>> listDataChild) {
 
+    public static void prepareListData(ArrayList<Match> m, List<String> listDataHeader,
+                                       HashMap<String, List<Match>> listDataChild) {
 
         // Adding child data
         listDataHeader.add("Qualifier");
@@ -338,17 +368,18 @@ public class Match {
 
     public static String shareHeader() {
         String output;
-        output = "Name,Result,Red0,Red1,Red2,Blue0,Blue1,Blue2,RedTot,RedAuto,RedAutoB,RedTele,RedEndG,RedPen,BlueTot,BlueRedAuto,BlueAutoB,BlueTele,BlueEndG,BluePen"+ System.getProperty("line.separator");
+        output = "Name,Result,Red0,Red1,Red2,Blue0,Blue1,Blue2,RedTot,RedAuto,RedAutoB,RedTele,RedEndG,RedPen,BlueTot,BlueRedAuto,BlueAutoB,BlueTele,BlueEndG,BluePen" + System.getProperty("line.separator");
         return output;
     }
+
     public String toString() {
         String output;
-        output = this.title+","+this.resultStr;
+        output = this.title + "," + this.resultStr;
         output = output + "," + this.rTeam0 + "," + this.rTeam1 + "," + this.rTeam2;
         output = output + "," + this.bTeam0 + "," + this.bTeam1 + "," + this.bTeam2;
         output = output + "," + this.rTot + "," + this.rAuto + "," + this.rAutoB + "," + this.rTele + "," + this.rEndG + "," + this.rPen;
         output = output + "," + this.bTot + "," + this.bAuto + "," + this.bAutoB + "," + this.bTele + "," + this.bEndG + "," + this.bPen;
-        output = output   + System.getProperty("line.separator");
+        output = output + System.getProperty("line.separator");
         return output;
     }
 

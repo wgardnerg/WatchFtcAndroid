@@ -76,7 +76,7 @@ public class TeamStatRanked {
                         if (comparison!=0) return comparison;
                         break;
                     case DPR_SORT:
-                        comparison = (int)(100000 * (o1.dpr - o2.dpr));
+                        comparison = (int)(-100000 * (o1.dpr - o2.dpr));
                         if (comparison!=0) return comparison;
                         break;
                     case CCWM_SORT:

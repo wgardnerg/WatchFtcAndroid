@@ -3,8 +3,6 @@ package com.wrgardnersoft.watchftc.activities;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
@@ -13,21 +11,26 @@ import android.widget.ListView;
 import com.wrgardnersoft.watchftc.R;
 import com.wrgardnersoft.watchftc.adapters.FtcRankingsListAdapter;
 import com.wrgardnersoft.watchftc.adapters.MatchesExpandableListAdapter;
+import com.wrgardnersoft.watchftc.interfaces.AsyncResponse;
+import com.wrgardnersoft.watchftc.internet.ClientTask;
 import com.wrgardnersoft.watchftc.models.Match;
 import com.wrgardnersoft.watchftc.models.MyApp;
 import com.wrgardnersoft.watchftc.models.Team;
 import com.wrgardnersoft.watchftc.models.TeamFtcRanked;
+import com.wrgardnersoft.watchftc.models.TeamStatRanked;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 
-public class MyTeamActivity extends ActionBarActivity {
+public class MyTeamActivity extends CommonMenuActivity implements AsyncResponse {
 
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<Match>> listDataChild;
+
+    ClientTask clientTask;
 
     public ArrayList<Team> myTeam;  // full team info from team server page
     public ArrayList<TeamFtcRanked> myTeamFtcRanked;
@@ -46,14 +49,24 @@ public class MyTeamActivity extends ActionBarActivity {
 
         MyApp myApp = (MyApp) getApplication();
 
-        setTitle(" Team " + Integer.toString(myApp.currentTeamNumber));
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.ic_launcher);
+   //     setTitle(" Team " + Integer.toString(myApp.currentTeamNumber));
+
         setContentView(R.layout.activity_my_team);
 
         inflateMeAll();
 
         setTitle(" Team " + Integer.toString(myApp.currentTeamNumber) + ": " + myTeam.get(0).name);
+
+
+    }
+
+    public void processFinish(int result) {
+        //this you will received result fired from async class of onPostExecute(result) method.
+        myTeam.clear();
+        myTeamFtcRanked.clear();
+        myMatch.clear();
+        inflateMeAll();
+
     }
 
     private void inflateMeAll() {
@@ -85,7 +98,28 @@ public class MyTeamActivity extends ActionBarActivity {
                         (m.rTeam1 == myApp.currentTeamNumber) ||
                         (m.bTeam0 == myApp.currentTeamNumber) ||
                         (m.bTeam1 == myApp.currentTeamNumber)) {
-                    myMatch.add(m);
+                    Match mm = new Match(m);
+                    if ((m.rTot < 0) && (myApp.enableMatchPrediction)) {
+                        mm.predicted = true;
+                        mm.rTot = 0;
+                        mm.bTot = 0;
+                        for (TeamStatRanked t : myApp.teamStatRanked[myApp.division()]) {
+                            if ((mm.rTeam0 == t.number) ||
+                                    (mm.rTeam1 == t.number) ||
+                                    (mm.rTeam2 == t.number)) {
+                                mm.rTot += t.oprA;
+                                mm.bTot -= t.dprA;
+                            }
+                            if ((mm.bTeam0 == t.number) ||
+                                    (mm.bTeam1 == t.number) ||
+                                    (mm.bTeam2 == t.number)) {
+                                mm.bTot += t.oprA;
+                                mm.rTot -= t.dprA;
+                            }
+                        }
+
+                    }
+                    myMatch.add(mm);
                 }
             }
             //         Log.i("MatchSize: ", String.valueOf(myMatch.size()));
@@ -146,23 +180,12 @@ public class MyTeamActivity extends ActionBarActivity {
     }
 
 
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         setContentView(R.layout.activity_my_team);
 
         inflateMeAll();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        MyApp myApp = MyApp.getInstance();
-
-        getMenuInflater().inflate(R.menu.menu_exit_only, menu);
-
-        return true;
     }
 
     @Override
@@ -176,8 +199,10 @@ public class MyTeamActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if ((id == R.id.up) || (id == R.id.home) || (id == R.id.action_exit)) {
-            finish();
+        if (id == R.id.action_refresh) {
+            clientTask = new ClientTask(this);
+            clientTask.delegate = this;
+            clientTask.execute();
             return true;
         }
         return super.onOptionsItemSelected(item);

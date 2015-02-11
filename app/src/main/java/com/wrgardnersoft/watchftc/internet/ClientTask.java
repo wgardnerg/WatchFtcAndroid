@@ -69,6 +69,7 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
                 myApp.team[myApp.division()].clear(); // made it this far, so hopefully good data coming
                 myApp.teamFtcRanked[myApp.division()].clear();
                 myApp.match[myApp.division()].clear();
+                myApp.teamStatRanked[myApp.division()].clear();
 
                 for (int j = 1; j < rows.size(); j++) { //first row is the col names so skip it.
                     Element row = rows.get(j);
@@ -153,7 +154,8 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
                             cols.get(12).text(),
                             cols.get(13).text(),
                             cols.get(14).text(),
-                            cols.get(15).text()
+                            cols.get(15).text(),
+                            false // predicted = false: real match!
                     ));
 
                 }
