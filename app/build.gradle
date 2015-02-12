@@ -12,11 +12,10 @@ android {
         minSdkVersion 16
         targetSdkVersion 21
         versionCode VER_CODE
-        versionName VER_NAME // also update below!!!
+        versionName VER_NAME
     }
     buildTypes {
         release {
-            buildConfigField "String", "VERSION_NAME", VER_NAME
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

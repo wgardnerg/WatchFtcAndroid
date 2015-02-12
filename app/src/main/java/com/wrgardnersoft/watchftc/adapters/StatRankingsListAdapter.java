@@ -83,10 +83,10 @@ public class StatRankingsListAdapter extends ArrayAdapter<TeamStatRanked> {
    //     Log.i("Ftc adapter", "got here");
         holder.numView.setText(String.format("%5d",thisTeam.number));
         holder.ftcRankView.setText("#"+String.format("%d", thisTeam.ftcRank));
-        holder.winPercentView.setText(String.format("%5.1f",thisTeam.winPercent));
-        holder.oprView.setText(String.format("%5.1f",thisTeam.oprA[MyApp.ScoreType.TOTAL.ordinal()]));
-        holder.dprView.setText(String.format("%5.1f",thisTeam.dprA[MyApp.ScoreType.TOTAL.ordinal()]));
-        holder.ccwmView.setText(String.format("%5.1f",thisTeam.ccwmA[MyApp.ScoreType.TOTAL.ordinal()]));
+        holder.winPercentView.setText(String.format("%3.0f",thisTeam.winPercent));
+        holder.oprView.setText(String.format("%3.0f",thisTeam.oprA[MyApp.ScoreType.TOTAL.ordinal()]));
+        holder.dprView.setText(String.format("%3.0f",thisTeam.dprA[MyApp.ScoreType.TOTAL.ordinal()]));
+        holder.ccwmView.setText(String.format("%3.0f",thisTeam.ccwmA[MyApp.ScoreType.TOTAL.ordinal()]));
 
         return row;
 

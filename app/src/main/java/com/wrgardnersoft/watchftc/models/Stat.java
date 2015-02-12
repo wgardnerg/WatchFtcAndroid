@@ -1,8 +1,6 @@
 package com.wrgardnersoft.watchftc.models;
 
 
-import android.util.Log;
-
 import java.util.ArrayList;
 
 import Jama.Matrix;
@@ -194,9 +192,9 @@ public class Stat {
                 for (int i = 0; i < numTeams; i++) {
                     myApp.teamStatRanked[division].get(i).oprA[type.ordinal()] += meanDpr + meanOffense[type.ordinal()];
                     myApp.teamStatRanked[division].get(i).dprA[type.ordinal()] -= meanDpr;
-                    if (type == MyApp.ScoreType.PENALTY) {
-                        Log.i("Pen OPR"+i, String.valueOf(myApp.teamStatRanked[division].get(i).oprA[type.ordinal()]));
-                    }
+            //        if (type == MyApp.ScoreType.PENALTY) {
+            //            Log.i("Pen OPR"+i, String.valueOf(myApp.teamStatRanked[division].get(i).oprA[type.ordinal()]));
+             //       }
                 }
             }
 
