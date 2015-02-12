@@ -17,7 +17,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/black"
-        android:id="@+id/my_match_title"
+        android:id="@+id/my_detailed_match_title"
         android:padding="8dp"
         android:gravity="center_horizontal"
         android:layout_centerHorizontal="true" />
@@ -25,16 +25,18 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/my_match_title"
+        android:layout_below="@+id/my_detailed_match_title"
         android:gravity="center_horizontal"
-        android:id="@+id/tableLayout">
+        android:padding="8dp"
+        android:id="@+id/mdm_tableLayout">
 
-        <TableRow 
+        <TableRow
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center">
 
             <TextView
-                android:id="@+id/mm_nTeam"
+                android:id="@+id/mdm_nTeam"
                 android:text="@string/Teams"
                 android:textSize="16sp"
                 android:padding="8dp"
@@ -43,91 +45,77 @@
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
-            <LinearLayout
-                android:layout_width="72dp"
+
+            <com.wrgardnersoft.watchftc.views.VerticalTextView
+                android:id="@+id/mdm_rT0"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:orientation="vertical"
-                android:background="@drawable/match_team_selector_red">
+                android:gravity="center"
+                android:text="Red#1"
+                android:textColor="@color/black"
+                android:paddingRight="8dp"
+                android:textSize="16sp"
+                android:background="@drawable/match_team_selector_red" />
 
-                <TextView
-                    android:id="@+id/mm_rT0"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Red#1"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:background="@drawable/match_team_selector_red"/>
-
-                <TextView
-                    android:id="@+id/mm_rT1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Red#2"
-                    android:layout_weight="1"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:background="@drawable/match_team_selector_red" />
-
-                <TextView
-                    android:id="@+id/mm_rT2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Red#3"
-                    android:layout_weight="0"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:background="@drawable/match_team_selector_red" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="72dp"
+            <com.wrgardnersoft.watchftc.views.VerticalTextView
+                android:id="@+id/mdm_rT1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:orientation="vertical"
-                android:background="@drawable/match_team_selector_blue"
-                android:clickable="true">
+                android:gravity="center"
+                android:text="Red#2"
+                android:textColor="@color/black"
+                android:paddingRight="8dp"
+                android:textSize="16sp"
+                android:background="@drawable/match_team_selector_red" />
 
-                <TextView
-                    android:id="@+id/mm_bT0"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Blue#1"
-                    android:layout_weight="1"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:background="@drawable/match_team_selector_blue"/>
+            <com.wrgardnersoft.watchftc.views.VerticalTextView
+                android:id="@+id/mdm_rT2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/black"
+                android:paddingRight="8dp"
+                android:textSize="16sp"
+                android:background="@drawable/match_team_selector_red" />
 
-                <TextView
-                    android:id="@+id/mm_bT1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Blue#2"
-                    android:layout_weight="1"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:background="@drawable/match_team_selector_blue"/>
+            <com.wrgardnersoft.watchftc.views.VerticalTextView
+                android:id="@+id/mdm_bT0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Blue#1"
+                android:textColor="@color/black"
+                android:paddingRight="8dp"
+                android:textSize="16sp"
+                android:background="@drawable/match_team_selector_blue" />
 
-                <TextView
-                    android:id="@+id/mm_bT2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Blue#3"
-                    android:layout_weight="0"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:background="@drawable/match_team_selector_blue"/>
-            </LinearLayout>
+            <com.wrgardnersoft.watchftc.views.VerticalTextView
+                android:id="@+id/mdm_bT1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Blue#2"
+                android:textColor="@color/black"
+                android:paddingRight="8dp"
+                android:textSize="16sp"
+                android:background="@drawable/match_team_selector_blue" />
+
+            <com.wrgardnersoft.watchftc.views.VerticalTextView
+                android:id="@+id/mdm_bT2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/black"
+                android:paddingRight="8dp"
+                android:textSize="16sp"
+                android:background="@drawable/match_team_selector_blue" />
 
         </TableRow>
 
         <TableRow
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center">
 
@@ -141,27 +129,150 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/mm_rTot"
-                android:text="@string/total"
+                android:id="@+id/mdm_r0_s0"
+                android:text=""
                 android:gravity="center"
                 android:padding="8dp"
                 android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:textColor="@color/black"
                 android:background="@drawable/match_team_selector_red"
-                android:textStyle="bold" />
+                android:textStyle="italic" />
 
             <TextView
-                android:id="@+id/mm_bTot"
-                android:text="@string/total"
+                android:id="@+id/mdm_r1_s0"
+                android:text=""
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:textColor="@color/black"
+                android:background="@drawable/match_team_selector_red"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/mdm_r2_s0"
+                android:text=""
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:layout_width="0dp"
+                android:textColor="@color/black"
+                android:background="@drawable/match_team_selector_red"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/mdm_b0_s0"
+                android:text=""
                 android:gravity="center"
                 android:padding="8dp"
                 android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:textColor="@color/black"
                 android:background="@drawable/match_team_selector_blue"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/mdm_b1_s0"
+                android:text=""
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:textColor="@color/black"
+                android:background="@drawable/match_team_selector_blue"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/mdm_b2_s0"
+                android:text=""
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:layout_width="0dp"
+                android:textColor="@color/black"
+                android:background="@drawable/match_team_selector_blue"
+                android:textStyle="italic" />
+        </TableRow>
+
+        <TableRow
+            android:layout_gravity="center"
+            android:gravity="center">
+
+            <TextView
+                android:text="Auto"
+                android:gravity="right"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:textColor="@color/black"
                 android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/mdm_r0_s1"
+                android:text=""
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:textColor="@color/black"
+                android:background="@drawable/match_team_selector_red"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/mdm_r1_s1"
+                android:text=""
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:textColor="@color/black"
+                android:background="@drawable/match_team_selector_red"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/mdm_r2_s1"
+                android:text=""
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:layout_width="0dp"
+                android:textColor="@color/black"
+                android:background="@drawable/match_team_selector_red"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/mdm_b0_s1"
+                android:text=""
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:textColor="@color/black"
+                android:background="@drawable/match_team_selector_blue"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/mdm_b1_s1"
+                android:text=""
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:textColor="@color/black"
+                android:background="@drawable/match_team_selector_blue"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/mdm_b2_s1"
+                android:text=""
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:layout_width="0dp"
+                android:textColor="@color/black"
+                android:background="@drawable/match_team_selector_blue"
+                android:textStyle="italic" />
         </TableRow>
 
         <TableRow
@@ -169,33 +280,79 @@
             android:gravity="center">
 
             <TextView
-                android:text="@string/autonomous"
+                android:text="AutoB"
                 android:gravity="right"
                 android:padding="8dp"
                 android:textSize="16sp"
                 android:layout_width="wrap_content"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/mm_rAuto"
-                android:text="@string/total"
+                android:id="@+id/mdm_r0_s2"
+                android:text=""
                 android:gravity="center"
                 android:padding="8dp"
                 android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:textColor="@color/black"
-                android:background="@drawable/match_team_selector_red" />
+                android:background="@drawable/match_team_selector_red"
+                android:textStyle="italic" />
 
             <TextView
-                android:id="@+id/mm_bAuto"
-                android:text="@string/total"
+                android:id="@+id/mdm_r1_s2"
+                android:text=""
                 android:gravity="center"
                 android:padding="8dp"
                 android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:textColor="@color/black"
-                android:background="@drawable/match_team_selector_blue" />
+                android:background="@drawable/match_team_selector_red"
+                android:textStyle="italic" />
 
+            <TextView
+                android:id="@+id/mdm_r2_s2"
+                android:text=""
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:layout_width="0dp"
+                android:textColor="@color/black"
+                android:background="@drawable/match_team_selector_red"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/mdm_b0_s2"
+                android:text=""
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:textColor="@color/black"
+                android:background="@drawable/match_team_selector_blue"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/mdm_b1_s2"
+                android:text=""
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:textColor="@color/black"
+                android:background="@drawable/match_team_selector_blue"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/mdm_b2_s2"
+                android:text=""
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:layout_width="0dp"
+                android:textColor="@color/black"
+                android:background="@drawable/match_team_selector_blue"
+                android:textStyle="italic" />
         </TableRow>
 
         <TableRow
@@ -203,33 +360,79 @@
             android:gravity="center">
 
             <TextView
-                android:text="@string/autoBonus"
+                android:text="Tele"
                 android:gravity="right"
-                android:textSize="16sp"
                 android:padding="8dp"
+                android:textSize="16sp"
                 android:layout_width="wrap_content"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/mm_rAutoB"
-                android:text="@string/total"
+                android:id="@+id/mdm_r0_s3"
+                android:text=""
                 android:gravity="center"
-                android:textSize="16sp"
                 android:padding="8dp"
-                android:layout_width="72dp"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
                 android:textColor="@color/black"
-                android:background="@drawable/match_team_selector_red" />
+                android:background="@drawable/match_team_selector_red"
+                android:textStyle="italic" />
 
             <TextView
-                android:id="@+id/mm_bAutoB"
-                android:text="@string/total"
+                android:id="@+id/mdm_r1_s3"
+                android:text=""
                 android:gravity="center"
-                android:textSize="16sp"
                 android:padding="8dp"
-                android:layout_width="72dp"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
                 android:textColor="@color/black"
-                android:background="@drawable/match_team_selector_blue" />
+                android:background="@drawable/match_team_selector_red"
+                android:textStyle="italic" />
 
+            <TextView
+                android:id="@+id/mdm_r2_s3"
+                android:text=""
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:layout_width="0dp"
+                android:textColor="@color/black"
+                android:background="@drawable/match_team_selector_red"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/mdm_b0_s3"
+                android:text=""
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:textColor="@color/black"
+                android:background="@drawable/match_team_selector_blue"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/mdm_b1_s3"
+                android:text=""
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:textColor="@color/black"
+                android:background="@drawable/match_team_selector_blue"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/mdm_b2_s3"
+                android:text=""
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:layout_width="0dp"
+                android:textColor="@color/black"
+                android:background="@drawable/match_team_selector_blue"
+                android:textStyle="italic" />
         </TableRow>
 
         <TableRow
@@ -237,33 +440,79 @@
             android:gravity="center">
 
             <TextView
-                android:text="@string/teleop"
+                android:text="EndG"
                 android:gravity="right"
-                android:textSize="16sp"
                 android:padding="8dp"
+                android:textSize="16sp"
                 android:layout_width="wrap_content"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/mm_rTele"
-                android:text="@string/total"
+                android:id="@+id/mdm_r0_s4"
+                android:text=""
                 android:gravity="center"
-                android:textSize="16sp"
                 android:padding="8dp"
-                android:layout_width="72dp"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
                 android:textColor="@color/black"
-                android:background="@drawable/match_team_selector_red" />
+                android:background="@drawable/match_team_selector_red"
+                android:textStyle="italic" />
 
             <TextView
-                android:id="@+id/mm_bTele"
-                android:text="@string/total"
+                android:id="@+id/mdm_r1_s4"
+                android:text=""
                 android:gravity="center"
-                android:textSize="16sp"
                 android:padding="8dp"
-                android:layout_width="72dp"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
                 android:textColor="@color/black"
-                android:background="@drawable/match_team_selector_blue" />
+                android:background="@drawable/match_team_selector_red"
+                android:textStyle="italic" />
 
+            <TextView
+                android:id="@+id/mdm_r2_s4"
+                android:text=""
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:layout_width="0dp"
+                android:textColor="@color/black"
+                android:background="@drawable/match_team_selector_red"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/mdm_b0_s4"
+                android:text=""
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:textColor="@color/black"
+                android:background="@drawable/match_team_selector_blue"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/mdm_b1_s4"
+                android:text=""
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:textColor="@color/black"
+                android:background="@drawable/match_team_selector_blue"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/mdm_b2_s4"
+                android:text=""
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:layout_width="0dp"
+                android:textColor="@color/black"
+                android:background="@drawable/match_team_selector_blue"
+                android:textStyle="italic" />
         </TableRow>
 
         <TableRow
@@ -271,72 +520,119 @@
             android:gravity="center">
 
             <TextView
-                android:text="@string/endGame"
+                android:text="Pen"
                 android:gravity="right"
                 android:padding="8dp"
                 android:textSize="16sp"
                 android:layout_width="wrap_content"
-                android:textColor="@color/black" />
-
-            <TextView
-                android:id="@+id/mm_rEndG"
-                android:text="@string/total"
-                android:gravity="center"
-                android:padding="8dp"
-                android:textSize="16sp"
-                android:layout_width="72dp"
                 android:textColor="@color/black"
-                android:background="@drawable/match_team_selector_red" />
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/mm_bEndG"
-                android:text="@string/total"
+                android:id="@+id/mdm_r0_s5"
+                android:text=""
                 android:gravity="center"
-                android:padding="8dp"
-                android:textSize="16sp"
-                android:layout_width="72dp"
-                android:textColor="@color/black"
-                android:background="@drawable/match_team_selector_blue"/>
-
-        </TableRow>
-
-        <TableRow
-            android:layout_gravity="center"
-            android:gravity="center">
-
-            <TextView
-                android:text="@string/penalty"
-                android:gravity="right"
                 android:padding="8dp"
                 android:textSize="16sp"
                 android:layout_width="wrap_content"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:background="@drawable/match_team_selector_red"
+                android:textStyle="italic" />
 
             <TextView
-                android:id="@+id/mm_rPen"
-                android:text="@string/total"
+                android:id="@+id/mdm_r1_s5"
+                android:text=""
                 android:gravity="center"
                 android:padding="8dp"
                 android:textSize="16sp"
-                android:layout_width="72dp"
+                android:layout_width="wrap_content"
                 android:textColor="@color/black"
-                android:background="@drawable/match_team_selector_red" />
+                android:background="@drawable/match_team_selector_red"
+                android:textStyle="italic" />
 
             <TextView
-                android:id="@+id/mm_bPen"
-                android:text="@string/total"
+                android:id="@+id/mdm_r2_s5"
+                android:text=""
                 android:gravity="center"
                 android:padding="8dp"
                 android:textSize="16sp"
-                android:layout_width="72dp"
+                android:layout_width="0dp"
                 android:textColor="@color/black"
-                android:background="@drawable/match_team_selector_blue" />
+                android:background="@drawable/match_team_selector_red"
+                android:textStyle="italic" />
 
+            <TextView
+                android:id="@+id/mdm_b0_s5"
+                android:text=""
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:textColor="@color/black"
+                android:background="@drawable/match_team_selector_blue"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/mdm_b1_s5"
+                android:text=""
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:textColor="@color/black"
+                android:background="@drawable/match_team_selector_blue"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/mdm_b2_s5"
+                android:text=""
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:layout_width="0dp"
+                android:textColor="@color/black"
+                android:background="@drawable/match_team_selector_blue"
+                android:textStyle="italic" />
         </TableRow>
-
+-->
 
     </TableLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mdm_tableLayout"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/mdm_opr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:onClick="onClickMdmOprButton"
+            android:text="OPR" />
+        <Button
+            android:id="@+id/mdm_dpr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:onClick="onClickMdmDprButton"
+            android:text="DPR" />
+        <Button
+            android:id="@+id/mdm_ccwm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:onClick="onClickMdmCcwmButton"
+            android:text="CCWM" />
+
+        </LinearLayout>
 
 </RelativeLayout>
