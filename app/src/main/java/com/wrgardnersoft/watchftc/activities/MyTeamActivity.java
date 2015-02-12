@@ -94,57 +94,48 @@ public class MyTeamActivity extends CommonMenuActivity implements AsyncResponse 
         //     Log.i("MatchSize: ", String.valueOf(myApp.match[myApp.division()].size()));
         if (myApp.match[myApp.division()].size() > 0) {
             for (Match m : myApp.match[myApp.division()]) {
-                if ((m.rTeam0 == myApp.currentTeamNumber) ||
-                        (m.rTeam1 == myApp.currentTeamNumber) ||
-                        (m.bTeam0 == myApp.currentTeamNumber) ||
-                        (m.bTeam1 == myApp.currentTeamNumber)) {
+                if ((m.teamNumber[MyApp.RED][0] == myApp.currentTeamNumber) ||
+                        (m.teamNumber[MyApp.RED][1] == myApp.currentTeamNumber) ||
+                        (m.teamNumber[MyApp.RED][2] == myApp.currentTeamNumber) ||
+                        (m.teamNumber[MyApp.BLUE][0] == myApp.currentTeamNumber) ||
+                        (m.teamNumber[MyApp.BLUE][1] == myApp.currentTeamNumber) ||
+                        (m.teamNumber[MyApp.BLUE][2] == myApp.currentTeamNumber)) {
                     Match mm = new Match(m);
-                    if ((m.rTot < 0) && (myApp.enableMatchPrediction)) {
+                    if ((mm.score[MyApp.RED][MyApp.ScoreType.TOTAL.ordinal()] < 0) && (myApp.enableMatchPrediction)) {
                         mm.predicted = true;
-                        mm.rTot = 0;
-                        mm.bTot = 0;
-                        for (TeamStatRanked t : myApp.teamStatRanked[myApp.division()]) {
-                            if ((mm.rTeam0 == t.number) ||
-                                    (mm.rTeam1 == t.number) ||
-                                    (mm.rTeam2 == t.number)) {
-                                mm.rAuto += t.oprA[TeamStatRanked.StatType.AUTONOMOUS.ordinal()];
-                                mm.rAutoB += t.oprA[TeamStatRanked.StatType.AUTO_BONUS.ordinal()];
-                                mm.rTele += t.oprA[TeamStatRanked.StatType.TELEOP.ordinal()];
-                                mm.rEndG += t.oprA[TeamStatRanked.StatType.END_GAME.ordinal()];
-                                mm.bPen -= t.oprA[TeamStatRanked.StatType.PENALTY.ordinal()];
-                                mm.rTot += t.oprA[TeamStatRanked.StatType.TOTAL.ordinal()];
-                                mm.bTot -= t.oprA[TeamStatRanked.StatType.PENALTY.ordinal()];
-
-                                mm.bAuto -= t.dprA[TeamStatRanked.StatType.AUTONOMOUS.ordinal()];
-                                mm.bAutoB -= t.dprA[TeamStatRanked.StatType.AUTO_BONUS.ordinal()];
-                                mm.bTele -= t.dprA[TeamStatRanked.StatType.TELEOP.ordinal()];
-                                mm.bEndG -= t.dprA[TeamStatRanked.StatType.END_GAME.ordinal()];
-                                mm.rPen += t.dprA[TeamStatRanked.StatType.PENALTY.ordinal()];
-                                mm.bTot -= t.dprA[TeamStatRanked.StatType.TOTAL.ordinal()];
-                                mm.rTot += t.dprA[TeamStatRanked.StatType.PENALTY.ordinal()];
+                        for (int i=0; i<MyApp.NUM_ALLIANCES; i++) {
+                            for (int j=0; j<MyApp.NUM_SCORE_TYPES; j++) {
+                                mm.score[i][j]=0;
                             }
-                            if ((mm.bTeam0 == t.number) ||
-                                    (mm.bTeam1 == t.number) ||
-                                    (mm.bTeam2 == t.number)) {
-                                mm.bAuto += t.oprA[TeamStatRanked.StatType.AUTONOMOUS.ordinal()];
-                                mm.bAutoB += t.oprA[TeamStatRanked.StatType.AUTO_BONUS.ordinal()];
-                                mm.bTele += t.oprA[TeamStatRanked.StatType.TELEOP.ordinal()];
-                                mm.bEndG += t.oprA[TeamStatRanked.StatType.END_GAME.ordinal()];
-                                mm.rPen -= t.oprA[TeamStatRanked.StatType.PENALTY.ordinal()];
-                                mm.bTot += t.oprA[TeamStatRanked.StatType.TOTAL.ordinal()];
-                                mm.rTot -= t.oprA[TeamStatRanked.StatType.PENALTY.ordinal()];
+                        }
+                        for (TeamStatRanked t : myApp.teamStatRanked[myApp.division()]) {
+                            for (int color = 0; color< MyApp.NUM_ALLIANCES; color++) {
+                                if ((mm.teamNumber[color][0] == t.number) ||
+                                        (mm.teamNumber[color][1] == t.number) ||
+                                        (mm.teamNumber[color][2] == t.number)) {
 
-                                mm.rAuto -= t.dprA[TeamStatRanked.StatType.AUTONOMOUS.ordinal()];
-                                mm.rAutoB -= t.dprA[TeamStatRanked.StatType.AUTO_BONUS.ordinal()];
-                                mm.rTele -= t.dprA[TeamStatRanked.StatType.TELEOP.ordinal()];
-                                mm.rEndG -= t.dprA[TeamStatRanked.StatType.END_GAME.ordinal()];
-                                mm.bPen += t.dprA[TeamStatRanked.StatType.PENALTY.ordinal()];
-                                mm.rTot -= t.dprA[TeamStatRanked.StatType.TOTAL.ordinal()];
-                                mm.bTot += t.dprA[TeamStatRanked.StatType.PENALTY.ordinal()];
+                                    for (int i = 0; i < MyApp.NUM_SCORE_TYPES - 1; i++) {
+                                        mm.score[color][i] += t.oprA[i];
+                                    }
+                                    mm.score[1 - color][MyApp.ScoreType.PENALTY.ordinal()] -=
+                                            t.oprA[MyApp.ScoreType.PENALTY.ordinal()];
+                                    mm.score[1 - color][MyApp.ScoreType.TOTAL.ordinal()] -=
+                                            t.oprA[MyApp.ScoreType.PENALTY.ordinal()];
+
+                                    for (int i = 0; i < MyApp.NUM_SCORE_TYPES - 1; i++) {
+                                        mm.score[1 - color][i] -= t.dprA[i];
+                                    }
+                                    mm.score[color][MyApp.ScoreType.PENALTY.ordinal()] +=
+                                            t.dprA[MyApp.ScoreType.PENALTY.ordinal()];
+                                    mm.score[color][MyApp.ScoreType.TOTAL.ordinal()] +=
+                                            t.dprA[MyApp.ScoreType.PENALTY.ordinal()];
+
+                                }
                             }
                         }
 
                     }
+
                     myMatch.add(mm);
                 }
             }

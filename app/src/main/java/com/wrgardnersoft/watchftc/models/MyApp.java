@@ -8,6 +8,21 @@ import java.util.ArrayList;
  *   Created by Bill on 2/2/2015.
  */
 public class MyApp extends Application {
+
+    public static final int NUM_ALLIANCES = 2;
+    public static final int RED = 0;
+    public static final int BLUE = 1; // BLUE MUST BE 1-RED!!!
+
+    public static final int TEAMS_PER_ALLIANCE = 3;
+
+
+    public enum ScoreType { // TOTAL MUST BE FIRST, PENALTY MUST BE LAST!!!!!
+        TOTAL, AUTONOMOUS, AUTO_BONUS, TELEOP, END_GAME, PENALTY;
+    }
+
+    public static final int NUM_SCORE_TYPES = ScoreType.values().length;
+
+
     static MyApp myAppInstance;
  /*   public MyApp() {
         myAppInstance = this;

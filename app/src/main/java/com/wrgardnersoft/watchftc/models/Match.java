@@ -9,80 +9,29 @@ import java.util.List;
  */
 public class Match {
     public int number;
-    public int rTeam0, rTeam1, rTeam2;
-    public int bTeam0, bTeam1, bTeam2;
     public String title, resultStr;
-    public double rTot, rAuto, rAutoB, rTele, rEndG, rPen;
-    public double bTot, bAuto, bAutoB, bTele, bEndG, bPen;
+    public int teamNumber[][];
+    public double score[][];
     public boolean predicted;
-/*
-    public Match(int num,String sName,String sResult,
-                 int rT0,
-                 int rT1,
-                 int bT0,
-                 int bT1,
-                 int rTot,
-                 int rAuto,
-                 int rAutoB,
-                 int rTele,
-                 int rEndG,
-                 int rPen,
-                 int bTot,
-                 int bAuto,
-                 int bAutoB,
-                 int bTele,
-                 int bEndG,
-                 int bPen) {
-
-        this.number = num;
-        this.title = sName;
-        this.resultStr = sResult;
-        this.rTeam0 = rT0;
-        this.rTeam1 = rT1;
-        this.rTeam2 = -1;
-        this.bTeam0 = bT0;
-        this.bTeam1 = bT1;
-        this.bTeam2=-1;
-        this.rTot = rTot;
-        this.rAuto = rAuto;
-        this.rAutoB = rAutoB;
-        this.rTele = rTele;
-        this.rEndG = rEndG;
-        this.rPen = rPen;
-        this.bTot = bTot;
-        this.bAuto = bAuto;
-        this.bAutoB = bAutoB;
-        this.bTele = bTele;
-        this.bEndG = bEndG;
-        this.bPen = bPen;
-    }
-    */
 
     public Match(Match m) {
         this.number = m.number;
         this.title = m.title;
         this.resultStr = m.resultStr;
-        this.rTeam0 = m.rTeam0;
-        this.rTeam1 = m.rTeam1;
-        this.rTeam2 = m.rTeam2;
-        this.bTeam0 = m.bTeam0;
-        this.bTeam1 = m.bTeam1;
-        this.bTeam2 = m.bTeam2;
-        this.rTot = m.rTot;
-        this.rAuto = m.rAuto;
-        this.rAutoB = m.rAutoB;
-        this.rTele = m.rTele;
-        this.rEndG = m.rEndG;
-        this.rPen = m.rPen;
-        this.bTot = m.bTot;
-        this.bAuto = m.bAuto;
-        this.bAutoB = m.bAutoB;
-        this.bTele = m.bTele;
-        this.bEndG = m.bEndG;
-        this.bPen = m.bPen;
+        
+        this.teamNumber = new int[MyApp.NUM_ALLIANCES][MyApp.TEAMS_PER_ALLIANCE];
+        this.score = new double[MyApp.NUM_ALLIANCES][MyApp.NUM_SCORE_TYPES];
+        
+        for (int i=0; i<MyApp.NUM_ALLIANCES; i++) {
+            for (int j=0; j<MyApp.TEAMS_PER_ALLIANCE; j++) {
+                this.teamNumber[i][j]=m.teamNumber[i][j];
+            }
+            for (int j=0; j<MyApp.NUM_SCORE_TYPES; j++) {
+                this.score[i][j]=m.score[i][j];
+            }
+        }
         this.predicted = m.predicted;
     }
-
 
     public Match(int num, String sName, String sResult,
                  String rT0,
@@ -105,29 +54,31 @@ public class Match {
 
         this.number = num;
         this.title = sName;
+        this.teamNumber = new int[MyApp.NUM_ALLIANCES][MyApp.TEAMS_PER_ALLIANCE];
+        this.score = new double[MyApp.NUM_ALLIANCES][MyApp.NUM_SCORE_TYPES];
 
         try {
-            this.rTeam0 = Integer.parseInt(rT0);
+            this.teamNumber[MyApp.RED][0] = Integer.parseInt(rT0);
         } catch (NumberFormatException e) { // catch surrogate match *
-            this.rTeam0 = Integer.parseInt(rT0.substring(0, rT0.length() - 1));
+            this.teamNumber[MyApp.RED][0] = Integer.parseInt(rT0.substring(0, rT0.length() - 1));
         }
         try {
-            this.rTeam1 = Integer.parseInt(rT1);
+            this.teamNumber[MyApp.RED][1] = Integer.parseInt(rT1);
         } catch (NumberFormatException e) { // catch surrogate match *
-            this.rTeam1 = Integer.parseInt(rT1.substring(0, rT1.length() - 1));
+            this.teamNumber[MyApp.RED][1] = Integer.parseInt(rT1.substring(0, rT1.length() - 1));
         }
-        this.rTeam2 = 0;
+        this.teamNumber[MyApp.RED][2] = 0;
         try {
-            this.bTeam0 = Integer.parseInt(bT0);
+            this.teamNumber[MyApp.BLUE][0] = Integer.parseInt(bT0);
         } catch (NumberFormatException e) { // catch surrogate match *
-            this.bTeam0 = Integer.parseInt(bT0.substring(0, bT0.length() - 1));
+            this.teamNumber[MyApp.BLUE][0] = Integer.parseInt(bT0.substring(0, bT0.length() - 1));
         }
         try {
-            this.bTeam1 = Integer.parseInt(bT1);
+            this.teamNumber[MyApp.BLUE][1] = Integer.parseInt(bT1);
         } catch (NumberFormatException e) { // catch surrogate match *
-            this.bTeam1 = Integer.parseInt(bT1.substring(0, bT1.length() - 1));
+            this.teamNumber[MyApp.BLUE][1] = Integer.parseInt(bT1.substring(0, bT1.length() - 1));
         }
-        this.bTeam2 = 0;
+        this.teamNumber[MyApp.BLUE][2] = 0;
 
         if ((sResult == null) || (sResult.startsWith(" "))) {
             this.resultStr = "No Result Yet";
@@ -135,75 +86,75 @@ public class Match {
             this.resultStr = sResult;
             try {
                 if (rTot != null)
-                    this.rTot = Double.parseDouble(rTot);
+                    this.score[MyApp.RED][MyApp.ScoreType.TOTAL.ordinal()] = Double.parseDouble(rTot);
             } catch (NumberFormatException e) {
-                this.rTot = -1;
+                this.score[MyApp.RED][MyApp.ScoreType.TOTAL.ordinal()] = -1;
             }
             try {
                 if (rAuto != null)
-                    this.rAuto = Double.parseDouble(rAuto);
+                    this.score[MyApp.RED][MyApp.ScoreType.AUTONOMOUS.ordinal()]= Double.parseDouble(rAuto);
             } catch (NumberFormatException e) {
-                this.rAuto = -1;
+                this.score[MyApp.RED][MyApp.ScoreType.AUTONOMOUS.ordinal()]= -1;
             }
             try {
                 if (rAutoB != null)
-                    this.rAutoB = Double.parseDouble(rAutoB);
+                    this.score[MyApp.RED][MyApp.ScoreType.AUTO_BONUS.ordinal()] = Double.parseDouble(rAutoB);
             } catch (NumberFormatException e) {
-                this.rAutoB = -1;
+                this.score[MyApp.RED][MyApp.ScoreType.AUTO_BONUS.ordinal()] = -1;
             }
             try {
                 if (rTele != null)
-                    this.rTele = Double.parseDouble(rTele);
+                    this.score[MyApp.RED][MyApp.ScoreType.TELEOP.ordinal()] = Double.parseDouble(rTele);
             } catch (NumberFormatException e) {
-                this.rTele = -1;
+                this.score[MyApp.RED][MyApp.ScoreType.TELEOP.ordinal()] = -1;
             }
             try {
                 if (rEndG != null)
-                    this.rEndG = Double.parseDouble(rEndG);
+                    this.score[MyApp.RED][MyApp.ScoreType.END_GAME.ordinal()] = Double.parseDouble(rEndG);
             } catch (NumberFormatException e) {
-                this.rEndG = -1;
+                this.score[MyApp.RED][MyApp.ScoreType.END_GAME.ordinal()] = -1;
             }
             try {
                 if (rPen != null)
-                    this.rPen = Double.parseDouble(rPen);
+                    this.score[MyApp.RED][MyApp.ScoreType.PENALTY.ordinal()] = Double.parseDouble(rPen);
             } catch (NumberFormatException e) {
-                this.rPen = -1;
+                this.score[MyApp.RED][MyApp.ScoreType.PENALTY.ordinal()] = -1;
             }
             try {
                 if (bTot != null)
-                    this.bTot = Double.parseDouble(bTot);
+                    this.score[MyApp.BLUE][MyApp.ScoreType.TOTAL.ordinal()] = Double.parseDouble(bTot);
             } catch (NumberFormatException e) {
-                this.bTot = -1;
+                this.score[MyApp.BLUE][MyApp.ScoreType.TOTAL.ordinal()] = -1;
             }
             try {
                 if (bAuto != null)
-                    this.bAuto = Double.parseDouble(bAuto);
+                    this.score[MyApp.BLUE][MyApp.ScoreType.AUTONOMOUS.ordinal()]= Double.parseDouble(bAuto);
             } catch (NumberFormatException e) {
-                this.bAuto = -1;
+                this.score[MyApp.BLUE][MyApp.ScoreType.AUTONOMOUS.ordinal()]= -1;
             }
             try {
                 if (bAutoB != null)
-                    this.bAutoB = Double.parseDouble(bAutoB);
+                    this.score[MyApp.BLUE][MyApp.ScoreType.AUTO_BONUS.ordinal()] = Double.parseDouble(bAutoB);
             } catch (NumberFormatException e) {
-                this.bAutoB = -1;
+                this.score[MyApp.BLUE][MyApp.ScoreType.AUTO_BONUS.ordinal()] = -1;
             }
             try {
                 if (bTele != null)
-                    this.bTele = Double.parseDouble(bTele);
+                    this.score[MyApp.BLUE][MyApp.ScoreType.TELEOP.ordinal()] = Double.parseDouble(bTele);
             } catch (NumberFormatException e) {
-                this.bTele = -1;
+                this.score[MyApp.BLUE][MyApp.ScoreType.TELEOP.ordinal()] = -1;
             }
             try {
                 if (bEndG != null)
-                    this.bEndG = Double.parseDouble(bEndG);
+                    this.score[MyApp.BLUE][MyApp.ScoreType.END_GAME.ordinal()] = Double.parseDouble(bEndG);
             } catch (NumberFormatException e) {
-                this.bEndG = -1;
+                this.score[MyApp.BLUE][MyApp.ScoreType.END_GAME.ordinal()] = -1;
             }
             try {
                 if (bPen != null)
-                    this.bPen = Double.parseDouble(bPen);
+                    this.score[MyApp.BLUE][MyApp.ScoreType.PENALTY.ordinal()] = Double.parseDouble(bPen);
             } catch (NumberFormatException e) {
-                this.bPen = -1;
+                this.score[MyApp.BLUE][MyApp.ScoreType.PENALTY.ordinal()] = -1;
             }
         }
         this.predicted = predicted;
@@ -232,30 +183,32 @@ public class Match {
                  boolean predicted) {
         this.number = num;
         this.title = sName;
+        this.teamNumber = new int[MyApp.NUM_ALLIANCES][MyApp.TEAMS_PER_ALLIANCE];
+        this.score = new double[MyApp.NUM_ALLIANCES][MyApp.NUM_SCORE_TYPES];
 
         try {
-            this.rTeam0 = Integer.parseInt(rT0);
+            this.teamNumber[MyApp.RED][0] = Integer.parseInt(rT0);
         } catch (NumberFormatException e) { // catch surrogate match *
-            this.rTeam0 = Integer.parseInt(rT0.substring(0, rT0.length() - 1));
+            this.teamNumber[MyApp.RED][0] = Integer.parseInt(rT0.substring(0, rT0.length() - 1));
         }
         try {
-            this.rTeam1 = Integer.parseInt(rT1);
+            this.teamNumber[MyApp.RED][1] = Integer.parseInt(rT1);
         } catch (NumberFormatException e) { // catch surrogate match *
-            this.rTeam1 = Integer.parseInt(rT1.substring(0, rT1.length() - 1));
+            this.teamNumber[MyApp.RED][1] = Integer.parseInt(rT1.substring(0, rT1.length() - 1));
         }
-        this.rTeam2 = Integer.parseInt(rT2); // can't be surrogate
+        this.teamNumber[MyApp.RED][2] = Integer.parseInt(rT2); // can't be surrogate
 
         try {
-            this.bTeam0 = Integer.parseInt(bT0);
+            this.teamNumber[MyApp.BLUE][0] = Integer.parseInt(bT0);
         } catch (NumberFormatException e) { // catch surrogate match *
-            this.bTeam0 = Integer.parseInt(bT0.substring(0, bT0.length() - 1));
+            this.teamNumber[MyApp.BLUE][0] = Integer.parseInt(bT0.substring(0, bT0.length() - 1));
         }
         try {
-            this.bTeam1 = Integer.parseInt(bT1);
+            this.teamNumber[MyApp.BLUE][1] = Integer.parseInt(bT1);
         } catch (NumberFormatException e) { // catch surrogate match *
-            this.bTeam1 = Integer.parseInt(bT1.substring(0, bT1.length() - 1));
+            this.teamNumber[MyApp.BLUE][1] = Integer.parseInt(bT1.substring(0, bT1.length() - 1));
         }
-        this.bTeam2 = Integer.parseInt(bT2); // can't be surrogate
+        this.teamNumber[MyApp.BLUE][2] = Integer.parseInt(bT2); // can't be surrogate
 
         if ((sResult == null) || (sResult.startsWith(" "))) {
             this.resultStr = "No Result Yet";
@@ -263,75 +216,75 @@ public class Match {
             this.resultStr = sResult;
             try {
                 if (rTot != null)
-                    this.rTot = Double.parseDouble(rTot);
+                    this.score[MyApp.RED][MyApp.ScoreType.TOTAL.ordinal()] = Double.parseDouble(rTot);
             } catch (NumberFormatException e) {
-                this.rTot = -1;
+                this.score[MyApp.RED][MyApp.ScoreType.TOTAL.ordinal()] = -1;
             }
             try {
                 if (rAuto != null)
-                    this.rAuto = Double.parseDouble(rAuto);
+                    this.score[MyApp.RED][MyApp.ScoreType.AUTONOMOUS.ordinal()]= Double.parseDouble(rAuto);
             } catch (NumberFormatException e) {
-                this.rAuto = -1;
+                this.score[MyApp.RED][MyApp.ScoreType.AUTONOMOUS.ordinal()]= -1;
             }
             try {
                 if (rAutoB != null)
-                    this.rAutoB = Double.parseDouble(rAutoB);
+                    this.score[MyApp.RED][MyApp.ScoreType.AUTO_BONUS.ordinal()] = Double.parseDouble(rAutoB);
             } catch (NumberFormatException e) {
-                this.rAutoB = -1;
+                this.score[MyApp.RED][MyApp.ScoreType.AUTO_BONUS.ordinal()] = -1;
             }
             try {
                 if (rTele != null)
-                    this.rTele = Double.parseDouble(rTele);
+                    this.score[MyApp.RED][MyApp.ScoreType.TELEOP.ordinal()] = Double.parseDouble(rTele);
             } catch (NumberFormatException e) {
-                this.rTele = -1;
+                this.score[MyApp.RED][MyApp.ScoreType.TELEOP.ordinal()] = -1;
             }
             try {
                 if (rEndG != null)
-                    this.rEndG = Double.parseDouble(rEndG);
+                    this.score[MyApp.RED][MyApp.ScoreType.END_GAME.ordinal()] = Double.parseDouble(rEndG);
             } catch (NumberFormatException e) {
-                this.rEndG = -1;
+                this.score[MyApp.RED][MyApp.ScoreType.END_GAME.ordinal()] = -1;
             }
             try {
                 if (rPen != null)
-                    this.rPen = Double.parseDouble(rPen);
+                    this.score[MyApp.RED][MyApp.ScoreType.PENALTY.ordinal()] = Double.parseDouble(rPen);
             } catch (NumberFormatException e) {
-                this.rPen = -1;
+                this.score[MyApp.RED][MyApp.ScoreType.PENALTY.ordinal()] = -1;
             }
             try {
                 if (bTot != null)
-                    this.bTot = Double.parseDouble(bTot);
+                    this.score[MyApp.BLUE][MyApp.ScoreType.TOTAL.ordinal()] = Double.parseDouble(bTot);
             } catch (NumberFormatException e) {
-                this.bTot = -1;
+                this.score[MyApp.BLUE][MyApp.ScoreType.TOTAL.ordinal()] = -1;
             }
             try {
                 if (bAuto != null)
-                    this.bAuto = Double.parseDouble(bAuto);
+                    this.score[MyApp.BLUE][MyApp.ScoreType.AUTONOMOUS.ordinal()]= Double.parseDouble(bAuto);
             } catch (NumberFormatException e) {
-                this.bAuto = -1;
+                this.score[MyApp.BLUE][MyApp.ScoreType.AUTONOMOUS.ordinal()]= -1;
             }
             try {
                 if (bAutoB != null)
-                    this.bAutoB = Double.parseDouble(bAutoB);
+                    this.score[MyApp.BLUE][MyApp.ScoreType.AUTO_BONUS.ordinal()] = Double.parseDouble(bAutoB);
             } catch (NumberFormatException e) {
-                this.bAutoB = -1;
+                this.score[MyApp.BLUE][MyApp.ScoreType.AUTO_BONUS.ordinal()] = -1;
             }
             try {
                 if (bTele != null)
-                    this.bTele = Double.parseDouble(bTele);
+                    this.score[MyApp.BLUE][MyApp.ScoreType.TELEOP.ordinal()] = Double.parseDouble(bTele);
             } catch (NumberFormatException e) {
-                this.bTele = -1;
+                this.score[MyApp.BLUE][MyApp.ScoreType.TELEOP.ordinal()] = -1;
             }
             try {
                 if (bEndG != null)
-                    this.bEndG = Double.parseDouble(bEndG);
+                    this.score[MyApp.BLUE][MyApp.ScoreType.END_GAME.ordinal()] = Double.parseDouble(bEndG);
             } catch (NumberFormatException e) {
-                this.bEndG = -1;
+                this.score[MyApp.BLUE][MyApp.ScoreType.END_GAME.ordinal()] = -1;
             }
             try {
                 if (bPen != null)
-                    this.bPen = Double.parseDouble(bPen);
+                    this.score[MyApp.BLUE][MyApp.ScoreType.PENALTY.ordinal()] = Double.parseDouble(bPen);
             } catch (NumberFormatException e) {
-                this.bPen = -1;
+                this.score[MyApp.BLUE][MyApp.ScoreType.PENALTY.ordinal()] = -1;
             }
         }
         this.predicted = predicted;
@@ -375,10 +328,16 @@ public class Match {
     public String toString() {
         String output;
         output = this.title + "," + this.resultStr;
-        output = output + "," + this.rTeam0 + "," + this.rTeam1 + "," + this.rTeam2;
-        output = output + "," + this.bTeam0 + "," + this.bTeam1 + "," + this.bTeam2;
-        output = output + "," + this.rTot + "," + this.rAuto + "," + this.rAutoB + "," + this.rTele + "," + this.rEndG + "," + this.rPen;
-        output = output + "," + this.bTot + "," + this.bAuto + "," + this.bAutoB + "," + this.bTele + "," + this.bEndG + "," + this.bPen;
+        for (int i=0; i<MyApp.NUM_ALLIANCES; i++) {
+            for (int j=0; j<MyApp.TEAMS_PER_ALLIANCE; j++) {
+                output = output + "," + this.teamNumber[i][j];
+            }
+        }
+        for (int i=0; i<MyApp.NUM_ALLIANCES; i++) {
+            for (int j=0; j<MyApp.NUM_SCORE_TYPES; j++) {
+                output = output + "," + this.score[i][j];
+            }
+        }
         output = output + System.getProperty("line.separator");
         return output;
     }

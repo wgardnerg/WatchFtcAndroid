@@ -72,47 +72,47 @@ public class MatchesExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         holder.titleView.setText(child.title);
-        holder.red0View.setText(String.valueOf(child.rTeam0));
-        holder.red1View.setText(String.valueOf(child.rTeam1));
-        holder.red2View.setText(String.valueOf(child.rTeam2));
-        holder.blue0View.setText(String.valueOf(child.bTeam0));
-        holder.blue1View.setText(String.valueOf(child.bTeam1));
-        holder.blue2View.setText(String.valueOf(child.bTeam2));
+        holder.red0View.setText(String.valueOf(child.teamNumber[MyApp.RED][0]));
+        holder.red1View.setText(String.valueOf(child.teamNumber[MyApp.RED][1]));
+        holder.red2View.setText(String.valueOf(child.teamNumber[MyApp.RED][2]));
+        holder.blue0View.setText(String.valueOf(child.teamNumber[MyApp.BLUE][0]));
+        holder.blue1View.setText(String.valueOf(child.teamNumber[MyApp.BLUE][1]));
+        holder.blue2View.setText(String.valueOf(child.teamNumber[MyApp.BLUE][2]));
 
         MyApp myApp = MyApp.getInstance();
 
-        if (myApp.selectedTeams.contains(child.rTeam0)) {
+        if (myApp.selectedTeams.contains(child.teamNumber[MyApp.RED][0])) {
             holder.red0View.setBackgroundResource(R.color.yellow);
         } else {
             holder.red0View.setBackgroundResource(R.color.lighter_red);
         }
-        if (myApp.selectedTeams.contains(child.rTeam1)) {
+        if (myApp.selectedTeams.contains(child.teamNumber[MyApp.RED][1])) {
             holder.red1View.setBackgroundResource(R.color.yellow);
         } else {
             holder.red1View.setBackgroundResource(R.color.lighter_red);
         }
-        if (myApp.selectedTeams.contains(child.rTeam2)) {
+        if (myApp.selectedTeams.contains(child.teamNumber[MyApp.RED][2])) {
             holder.red2View.setBackgroundResource(R.color.yellow);
         } else {
             holder.red2View.setBackgroundResource(R.color.lighter_red);
         }
 
-        if (myApp.selectedTeams.contains(child.bTeam0)) {
+        if (myApp.selectedTeams.contains(child.teamNumber[MyApp.BLUE][0])) {
             holder.blue0View.setBackgroundResource(R.color.yellow);
         } else {
             holder.blue0View.setBackgroundResource(R.color.lighter_blue);
         }
-        if (myApp.selectedTeams.contains(child.bTeam1)) {
+        if (myApp.selectedTeams.contains(child.teamNumber[MyApp.BLUE][1])) {
             holder.blue1View.setBackgroundResource(R.color.yellow);
         } else {
             holder.blue1View.setBackgroundResource(R.color.lighter_blue);
         }
-        if (myApp.selectedTeams.contains(child.bTeam2)) {
+        if (myApp.selectedTeams.contains(child.teamNumber[MyApp.BLUE][2])) {
             holder.blue2View.setBackgroundResource(R.color.yellow);
         } else {
             holder.blue2View.setBackgroundResource(R.color.lighter_blue);
         }
-        if (child.rTeam2 > 0) {
+        if (child.teamNumber[MyApp.RED][2] > 0) {
             LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) holder.red2View.getLayoutParams();
             param.weight = 1;
             holder.red2View.setLayoutParams(param);
@@ -132,19 +132,19 @@ public class MatchesExpandableListAdapter extends BaseExpandableListAdapter {
         holder.redTotView.setBackgroundResource(R.drawable.no_border_red);
         holder.blueTotView.setBackgroundResource(R.drawable.no_border_blue);
 
-        if (child.rTot >= 0) {
+        if (child.score[MyApp.RED][MyApp.ScoreType.TOTAL.ordinal()] >= 0) {
 
-            holder.redTotView.setText(String.format("%3.0f", child.rTot));
-            holder.blueTotView.setText(String.format("%3.0f", child.bTot));
+            holder.redTotView.setText(String.format("%3.0f", child.score[MyApp.RED][MyApp.ScoreType.TOTAL.ordinal()]));
+            holder.blueTotView.setText(String.format("%3.0f", child.score[MyApp.BLUE][MyApp.ScoreType.TOTAL.ordinal()]));
             if (child.predicted) {
                 holder.redTotView.setTypeface(null, Typeface.ITALIC);
                 holder.blueTotView.setTypeface(null, Typeface.ITALIC);
             } else {
                 holder.redTotView.setTypeface(null, Typeface.BOLD);
                 holder.blueTotView.setTypeface(null, Typeface.BOLD);
-                if (child.rTot > child.bTot) {
+                if (child.score[MyApp.RED][MyApp.ScoreType.TOTAL.ordinal()] > child.score[MyApp.BLUE][MyApp.ScoreType.TOTAL.ordinal()]) {
                     holder.redTotView.setBackgroundResource(R.drawable.red_border);
-                } else if (child.rTot < child.bTot) {
+                } else if (child.score[MyApp.RED][MyApp.ScoreType.TOTAL.ordinal()] < child.score[MyApp.BLUE][MyApp.ScoreType.TOTAL.ordinal()]) {
                     holder.blueTotView.setBackgroundResource(R.drawable.blue_border);
                 }
             }

@@ -1,6 +1,8 @@
 package com.wrgardnersoft.watchftc.models;
 
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 import Jama.Matrix;
@@ -11,52 +13,15 @@ import Jama.SingularValueDecomposition;
  */
 public class Stat {
 
-    private static double OprComponent(Match m, boolean red, TeamStatRanked.StatType type) {
+    private static double OprComponent(Match m, int color, MyApp.ScoreType type) {
         double retVal = 0;
 
-        switch (type) {
-            case TOTAL:
-                if (red) {
-                    retVal = m.rTot - m.rPen;
-                } else {
-                    retVal = m.bTot - m.bPen;
-                }
-                break;
-            case AUTONOMOUS:
-                if (red) {
-                    retVal = m.rAuto;
-                } else {
-                    retVal = m.bAuto;
-                }
-                break;
-            case AUTO_BONUS:
-                if (red) {
-                    retVal = m.rAutoB;
-                } else {
-                    retVal = m.bAutoB;
-                }
-                break;
-            case TELEOP:
-                if (red) {
-                    retVal = m.rTele;
-                } else {
-                    retVal = m.bTele;
-                }
-                break;
-            case END_GAME:
-                if (red) {
-                    retVal = m.rEndG;
-                } else {
-                    retVal = m.bEndG;
-                }
-                break;
-            case PENALTY:
-                if (red) {
-                    retVal = -m.bPen;
-                } else {
-                    retVal = -m.rPen;
-                }
-                break;
+        if (type == MyApp.ScoreType.TOTAL) {
+            retVal = m.score[color][type.ordinal()] - m.score[color][MyApp.ScoreType.PENALTY.ordinal()];
+        } else if (type == MyApp.ScoreType.PENALTY){
+            retVal = -m.score[1-color][type.ordinal()];
+        } else {
+            retVal = m.score[color][type.ordinal()];
         }
         return retVal;
     }
@@ -102,7 +67,7 @@ public class Stat {
         // only count SCORED QUALIFYING matches
         int numMatches = 0;
         for (int i = 0; i < myApp.match[myApp.division()].size(); i++) {
-            if ((ms.get(i).rTot >= 0) &&
+            if ((ms.get(i).score[MyApp.RED][MyApp.ScoreType.TOTAL.ordinal()] >= 0) &&
                     (ms.get(i).title.substring(0, 1).matches("Q"))) {
                 numMatches++;
             }
@@ -118,7 +83,7 @@ public class Stat {
         Matrix AtAinvA = new Matrix(2 * numTeams, 2 * numTeams);
         double dprPreWeight = 0;
         Matrix toprA = new Matrix(2 * numTeams, 1);
-        double meanOffense[] = new double[TeamStatRanked.StatType.values().length];
+        double meanOffense[] = new double[MyApp.ScoreType.values().length];
 
         if (numMatches > 0) {
 
@@ -132,18 +97,18 @@ public class Stat {
             for (int i = 0; i < myApp.match[myApp.division()].size(); i++) {
                 Match m = ms.get(i);
 
-                if ((m.rTot >= 0) &&
+                if ((m.score[MyApp.RED][MyApp.ScoreType.TOTAL.ordinal()] >= 0) &&
                         (m.title.substring(0, 1).matches("Q"))) {
 
-                    AA.set(iM, atn.indexOf(m.rTeam0), 1.0);
-                    AA.set(iM, atn.indexOf(m.rTeam1), 1.0);
-                    AA.set(iM, numTeams + atn.indexOf(m.bTeam0), -2.0 * (dprPreWeight));
-                    AA.set(iM, numTeams + atn.indexOf(m.bTeam1), -2.0 * (dprPreWeight));
+                    AA.set(iM, atn.indexOf(m.teamNumber[MyApp.RED][0]), 1.0);
+                    AA.set(iM, atn.indexOf(m.teamNumber[MyApp.RED][1]), 1.0);
+                    AA.set(iM, numTeams + atn.indexOf(m.teamNumber[MyApp.BLUE][0]), -2.0 * (dprPreWeight));
+                    AA.set(iM, numTeams + atn.indexOf(m.teamNumber[MyApp.BLUE][1]), -2.0 * (dprPreWeight));
                     iM++;
-                    AA.set(iM, atn.indexOf(m.bTeam0), 1.0);
-                    AA.set(iM, atn.indexOf(m.bTeam1), 1.0);
-                    AA.set(iM, numTeams + atn.indexOf(m.rTeam0), -2.0 * (dprPreWeight));
-                    AA.set(iM, numTeams + atn.indexOf(m.rTeam1), -2.0 * (dprPreWeight));
+                    AA.set(iM, atn.indexOf(m.teamNumber[MyApp.BLUE][0]), 1.0);
+                    AA.set(iM, atn.indexOf(m.teamNumber[MyApp.BLUE][1]), 1.0);
+                    AA.set(iM, numTeams + atn.indexOf(m.teamNumber[MyApp.RED][0]), -2.0 * (dprPreWeight));
+                    AA.set(iM, numTeams + atn.indexOf(m.teamNumber[MyApp.RED][1]), -2.0 * (dprPreWeight));
                     iM++;
                 }
             }
@@ -169,7 +134,7 @@ public class Stat {
             //   A' A is positive semidef, so use Cholesky decomposition to solve it.
 
 
-            for (TeamStatRanked.StatType type : TeamStatRanked.StatType.values()) {
+            for (MyApp.ScoreType type : MyApp.ScoreType.values()) {
                 //       int type = 0; type < TeamStatRanked.StatType.values().length; type++) {
 
                 Matrix BoprA = new Matrix(2 * numMatches, 1);
@@ -178,14 +143,14 @@ public class Stat {
                 for (int i = 0; i < myApp.match[myApp.division()].size(); i++) {
                     Match m = ms.get(i);
 
-                    if ((m.rTot >= 0) &&
+                    if ((m.score[MyApp.RED][MyApp.ScoreType.TOTAL.ordinal()] >= 0) &&
                             (m.title.substring(0, 1).matches("Q"))) {
 
-                        BoprA.set(iM, 0, Stat.OprComponent(m, true, type));
+                        BoprA.set(iM, 0, Stat.OprComponent(m, MyApp.RED, type));
                         meanOffense[type.ordinal()] += BoprA.get(iM, 0);
                         iM++;
 
-                        BoprA.set(iM, 0, Stat.OprComponent(m, false, type));
+                        BoprA.set(iM, 0, Stat.OprComponent(m, MyApp.BLUE, type));
                         meanOffense[type.ordinal()] += BoprA.get(iM, 0);
                         iM++;
                     }
@@ -194,8 +159,6 @@ public class Stat {
                 for (int i = 0; i < 2 * numMatches; i++) {
                     BoprA.set(i, 0, BoprA.get(i, 0) - 2 * meanOffense[type.ordinal()]);
                 }
-
-                // using SVD to solve so get result even when underdetermined!
 
                 ////////////////////////
                 // OPR:
@@ -231,6 +194,9 @@ public class Stat {
                 for (int i = 0; i < numTeams; i++) {
                     myApp.teamStatRanked[division].get(i).oprA[type.ordinal()] += meanDpr + meanOffense[type.ordinal()];
                     myApp.teamStatRanked[division].get(i).dprA[type.ordinal()] -= meanDpr;
+                    if (type == MyApp.ScoreType.PENALTY) {
+                        Log.i("Pen OPR"+i, String.valueOf(myApp.teamStatRanked[division].get(i).oprA[type.ordinal()]));
+                    }
                 }
             }
 

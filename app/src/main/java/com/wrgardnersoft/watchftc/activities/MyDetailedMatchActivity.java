@@ -10,20 +10,24 @@ import android.widget.TextView;
 import com.wrgardnersoft.watchftc.R;
 import com.wrgardnersoft.watchftc.interfaces.AsyncResponse;
 import com.wrgardnersoft.watchftc.internet.ClientTask;
+import com.wrgardnersoft.watchftc.models.DetailedMatch;
 import com.wrgardnersoft.watchftc.models.Match;
 import com.wrgardnersoft.watchftc.models.MyApp;
 import com.wrgardnersoft.watchftc.models.TeamStatRanked;
 
 import java.util.ArrayList;
 
-
-public class MyMatchActivity extends CommonMenuActivity implements AsyncResponse {
+/**
+ * Created by Bill on 2/11/2015.
+ */
+public class MyDetailedMatchActivity extends CommonMenuActivity implements AsyncResponse {
 
     ClientTask clientTask;
 
     public ArrayList<Match> myMatch;
+    public ArrayList<DetailedMatch> myDetailedMatch;
 
-    public MyMatchActivity() {
+    public MyDetailedMatchActivity() {
         this.myMatch = new ArrayList<>();
     }
 
@@ -45,7 +49,7 @@ public class MyMatchActivity extends CommonMenuActivity implements AsyncResponse
 
 
         setTitle(" Match: " + myMatch.get(0).title);
-        setContentView(R.layout.activity_my_match);
+        setContentView(R.layout.activity_my_detailed_match);
 
         inflateMe();
     }
@@ -70,6 +74,7 @@ public class MyMatchActivity extends CommonMenuActivity implements AsyncResponse
         TextView tv;
 
         MyApp myApp = (MyApp) getApplication();
+
         Match mm = myMatch.get(0);
 
         if ((mm.score[MyApp.RED][MyApp.ScoreType.TOTAL.ordinal()] < 0) && (myApp.enableMatchPrediction)) {
@@ -97,15 +102,16 @@ public class MyMatchActivity extends CommonMenuActivity implements AsyncResponse
                             mm.score[1 - color][i] -= t.dprA[i];
                         }
                         mm.score[color][MyApp.ScoreType.PENALTY.ordinal()] +=
-                                t.dprA[MyApp.ScoreType.PENALTY.ordinal()];
+                                t.oprA[MyApp.ScoreType.PENALTY.ordinal()];
                         mm.score[color][MyApp.ScoreType.TOTAL.ordinal()] +=
-                                t.dprA[MyApp.ScoreType.PENALTY.ordinal()];
+                                t.oprA[MyApp.ScoreType.PENALTY.ordinal()];
 
                     }
                 }
             }
 
         }
+
 
         if (mm.predicted) {
             tv = (TextView) findViewById(R.id.my_match_title);
@@ -225,8 +231,12 @@ public class MyMatchActivity extends CommonMenuActivity implements AsyncResponse
                 }
             }
 
+            if (mm.predicted) {
+                tv.setTypeface(null, Typeface.ITALIC);
+            }
+
             for (int i=0; i<MyApp.NUM_ALLIANCES; i++) {
-                for (int j=0; j<MyApp.NUM_SCORE_TYPES; j++) {
+                for (int j=0; j<MyApp.TEAMS_PER_ALLIANCE; j++) {
                     tv = (TextView) findViewById(tvId[i][j]);
                     tv.setText(String.format("%.0f", mm.score[i][j]));
                     if (mm.predicted) {
@@ -242,7 +252,7 @@ public class MyMatchActivity extends CommonMenuActivity implements AsyncResponse
             tv.setBackgroundResource(R.drawable.no_border_blue);
 
             for (int i=0; i<MyApp.NUM_ALLIANCES; i++) {
-                for (int j=0; j<MyApp.NUM_SCORE_TYPES; j++) {
+                for (int j=0; j<MyApp.TEAMS_PER_ALLIANCE; j++) {
                     tv = (TextView) findViewById(tvId[i][j]);
                     tv.setText("");
                 }
@@ -282,4 +292,5 @@ public class MyMatchActivity extends CommonMenuActivity implements AsyncResponse
     }
 
 }
+
 
