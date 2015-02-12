@@ -44,11 +44,13 @@
                 android:textStyle="bold" />
 
             <LinearLayout
+                android:id="@+id/mm_red_alliance"
                 android:layout_width="72dp"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:orientation="vertical"
-                android:background="@drawable/match_team_selector_red">
+                android:background="@drawable/match_team_selector_red"
+                android:clickable="true">
 
                 <TextView
                     android:id="@+id/mm_rT0"
@@ -84,6 +86,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/mm_blue_alliance"
                 android:layout_width="72dp"
                 android:layout_height="wrap_content"
                 android:padding="8dp"

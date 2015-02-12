@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.wrgardnersoft.watchftc.BuildConfig;
 import com.wrgardnersoft.watchftc.R;
 
 
@@ -18,6 +19,8 @@ public class LauncherActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.drawable.ic_launcher);
         setContentView(R.layout.activity_launcher);
+
+        setTitle(getString(R.string.app_name) + ":" + BuildConfig.VERSION_NAME);
     }
 
 

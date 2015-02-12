@@ -10,11 +10,24 @@
     tools:context=".MyMatchActivity"
     android:background="#ffffffff">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Result"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:id="@+id/my_match_title"
+        android:padding="8dp"
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true" />
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
+        android:layout_below="@+id/my_match_title"
+        android:gravity="center_horizontal"
+        android:id="@+id/tableLayout">
 
         <TableRow
             android:layout_gravity="center"
@@ -31,11 +44,13 @@
                 android:textStyle="bold" />
 
             <LinearLayout
+                android:id="@+id/mm_red_alliance"
                 android:layout_width="105dp"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:orientation="vertical"
-                android:background="@drawable/match_team_selector_red">
+                android:background="@drawable/match_team_selector_red"
+                android:clickable="true">
 
                 <TextView
                     android:id="@+id/mm_rT0"
@@ -71,11 +86,13 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/mm_blue_alliance"
                 android:layout_width="105dp"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:orientation="vertical"
-                android:background="@drawable/match_team_selector_blue">
+                android:background="@drawable/match_team_selector_blue"
+                android:clickable="true">
 
                 <TextView
                     android:id="@+id/mm_bT0"
@@ -146,7 +163,6 @@
                 android:layout_width="wrap_content"
                 android:textColor="@color/black"
                 android:background="@drawable/match_team_selector_blue"
-
                 android:textStyle="bold" />
 
         </TableRow>

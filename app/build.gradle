@@ -1,5 +1,8 @@
 apply plugin: 'com.android.application'
 
+def VER_CODE = 10
+def VER_NAME = "1.09"
+
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
@@ -8,11 +11,12 @@ android {
         applicationId "com.wrgardnersoft.watchftc"
         minSdkVersion 16
         targetSdkVersion 21
-        versionCode 9
-        versionName "1.08"
+        versionCode VER_CODE
+        versionName VER_NAME // also update below!!!
     }
     buildTypes {
         release {
+            buildConfigField "String", "VERSION_NAME", VER_NAME
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
