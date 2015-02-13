@@ -1,9 +1,11 @@
 package com.wrgardnersoft.watchftc.activities;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -74,13 +76,13 @@ public class MyMatchActivity extends CommonMenuActivity implements AsyncResponse
 
         if ((mm.score[MyApp.RED][MyApp.ScoreType.TOTAL.ordinal()] < 0) && (myApp.enableMatchPrediction)) {
             mm.predicted = true;
-            for (int i=0; i<MyApp.NUM_ALLIANCES; i++) {
-                for (int j=0; j<MyApp.NUM_SCORE_TYPES; j++) {
-                    mm.score[i][j]=0;
+            for (int i = 0; i < MyApp.NUM_ALLIANCES; i++) {
+                for (int j = 0; j < MyApp.NUM_SCORE_TYPES; j++) {
+                    mm.score[i][j] = 0;
                 }
             }
             for (TeamStatRanked t : myApp.teamStatRanked[myApp.division()]) {
-                for (int color = 0; color< MyApp.NUM_ALLIANCES; color++) {
+                for (int color = 0; color < MyApp.NUM_ALLIANCES; color++) {
                     if ((mm.teamNumber[color][0] == t.number) ||
                             (mm.teamNumber[color][1] == t.number) ||
                             (mm.teamNumber[color][2] == t.number)) {
@@ -89,6 +91,8 @@ public class MyMatchActivity extends CommonMenuActivity implements AsyncResponse
                             mm.score[color][i] += t.oprA[i];
                         }
                         mm.score[1 - color][MyApp.ScoreType.PENALTY.ordinal()] -=
+                                t.oprA[MyApp.ScoreType.PENALTY.ordinal()];
+                        mm.score[color][MyApp.ScoreType.TOTAL.ordinal()] -=
                                 t.oprA[MyApp.ScoreType.PENALTY.ordinal()];
                         mm.score[1 - color][MyApp.ScoreType.TOTAL.ordinal()] -=
                                 t.oprA[MyApp.ScoreType.PENALTY.ordinal()];
@@ -99,6 +103,8 @@ public class MyMatchActivity extends CommonMenuActivity implements AsyncResponse
                         mm.score[color][MyApp.ScoreType.PENALTY.ordinal()] +=
                                 t.dprA[MyApp.ScoreType.PENALTY.ordinal()];
                         mm.score[color][MyApp.ScoreType.TOTAL.ordinal()] +=
+                                t.dprA[MyApp.ScoreType.PENALTY.ordinal()];
+                        mm.score[1-color][MyApp.ScoreType.TOTAL.ordinal()] +=
                                 t.dprA[MyApp.ScoreType.PENALTY.ordinal()];
 
                     }
@@ -195,7 +201,7 @@ public class MyMatchActivity extends CommonMenuActivity implements AsyncResponse
         int tvId[][] = {{R.id.mm_rTot, R.id.mm_rAuto, R.id.mm_rAutoB, R.id.mm_rTele, R.id.mm_rEndG, R.id.mm_rPen},
                 {R.id.mm_bTot, R.id.mm_bAuto, R.id.mm_bAutoB, R.id.mm_bTele, R.id.mm_bEndG, R.id.mm_bPen}};
 
-        if (mm.score[MyApp.RED][MyApp.ScoreType.TOTAL.ordinal()] >= 0) {
+        if ((mm.score[MyApp.RED][MyApp.ScoreType.TOTAL.ordinal()] >= 0)||(mm.predicted)) {
             if (mm.predicted) {
                 tv = (TextView) findViewById(R.id.mm_rTot);
                 tv.setTypeface(null, Typeface.ITALIC);
@@ -225,8 +231,8 @@ public class MyMatchActivity extends CommonMenuActivity implements AsyncResponse
                 }
             }
 
-            for (int i=0; i<MyApp.NUM_ALLIANCES; i++) {
-                for (int j=0; j<MyApp.NUM_SCORE_TYPES; j++) {
+            for (int i = 0; i < MyApp.NUM_ALLIANCES; i++) {
+                for (int j = 0; j < MyApp.NUM_SCORE_TYPES; j++) {
                     tv = (TextView) findViewById(tvId[i][j]);
                     tv.setText(String.format("%.0f", mm.score[i][j]));
                     if (mm.predicted) {
@@ -241,13 +247,39 @@ public class MyMatchActivity extends CommonMenuActivity implements AsyncResponse
             tv = (TextView) findViewById(R.id.mm_bTot);
             tv.setBackgroundResource(R.drawable.no_border_blue);
 
-            for (int i=0; i<MyApp.NUM_ALLIANCES; i++) {
-                for (int j=0; j<MyApp.NUM_SCORE_TYPES; j++) {
+            for (int i = 0; i < MyApp.NUM_ALLIANCES; i++) {
+                for (int j = 0; j < MyApp.NUM_SCORE_TYPES; j++) {
                     tv = (TextView) findViewById(tvId[i][j]);
                     tv.setText("");
                 }
             }
         }
+
+        LinearLayout alRView = (LinearLayout) findViewById(R.id.mm_red_alliance);
+        alRView.setOnClickListener(new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View v) {
+                                           if (MyApp.getInstance().enableMatchPrediction) {
+                                               Intent getNameScreenIntent = new Intent(v.getContext(),
+                                                       MyDetailedMatchActivity.class);
+                                               startActivity(getNameScreenIntent);
+                                           }
+                                       }
+                                   }
+        );
+
+        LinearLayout alBView = (LinearLayout) findViewById(R.id.mm_blue_alliance);
+        alBView.setOnClickListener(new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View v) {
+                                           if (MyApp.getInstance().enableMatchPrediction) {
+                                               Intent getNameScreenIntent = new Intent(v.getContext(),
+                                                       MyDetailedMatchActivity.class);
+                                               startActivity(getNameScreenIntent);
+                                           }
+                                       }
+                                   }
+        );
 
     }
 

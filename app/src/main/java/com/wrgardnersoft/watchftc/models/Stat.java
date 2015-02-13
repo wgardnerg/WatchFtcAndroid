@@ -1,6 +1,8 @@
 package com.wrgardnersoft.watchftc.models;
 
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 import Jama.Matrix;
@@ -15,7 +17,7 @@ public class Stat {
         double retVal = 0;
 
         if (type == MyApp.ScoreType.TOTAL) {
-            retVal = m.score[color][type.ordinal()] - m.score[color][MyApp.ScoreType.PENALTY.ordinal()];
+            retVal = m.score[color][type.ordinal()] - m.score[color][MyApp.ScoreType.PENALTY.ordinal()] - m.score[1-color][MyApp.ScoreType.PENALTY.ordinal()];
         } else if (type == MyApp.ScoreType.PENALTY){
             retVal = -m.score[1-color][type.ordinal()];
         } else {
@@ -154,6 +156,7 @@ public class Stat {
                     }
                 }
                 meanOffense[type.ordinal()] /= 2 * numMatches * 2; // per team, 2 for red/blue, 2 for 2 teams per alliance
+ Log.i("MO", String.valueOf(meanOffense[type.ordinal()]));
                 for (int i = 0; i < 2 * numMatches; i++) {
                     BoprA.set(i, 0, BoprA.get(i, 0) - 2 * meanOffense[type.ordinal()]);
                 }
@@ -178,8 +181,11 @@ public class Stat {
 
                 for (int i = 0; i < numTeams; i++) {
                     myApp.teamStatRanked[division].get(i).oprA[type.ordinal()] = toprA.get(i, 0);
+                    Log.i("O", String.valueOf(toprA.get(i, 0)));
                     myApp.teamStatRanked[division].get(i).dprA[type.ordinal()] = toprA.get(i + numTeams, 0);
+                    Log.i("D", String.valueOf(toprA.get(i+numTeams, 0)));
                     myApp.teamStatRanked[division].get(i).ccwmA[type.ordinal()] = toprA.get(i, 0) + toprA.get(i + numTeams, 0);
+                    Log.i("C", String.valueOf(toprA.get(i, 0) + toprA.get(i + numTeams, 0)));
                 }
 
                 // Normalize for average defense and offense

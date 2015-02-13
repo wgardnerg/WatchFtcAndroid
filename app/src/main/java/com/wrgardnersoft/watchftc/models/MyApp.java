@@ -76,7 +76,7 @@ public class MyApp extends Application {
 
         this.currentTeamNumber=-1;
 
-        this.enableMatchPrediction = false;
+        this.enableMatchPrediction = true;
     }
 
     public int division() {

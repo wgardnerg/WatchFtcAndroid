@@ -36,6 +36,12 @@
             android:configChanges="orientation|keyboardHidden">
         </activity>
         <activity
+            android:name=".activities.MyDetailedMatchActivity"
+            android:label="@string/myDetailedMatch"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden">
+        </activity>
+        <activity
             android:name=".activities.TeamsActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/teams" >

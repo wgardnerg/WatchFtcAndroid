@@ -5,11 +5,20 @@ package com.wrgardnersoft.watchftc.models;
  */
 public class DetailedMatch {
 
-
-    public double[][][] score;
+    public Match m[];
 
     public DetailedMatch() {
-       this.score = new double[2][3][MyApp.ScoreType.values().length];
+        this.m = new Match[MyApp.TEAMS_PER_ALLIANCE];
+        for (int i=0; i<MyApp.TEAMS_PER_ALLIANCE; i++) {
+            this.m[i]=new Match();
+        }
+    }
+
+    public DetailedMatch(Match m[]) {
+        this.m = new Match[MyApp.TEAMS_PER_ALLIANCE];
+        for (int i=0; i<MyApp.TEAMS_PER_ALLIANCE; i++) {
+            this.m[i]=new Match(m[i]);
+        }
     }
 
 }

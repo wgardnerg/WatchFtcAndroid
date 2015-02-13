@@ -14,14 +14,25 @@ public class Match {
     public double score[][];
     public boolean predicted;
 
+    public Match() {
+        this.number = 0;
+        this.title = null;
+        this.resultStr = null;
+
+        this.teamNumber = new int[MyApp.NUM_ALLIANCES][MyApp.TEAMS_PER_ALLIANCE];
+        this.score = new double[MyApp.NUM_ALLIANCES][MyApp.NUM_SCORE_TYPES];
+
+        this.predicted = false;
+    }
+
     public Match(Match m) {
         this.number = m.number;
         this.title = m.title;
         this.resultStr = m.resultStr;
-        
+
         this.teamNumber = new int[MyApp.NUM_ALLIANCES][MyApp.TEAMS_PER_ALLIANCE];
         this.score = new double[MyApp.NUM_ALLIANCES][MyApp.NUM_SCORE_TYPES];
-        
+
         for (int i=0; i<MyApp.NUM_ALLIANCES; i++) {
             for (int j=0; j<MyApp.TEAMS_PER_ALLIANCE; j++) {
                 this.teamNumber[i][j]=m.teamNumber[i][j];

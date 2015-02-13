@@ -3,6 +3,7 @@ package com.wrgardnersoft.watchftc.activities;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -64,6 +65,7 @@ public class MatchesActivity extends CommonMenuActivity implements AsyncResponse
 
             Match mm = new Match(m);
             if ((mm.score[MyApp.RED][MyApp.ScoreType.TOTAL.ordinal()] < 0) && (myApp.enableMatchPrediction)) {
+                Log.i("Got here", "MatchActivity");
                 mm.predicted = true;
                 for (int i=0; i<MyApp.NUM_ALLIANCES; i++) {
                     for (int j=0; j<MyApp.NUM_SCORE_TYPES; j++) {
@@ -81,6 +83,8 @@ public class MatchesActivity extends CommonMenuActivity implements AsyncResponse
                             }
                             mm.score[1 - color][MyApp.ScoreType.PENALTY.ordinal()] -=
                                     t.oprA[MyApp.ScoreType.PENALTY.ordinal()];
+                            mm.score[color][MyApp.ScoreType.TOTAL.ordinal()] -=
+                                    t.oprA[MyApp.ScoreType.PENALTY.ordinal()];
                             mm.score[1 - color][MyApp.ScoreType.TOTAL.ordinal()] -=
                                     t.oprA[MyApp.ScoreType.PENALTY.ordinal()];
 
@@ -90,6 +94,8 @@ public class MatchesActivity extends CommonMenuActivity implements AsyncResponse
                             mm.score[color][MyApp.ScoreType.PENALTY.ordinal()] +=
                                     t.dprA[MyApp.ScoreType.PENALTY.ordinal()];
                             mm.score[color][MyApp.ScoreType.TOTAL.ordinal()] +=
+                                    t.dprA[MyApp.ScoreType.PENALTY.ordinal()];
+                            mm.score[1-color][MyApp.ScoreType.TOTAL.ordinal()] +=
                                     t.dprA[MyApp.ScoreType.PENALTY.ordinal()];
 
                         }

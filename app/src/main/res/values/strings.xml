@@ -39,5 +39,7 @@
     <string name="disableForecast">Disable Forecast</string>
     <string name="predictedResult">Predicted Result</string>
     <string name="noResultYet">No Result Yet</string>
+    <string name="myDetailedMatch">My Detailed Match</string>
+    <string name="predictedBreakdown">Predicted Breakdown</string>
 
 </resources>
