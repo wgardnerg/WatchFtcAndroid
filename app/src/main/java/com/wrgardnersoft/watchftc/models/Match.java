@@ -1,6 +1,10 @@
 package com.wrgardnersoft.watchftc.models;
 
+import android.util.Log;
+
+import java.io.BufferedReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -351,6 +355,31 @@ public class Match {
         }
         output = output + System.getProperty("line.separator");
         return output;
+    }
+
+    public static Match readFromBR(BufferedReader fr) {
+        Match m = new Match();
+        int matchNum=0;
+        try {
+            String input = fr.readLine();
+            List<String> param = Arrays.asList(input.split(","));
+            int ind=0;
+            m.title = param.get(ind++);
+            m.resultStr = param.get(ind++);
+            for (int i=0; i<MyApp.NUM_ALLIANCES; i++) {
+                for (int j=0; j<MyApp.TEAMS_PER_ALLIANCE; j++) {
+                    m.teamNumber[i][j]=Integer.valueOf(param.get(ind++));
+                }
+            }
+            for (int i=0; i<MyApp.NUM_ALLIANCES; i++) {
+                for (int j=0; j<MyApp.NUM_SCORE_TYPES; j++) {
+                    m.score[i][j]=Double.valueOf(param.get(ind++));
+                }
+            }
+        } catch (Exception e) {
+            Log.i("Match.readFromBR", "Error reading");
+        }
+        return m;
     }
 
 }

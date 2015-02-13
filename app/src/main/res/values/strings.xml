@@ -41,5 +41,9 @@
     <string name="noResultYet">No Result Yet</string>
     <string name="myDetailedMatch">My Detailed Match</string>
     <string name="predictedBreakdown">Predicted Breakdown</string>
+    <string name="statInfo">Stat Info</string>
+    <string name="file">File</string>
+    <string name="save">Save</string>
+    <string name="load">Load</string>
 
 </resources>

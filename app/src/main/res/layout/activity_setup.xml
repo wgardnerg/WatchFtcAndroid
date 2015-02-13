@@ -68,7 +68,6 @@
             </LinearLayout>
 
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -111,6 +110,25 @@
                 android:layout_gravity="center_horizontal|bottom"
                 android:onClick="onClickSetupDoneButton"
                 android:text="Done" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="If there is currently no active FTC Scoring Software server, you can test the app with sample data after pressing 'Done' by selecting:"
+                android:textColor="@color/black"
+                android:paddingTop="16dp"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Menu->File->Load"
+                android:textColor="@color/black"
+                android:paddingTop="16dp"
+                android:textSize="15sp" />
 
         </LinearLayout>
 

@@ -206,8 +206,13 @@ public class StatRankingsActivity extends CommonMenuActivity implements AsyncRes
         MyApp myApp = MyApp.getInstance();
         MenuItem item = menu.findItem(R.id.action_stat_rankings);
         item.setVisible(false);
+
+        item = menu.findItem(R.id.action_stat_info);
+        item.setVisible(true);
+
         item = menu.findItem(R.id.action_toggle_forecast);
         item.setVisible(true);
+
         if (myApp.enableMatchPrediction) {
             menu.findItem(R.id.action_toggle_forecast).setTitle("Disable Forecast");
         } else {
@@ -222,6 +227,7 @@ public class StatRankingsActivity extends CommonMenuActivity implements AsyncRes
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        boolean saveReturn;
 
         MyApp myApp = MyApp.getInstance();
 
@@ -234,6 +240,12 @@ public class StatRankingsActivity extends CommonMenuActivity implements AsyncRes
             clientTask.execute();
             return true;
         }
-        return super.onOptionsItemSelected(item);
+        saveReturn =  super.onOptionsItemSelected(item);
+
+        if ((id == R.id.action_load)&&saveReturn) { // just loaded data, so refresh
+            processFinish(0);
+        }
+
+        return saveReturn;
     }
 }

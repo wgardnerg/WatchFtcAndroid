@@ -130,6 +130,7 @@ public class TeamsActivity extends CommonMenuActivity implements AsyncResponse {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        boolean saveReturn;
 
         MyApp myApp = MyApp.getInstance();
 
@@ -142,6 +143,12 @@ public class TeamsActivity extends CommonMenuActivity implements AsyncResponse {
             clientTask.execute();
             return true;
         }
-        return super.onOptionsItemSelected(item);
+        saveReturn =  super.onOptionsItemSelected(item);
+
+        if ((id == R.id.action_load)&&saveReturn) { // just loaded data, so refresh
+            processFinish(0);
+        }
+
+        return saveReturn;
     }
 }

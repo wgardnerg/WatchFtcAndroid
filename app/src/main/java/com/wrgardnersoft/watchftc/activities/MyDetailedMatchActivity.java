@@ -3,6 +3,7 @@ package com.wrgardnersoft.watchftc.activities;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -121,6 +122,8 @@ public class MyDetailedMatchActivity extends CommonMenuActivity implements Async
         if (mm.teamNumber[MyApp.RED][2] <= 0) {
             teamsPerAllianceInThisMatch = 2;
         }
+        Log.i("Teams this match", String.valueOf(teamsPerAllianceInThisMatch));
+
         for (int k = 0; k < teamsPerAllianceInThisMatch; k++) {
             for (int i = 0; i < MyApp.NUM_ALLIANCES; i++) {
                 for (int j = 0; j < MyApp.NUM_SCORE_TYPES; j++) {
@@ -182,7 +185,7 @@ public class MyDetailedMatchActivity extends CommonMenuActivity implements Async
                 VerticalTextView vtv2 = (VerticalTextView) findViewById(tvTeamId[i][0]);
                 LinearLayout.LayoutParams param2 = (LinearLayout.LayoutParams) vtv2.getLayoutParams();
                 LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) vtv.getLayoutParams();
-                param.height = param2.height;
+                param.width = param2.width;
                 vtv.setLayoutParams(param);
             }
         }
@@ -192,6 +195,13 @@ public class MyDetailedMatchActivity extends CommonMenuActivity implements Async
                 for (int j = 0; j < MyApp.NUM_SCORE_TYPES; j++) {
                     tv = (TextView) findViewById(tvScoreId[j][i * MyApp.TEAMS_PER_ALLIANCE + k]);
                     tv.setText(String.format("%.0f", mdm.m[k].score[i][j]));
+
+
+                    TextView tv2 = (TextView) findViewById(tvScoreId[j][i * MyApp.TEAMS_PER_ALLIANCE]);
+                    LinearLayout.LayoutParams param2 = (LinearLayout.LayoutParams) tv2.getLayoutParams();
+                    LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) tv.getLayoutParams();
+                    param.width = param2.width;
+                    tv.setLayoutParams(param);
                 }
             }
         }
@@ -212,6 +222,7 @@ public class MyDetailedMatchActivity extends CommonMenuActivity implements Async
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        boolean saveReturn;
 
         MyApp myApp = MyApp.getInstance();
 
@@ -224,7 +235,13 @@ public class MyDetailedMatchActivity extends CommonMenuActivity implements Async
             clientTask.execute();
             return true;
         }
-        return super.onOptionsItemSelected(item);
+        saveReturn =  super.onOptionsItemSelected(item);
+
+        if ((id == R.id.action_load)&&saveReturn) { // just loaded data, so refresh
+            processFinish(0);
+        }
+
+        return saveReturn;
     }
 
     public void onClickMdmOprButton(View view) {

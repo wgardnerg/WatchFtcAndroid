@@ -1,5 +1,11 @@
 package com.wrgardnersoft.watchftc.models;
 
+import android.util.Log;
+
+import java.io.BufferedReader;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by Bill on 2/3/2015.
  */
@@ -35,6 +41,23 @@ public class TeamFtcRanked {
         String output;
         output = this.rank + "," + this.number + "," + this.name + "," + this.qp + "," + this.rp + "," + this.highest + "," + this.matches + System.getProperty("line.separator");
         return output;
+    }
+    public static TeamFtcRanked readFromBR(BufferedReader fr) {
+        TeamFtcRanked t = new TeamFtcRanked();
+        try {
+            String input = fr.readLine();
+            List<String> param = Arrays.asList(input.split(","));
+            t.rank = Integer.valueOf(param.get(0));
+            t.number = Integer.valueOf(param.get(1));
+            t.name = param.get(2);
+            t.qp = Integer.valueOf(param.get(3));
+            t.rp = Integer.valueOf(param.get(4));
+            t.highest = Integer.valueOf(param.get(5));
+            t.matches = Integer.valueOf(param.get(6));
+        } catch (Exception e) {
+            Log.i("TeamFtcRanked.readFromBR", "Error reading");
+        }
+        return t;
     }
 }
 

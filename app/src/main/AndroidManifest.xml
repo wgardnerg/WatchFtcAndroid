@@ -59,8 +59,13 @@
         <activity
             android:name=".activities.StatRankingsActivity"
             android:label="@string/statRankings"
+            android:configChanges="orientation|screenSize" >
+        </activity>
 
-            android:configChanges="orientation|keyboardHidden">
+        <activity
+            android:name=".activities.StatInfoActivity"
+            android:label="@string/statInfo"
+            android:configChanges="orientation|screenSize" >
         </activity>
 
     </application>

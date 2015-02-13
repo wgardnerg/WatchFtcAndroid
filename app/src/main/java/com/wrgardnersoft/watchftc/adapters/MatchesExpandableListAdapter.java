@@ -2,7 +2,6 @@ package com.wrgardnersoft.watchftc.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -132,7 +131,7 @@ public class MatchesExpandableListAdapter extends BaseExpandableListAdapter {
 
         holder.redTotView.setBackgroundResource(R.drawable.no_border_red);
         holder.blueTotView.setBackgroundResource(R.drawable.no_border_blue);
-Log.i("Adapter", String.valueOf(child.score[MyApp.RED][MyApp.ScoreType.TOTAL.ordinal()]));
+//Log.i("Adapter", String.valueOf(child.score[MyApp.RED][MyApp.ScoreType.TOTAL.ordinal()]));
         if ((child.score[MyApp.RED][MyApp.ScoreType.TOTAL.ordinal()] >= 0)||(child.predicted)) {
 
             holder.redTotView.setText(String.format("%3.0f", child.score[MyApp.RED][MyApp.ScoreType.TOTAL.ordinal()]));
