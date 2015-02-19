@@ -14,7 +14,7 @@ import com.wrgardnersoft.watchftc.internet.ClientTask;
 import com.wrgardnersoft.watchftc.models.DetailedMatch;
 import com.wrgardnersoft.watchftc.models.Match;
 import com.wrgardnersoft.watchftc.models.MyApp;
-import com.wrgardnersoft.watchftc.models.TeamStatRanked;
+import com.wrgardnersoft.watchftc.models.Stat;
 import com.wrgardnersoft.watchftc.views.VerticalTextView;
 
 import java.util.ArrayList;
@@ -30,11 +30,7 @@ public class MyDetailedMatchActivity extends CommonMenuActivity implements Async
     public ArrayList<DetailedMatch> myDetailedMatch;
     public Match mmPartial[];
 
-    enum DisplayType {OPR, DPR, CCWM}
-
-    String displayString[] = {"Off", "Def", "Cmb"};
-
-    DisplayType displayType;
+    Stat.Type displayType;
 
     public MyDetailedMatchActivity() {
 
@@ -44,7 +40,7 @@ public class MyDetailedMatchActivity extends CommonMenuActivity implements Async
         for (int i = 0; i < MyApp.TEAMS_PER_ALLIANCE; i++) {
             this.mmPartial[i] = new Match();
         }
-        this.displayType = DisplayType.OPR;
+        this.displayType = Stat.Type.OPR;
     }
 
     @Override
@@ -121,50 +117,13 @@ public class MyDetailedMatchActivity extends CommonMenuActivity implements Async
         if (mm.teamNumber[MyApp.RED][2] <= 0) {
             teamsPerAllianceInThisMatch = 2;
         }
-    //    Log.i("Teams this match", String.valueOf(teamsPerAllianceInThisMatch));
 
         for (int k = 0; k < teamsPerAllianceInThisMatch; k++) {
-            for (int i = 0; i < MyApp.NUM_ALLIANCES; i++) {
-                for (int j = 0; j < MyApp.NUM_SCORE_TYPES; j++) {
-                    mdm.m[k].score[i][j] = 0;
-                }
-            }
-        }
-        for (TeamStatRanked t : myApp.teamStatRanked[myApp.division()]) {
-            for (int color = 0; color < MyApp.NUM_ALLIANCES; color++) {
-                for (int k = 0; k < teamsPerAllianceInThisMatch; k++) {
-
-                    if ((mm.teamNumber[color][k] == t.number)) {
-
-                        for (int i = 0; i < MyApp.NUM_SCORE_TYPES; i++) {
-                            if (this.displayType == DisplayType.OPR) {
-                                mdm.m[k].score[color][i] = t.oprA[i];
-                            } else if (this.displayType == DisplayType.DPR) {
-                                mdm.m[k].score[color][i] = t.dprA[i];
-                            } else if (this.displayType == DisplayType.CCWM) {
-                                mdm.m[k].score[color][i] = t.ccwmA[i];
-                            }
-
-                        }
-                        /*
-                        if (this.displayType == DisplayType.OPR) {
-                            mdm.m[k].score[color][MyApp.ScoreType.TOTAL.ordinal()] +=
-                                    t.oprA[MyApp.ScoreType.PENALTY.ordinal()];
-                        } else if (this.displayType == DisplayType.DPR) {
-                            mdm.m[k].score[color][MyApp.ScoreType.TOTAL.ordinal()] +=
-                                    t.dprA[MyApp.ScoreType.PENALTY.ordinal()];
-                        } else if (this.displayType == DisplayType.CCWM) {
-                            mdm.m[k].score[color][MyApp.ScoreType.TOTAL.ordinal()] +=
-                                    t.ccwmA[MyApp.ScoreType.PENALTY.ordinal()];
-                        }*/
-
-                    }
-                }
-            }
+            mdm.m[k].predictFromTeamPosition(k, this.displayType);
         }
 
         tv = (TextView) findViewById(R.id.my_detailed_match_title);
-        tv.setText(getString(R.string.teamBreakdown) + ": " + displayString[displayType.ordinal()] + " ");
+        tv.setText(getString(R.string.teamBreakdown) + ": " + Stat.TypeDisplayString[displayType.ordinal()] + " ");
         tv.setTypeface(null, Typeface.BOLD_ITALIC);
 
         for (int k = 0; k < teamsPerAllianceInThisMatch; k++) {
@@ -245,19 +204,19 @@ public class MyDetailedMatchActivity extends CommonMenuActivity implements Async
 
     public void onClickMdmOprButton(View view) {
 
-        displayType = DisplayType.OPR;
+        displayType = Stat.Type.OPR;
         inflateMe();
     }
 
     public void onClickMdmDprButton(View view) {
 
-        displayType = DisplayType.DPR;
+        displayType = Stat.Type.DPR;
         inflateMe();
     }
 
     public void onClickMdmCcwmButton(View view) {
 
-        displayType = DisplayType.CCWM;
+        displayType = Stat.Type.CCWM;
         inflateMe();
     }
 

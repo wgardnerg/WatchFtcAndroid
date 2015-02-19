@@ -36,9 +36,9 @@ public class StatRankingsActivity extends CommonMenuActivity implements AsyncRes
         //     team = new ArrayList<Team>();
 
         if (myApp.dualDivision()) {
-            setTitle(" " + getString(R.string.statRankings) + ", Division " + Integer.toString(myApp.division() + 1));
+            setTitle(" " + getString(R.string.stats) + ", Division " + Integer.toString(myApp.division() + 1));
         } else {
-            setTitle(" " + getString(R.string.statRankings));
+            setTitle(" " + getString(R.string.stats));
         }
 
         setContentView(R.layout.activity_stat_rankings);
@@ -191,6 +191,20 @@ public class StatRankingsActivity extends CommonMenuActivity implements AsyncRes
         Comparator<TeamStatRanked> ct = TeamStatRanked.getComparator(TeamStatRanked.SortParameter.CCWM_SORT,
                 TeamStatRanked.SortParameter.OPR_SORT,
                 TeamStatRanked.SortParameter.WINPERCENT_SORT,
+                TeamStatRanked.SortParameter.FTCRANK_SORT);
+        Collections.sort(myApp.teamStatRanked[myApp.division()], ct);
+
+        listView = (ListView) findViewById(R.id.stat_rankings_list_view);
+        listView.invalidateViews();
+    }
+
+    public void onClickNameTextView(View view) {
+
+        // save all setup info to globals in myApp class
+        MyApp myApp = (MyApp) getApplication();
+
+        Comparator<TeamStatRanked> ct = TeamStatRanked.getComparator(TeamStatRanked.SortParameter.NAME_SORT,
+                TeamStatRanked.SortParameter.NUMBER_SORT,
                 TeamStatRanked.SortParameter.FTCRANK_SORT);
         Collections.sort(myApp.teamStatRanked[myApp.division()], ct);
 

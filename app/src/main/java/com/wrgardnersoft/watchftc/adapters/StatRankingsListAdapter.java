@@ -65,6 +65,7 @@ public class StatRankingsListAdapter extends ArrayAdapter<TeamStatRanked> {
             holder.oprView = (TextView) row.findViewById(R.id.opr);
             holder.dprView = (TextView) row.findViewById(R.id.dpr);
             holder.ccwmView = (TextView) row.findViewById(R.id.ccwm);
+            holder.nameView = (TextView) row.findViewById(R.id.name);
 
             row.setTag(holder);
         } else {
@@ -87,13 +88,14 @@ public class StatRankingsListAdapter extends ArrayAdapter<TeamStatRanked> {
         holder.oprView.setText(String.format("%3d",Math.round(thisTeam.oprA[MyApp.ScoreType.TOTAL.ordinal()])));
         holder.dprView.setText(String.format("%3d",Math.round(thisTeam.dprA[MyApp.ScoreType.TOTAL.ordinal()])));
         holder.ccwmView.setText(String.format("%3d",Math.round(thisTeam.ccwmA[MyApp.ScoreType.TOTAL.ordinal()])));
+        holder.nameView.setText(thisTeam.name);
 
         return row;
 
     }
 
     static class TeamHolder {
-        TextView numView, ftcRankView, winPercentView, oprView, dprView, ccwmView;
+        TextView numView, ftcRankView, winPercentView, oprView, dprView, ccwmView, nameView;
     }
 }
 

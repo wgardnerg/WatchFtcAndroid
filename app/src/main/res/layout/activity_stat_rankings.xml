@@ -96,8 +96,6 @@
             android:clickable="true"
             android:onClick="onClickCcwmTextView"/>
 
-
-
 <!--
         <TextView
             android:id="@+id/head_name"

@@ -11,6 +11,10 @@ import Jama.SingularValueDecomposition;
  */
 public class Stat {
 
+    public enum Type {OPR, DPR, CCWM};
+
+    public static String TypeDisplayString[] = {"Off", "Def", "Cmb"};
+
     private static double OprComponent(Match m, int color, MyApp.ScoreType type) {
         double retVal = 0;
 
@@ -34,6 +38,7 @@ public class Stat {
                 myApp.teamStatRanked[division].add(new TeamStatRanked());
                 TeamStatRanked tStat = myApp.teamStatRanked[division].get(myApp.teamStatRanked[division].size() - 1);
                 tStat.number = t.number;
+                tStat.name = t.name;
                 tStat.ftcRank = t.rank;
                 /////////////////////////////////////////
                 // win percentage is normal percentage of wins of matches played.

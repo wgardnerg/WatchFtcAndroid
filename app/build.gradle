@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
-def VER_CODE = 14
-def VER_NAME = "2.02"
+def VER_CODE = 15
+def VER_NAME = "2.03"
 
 android {
     compileSdkVersion 21

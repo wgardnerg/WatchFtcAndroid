@@ -14,7 +14,6 @@ import com.wrgardnersoft.watchftc.interfaces.AsyncResponse;
 import com.wrgardnersoft.watchftc.internet.ClientTask;
 import com.wrgardnersoft.watchftc.models.Match;
 import com.wrgardnersoft.watchftc.models.MyApp;
-import com.wrgardnersoft.watchftc.models.TeamStatRanked;
 
 import java.util.ArrayList;
 
@@ -75,64 +74,7 @@ public class MyMatchActivity extends CommonMenuActivity implements AsyncResponse
         Match mm = myMatch.get(0);
 
         if ((mm.score[MyApp.RED][MyApp.ScoreType.TOTAL.ordinal()] < 0) && (myApp.enableMatchPrediction)) {
-            mm.predicted = true;
-            double sf=1.0;
-            if (mm.teamNumber[MyApp.RED][2]>0) { // 3 team alliance so scale scores by 2/3
-                sf=2.0/3.0;
-            }
-            for (int i=0; i<MyApp.NUM_ALLIANCES; i++) {
-                for (int j=0; j<MyApp.NUM_SCORE_TYPES; j++) {
-                    mm.score[i][j]=0;
-                }
-            }
-            for (int color=0; color<MyApp.NUM_ALLIANCES; color++) {
-                for (int j=0; j<MyApp.NUM_SCORE_TYPES-1; j++) {
-                    mm.score[color][j]+=myApp.meanOffenseScoreTotal[myApp.division()][j]*MyApp.TEAMS_PER_MATCH;
-                    //   Log.i("Mean "+String.valueOf(j), String.valueOf(mm.score[color][j]));
-                }
-                mm.score[1 - color][MyApp.ScoreType.PENALTY.ordinal()] -=
-                        myApp.meanOffenseScoreTotal[myApp.division()][MyApp.ScoreType.PENALTY.ordinal()]*MyApp.TEAMS_PER_MATCH;
-                mm.score[1-color][MyApp.ScoreType.TOTAL.ordinal()] -=
-                        myApp.meanOffenseScoreTotal[myApp.division()][MyApp.ScoreType.PENALTY.ordinal()]*MyApp.TEAMS_PER_MATCH;
-                mm.score[color][MyApp.ScoreType.TOTAL.ordinal()] -=
-                        myApp.meanOffenseScoreTotal[myApp.division()][MyApp.ScoreType.PENALTY.ordinal()]*MyApp.TEAMS_PER_MATCH;
-              //  for (int j=0; j<MyApp.NUM_SCORE_TYPES; j++) {
-                //    Log.i("Mean* "+String.valueOf(color)+" "+String.valueOf(j), String.valueOf(mm.score[color][j]));
-               // }
-
-            }
-            for (TeamStatRanked t : myApp.teamStatRanked[myApp.division()]) {
-                for (int color = 0; color< MyApp.NUM_ALLIANCES; color++) {
-
-                    if ((mm.teamNumber[color][0] == t.number) ||
-                            (mm.teamNumber[color][1] == t.number) ||
-                            (mm.teamNumber[color][2] == t.number)) {
-
-                        for (int i = 0; i < MyApp.NUM_SCORE_TYPES - 1; i++) {
-                            mm.score[color][i] += sf*t.oprA[i];
-                        }
-                        mm.score[1 - color][MyApp.ScoreType.PENALTY.ordinal()] -=sf*
-                                t.oprA[MyApp.ScoreType.PENALTY.ordinal()];
-                        mm.score[1 - color][MyApp.ScoreType.TOTAL.ordinal()] -=sf*
-                                t.oprA[MyApp.ScoreType.PENALTY.ordinal()];
-                        mm.score[color][MyApp.ScoreType.TOTAL.ordinal()] -=sf*
-                                t.oprA[MyApp.ScoreType.PENALTY.ordinal()];
-
-                        for (int i = 0; i < MyApp.NUM_SCORE_TYPES - 1; i++) {
-                            mm.score[1 - color][i] -= sf*t.dprA[i];
-                        }
-                        mm.score[color][MyApp.ScoreType.PENALTY.ordinal()] +=sf*
-                                t.dprA[MyApp.ScoreType.PENALTY.ordinal()];
-                        mm.score[color][MyApp.ScoreType.TOTAL.ordinal()] +=sf*
-                                t.dprA[MyApp.ScoreType.PENALTY.ordinal()];
-
-                        mm.score[1-color][MyApp.ScoreType.TOTAL.ordinal()] +=sf*
-                                t.dprA[MyApp.ScoreType.PENALTY.ordinal()];
-
-                    }
-                }
-            }
-
+            mm.predict();
         }
 
         if (mm.predicted) {
@@ -321,8 +263,6 @@ public class MyMatchActivity extends CommonMenuActivity implements AsyncResponse
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         boolean saveReturn;
-
-        //MyApp myApp = MyApp.getInstance();
 
         int id = item.getItemId();
 

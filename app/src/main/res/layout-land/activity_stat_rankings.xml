@@ -18,7 +18,7 @@
 
         <TextView
             android:id="@+id/head_number"
-            android:layout_width="90dp"
+            android:layout_width="65dp"
             android:layout_height="wrap_content"
             android:gravity="right"
             android:singleLine="true"
@@ -31,7 +31,7 @@
         
         <TextView
             android:id="@+id/head_rank"
-            android:layout_width="90dp"
+            android:layout_width="65dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:gravity="right"
@@ -44,7 +44,7 @@
 
         <TextView
             android:id="@+id/head_winPercent"
-            android:layout_width="90dp"
+            android:layout_width="65dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:gravity="right"
@@ -59,7 +59,7 @@
 
         <TextView
             android:id="@+id/head_opr"
-            android:layout_width="90dp"
+            android:layout_width="65dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:gravity="right"
@@ -72,7 +72,7 @@
 
         <TextView
             android:id="@+id/head_dpr"
-            android:layout_width="90dp"
+            android:layout_width="65dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:gravity="right"
@@ -85,7 +85,7 @@
 
         <TextView
             android:id="@+id/head_ccwm"
-            android:layout_width="90dp"
+            android:layout_width="65dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:gravity="right"
@@ -96,9 +96,6 @@
             android:clickable="true"
             android:onClick="onClickCcwmTextView"/>
 
-
-
-<!--
         <TextView
             android:id="@+id/head_name"
             android:layout_width="fill_parent"
@@ -106,8 +103,11 @@
             android:singleLine="true"
             android:text="Name"
             android:textColor="@color/black"
+            android:paddingLeft="16dp"
+            android:clickable="true"
             android:textSize="16sp"
-            android:textStyle="bold" />  -->
+            android:textStyle="bold"
+            android:onClick="onClickNameTextView"/>
 
 
     </LinearLayout>

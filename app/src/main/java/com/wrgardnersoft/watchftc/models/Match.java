@@ -37,20 +37,20 @@ public class Match {
         this.teamNumber = new int[MyApp.NUM_ALLIANCES][MyApp.TEAMS_PER_ALLIANCE];
         this.score = new double[MyApp.NUM_ALLIANCES][MyApp.NUM_SCORE_TYPES];
 
-        for (int i=0; i<MyApp.NUM_ALLIANCES; i++) {
-            for (int j=0; j<MyApp.TEAMS_PER_ALLIANCE; j++) {
-                this.teamNumber[i][j]=m.teamNumber[i][j];
+        for (int i = 0; i < MyApp.NUM_ALLIANCES; i++) {
+            for (int j = 0; j < MyApp.TEAMS_PER_ALLIANCE; j++) {
+                this.teamNumber[i][j] = m.teamNumber[i][j];
             }
-            for (int j=0; j<MyApp.NUM_SCORE_TYPES; j++) {
-                this.score[i][j]=m.score[i][j];
+            for (int j = 0; j < MyApp.NUM_SCORE_TYPES; j++) {
+                this.score[i][j] = m.score[i][j];
             }
         }
-        for (int i=0; i<MyApp.NUM_ALLIANCES; i++) {
-            for (int j=0; j<MyApp.TEAMS_PER_ALLIANCE; j++) {
-                this.teamNumber[i][j]=m.teamNumber[i][j];
+        for (int i = 0; i < MyApp.NUM_ALLIANCES; i++) {
+            for (int j = 0; j < MyApp.TEAMS_PER_ALLIANCE; j++) {
+                this.teamNumber[i][j] = m.teamNumber[i][j];
             }
-            for (int j=0; j<MyApp.NUM_SCORE_TYPES; j++) {
-                this.score[i][j]=m.score[i][j];
+            for (int j = 0; j < MyApp.NUM_SCORE_TYPES; j++) {
+                this.score[i][j] = m.score[i][j];
             }
         }
         this.predicted = m.predicted;
@@ -115,9 +115,9 @@ public class Match {
             }
             try {
                 if (rAuto != null)
-                    this.score[MyApp.RED][MyApp.ScoreType.AUTONOMOUS.ordinal()]= Double.parseDouble(rAuto);
+                    this.score[MyApp.RED][MyApp.ScoreType.AUTONOMOUS.ordinal()] = Double.parseDouble(rAuto);
             } catch (NumberFormatException e) {
-                this.score[MyApp.RED][MyApp.ScoreType.AUTONOMOUS.ordinal()]= -1;
+                this.score[MyApp.RED][MyApp.ScoreType.AUTONOMOUS.ordinal()] = -1;
             }
             try {
                 if (rAutoB != null)
@@ -151,9 +151,9 @@ public class Match {
             }
             try {
                 if (bAuto != null)
-                    this.score[MyApp.BLUE][MyApp.ScoreType.AUTONOMOUS.ordinal()]= Double.parseDouble(bAuto);
+                    this.score[MyApp.BLUE][MyApp.ScoreType.AUTONOMOUS.ordinal()] = Double.parseDouble(bAuto);
             } catch (NumberFormatException e) {
-                this.score[MyApp.BLUE][MyApp.ScoreType.AUTONOMOUS.ordinal()]= -1;
+                this.score[MyApp.BLUE][MyApp.ScoreType.AUTONOMOUS.ordinal()] = -1;
             }
             try {
                 if (bAutoB != null)
@@ -245,9 +245,9 @@ public class Match {
             }
             try {
                 if (rAuto != null)
-                    this.score[MyApp.RED][MyApp.ScoreType.AUTONOMOUS.ordinal()]= Double.parseDouble(rAuto);
+                    this.score[MyApp.RED][MyApp.ScoreType.AUTONOMOUS.ordinal()] = Double.parseDouble(rAuto);
             } catch (NumberFormatException e) {
-                this.score[MyApp.RED][MyApp.ScoreType.AUTONOMOUS.ordinal()]= -1;
+                this.score[MyApp.RED][MyApp.ScoreType.AUTONOMOUS.ordinal()] = -1;
             }
             try {
                 if (rAutoB != null)
@@ -281,9 +281,9 @@ public class Match {
             }
             try {
                 if (bAuto != null)
-                    this.score[MyApp.BLUE][MyApp.ScoreType.AUTONOMOUS.ordinal()]= Double.parseDouble(bAuto);
+                    this.score[MyApp.BLUE][MyApp.ScoreType.AUTONOMOUS.ordinal()] = Double.parseDouble(bAuto);
             } catch (NumberFormatException e) {
-                this.score[MyApp.BLUE][MyApp.ScoreType.AUTONOMOUS.ordinal()]= -1;
+                this.score[MyApp.BLUE][MyApp.ScoreType.AUTONOMOUS.ordinal()] = -1;
             }
             try {
                 if (bAutoB != null)
@@ -311,6 +311,111 @@ public class Match {
             }
         }
         this.predicted = predicted;
+
+    }
+
+    public void predict() {
+        MyApp myApp = MyApp.getInstance();
+
+        this.predicted = true;
+        double sf = 1.0;
+        if (this.teamNumber[MyApp.RED][2] > 0) { // 3 team alliance so scale scores by 2/3
+            sf = 2.0 / 3.0;
+        }
+        for (int i = 0; i < MyApp.NUM_ALLIANCES; i++) {
+            for (int j = 0; j < MyApp.NUM_SCORE_TYPES; j++) {
+                this.score[i][j] = 0;
+            }
+        }
+        for (int color = 0; color < MyApp.NUM_ALLIANCES; color++) {
+            for (int j = 0; j < MyApp.NUM_SCORE_TYPES - 1; j++) {
+                this.score[color][j] += myApp.meanOffenseScoreTotal[myApp.division()][j] * MyApp.TEAMS_PER_MATCH;
+                //   Log.i("Mean "+String.valueOf(j), String.valueOf(this.score[color][j]));
+            }
+            this.score[1 - color][MyApp.ScoreType.PENALTY.ordinal()] -=
+                    myApp.meanOffenseScoreTotal[myApp.division()][MyApp.ScoreType.PENALTY.ordinal()] * MyApp.TEAMS_PER_MATCH;
+            this.score[1 - color][MyApp.ScoreType.TOTAL.ordinal()] -=
+                    myApp.meanOffenseScoreTotal[myApp.division()][MyApp.ScoreType.PENALTY.ordinal()] * MyApp.TEAMS_PER_MATCH;
+            this.score[color][MyApp.ScoreType.TOTAL.ordinal()] -=
+                    myApp.meanOffenseScoreTotal[myApp.division()][MyApp.ScoreType.PENALTY.ordinal()] * MyApp.TEAMS_PER_MATCH;
+            //   Log.i("Mean 0**", String.valueOf(this.score[0][0]));
+            //   Log.i("Mean 1**", String.valueOf(this.score[1][0]));
+        }
+        for (TeamStatRanked t : myApp.teamStatRanked[myApp.division()]) {
+            for (int color = 0; color < MyApp.NUM_ALLIANCES; color++) {
+
+                if ((this.teamNumber[color][0] == t.number) ||
+                        (this.teamNumber[color][1] == t.number) ||
+                        (this.teamNumber[color][2] == t.number)) {
+
+                    for (int i = 0; i < MyApp.NUM_SCORE_TYPES - 1; i++) {
+                        this.score[color][i] += sf * t.oprA[i];
+                    }
+                    this.score[1 - color][MyApp.ScoreType.PENALTY.ordinal()] -= sf *
+                            t.oprA[MyApp.ScoreType.PENALTY.ordinal()];
+                    this.score[1 - color][MyApp.ScoreType.TOTAL.ordinal()] -= sf *
+                            t.oprA[MyApp.ScoreType.PENALTY.ordinal()];
+                    this.score[color][MyApp.ScoreType.TOTAL.ordinal()] -= sf *
+                            t.oprA[MyApp.ScoreType.PENALTY.ordinal()];
+
+                    for (int i = 0; i < MyApp.NUM_SCORE_TYPES - 1; i++) {
+                        this.score[1 - color][i] -= sf * t.dprA[i];
+                    }
+                    this.score[color][MyApp.ScoreType.PENALTY.ordinal()] += sf *
+                            t.dprA[MyApp.ScoreType.PENALTY.ordinal()];
+                    this.score[color][MyApp.ScoreType.TOTAL.ordinal()] += sf *
+                            t.dprA[MyApp.ScoreType.PENALTY.ordinal()];
+
+                    this.score[1 - color][MyApp.ScoreType.TOTAL.ordinal()] += sf *
+                            t.dprA[MyApp.ScoreType.PENALTY.ordinal()];
+
+                }
+            }
+        }
+
+    }
+
+    public void predictFromTeamPosition(int k, Stat.Type type) {
+
+        MyApp myApp = MyApp.getInstance();
+
+        for (int i = 0; i < MyApp.NUM_ALLIANCES; i++) {
+            for (int j = 0; j < MyApp.NUM_SCORE_TYPES; j++) {
+                this.score[i][j] = 0;
+            }
+        }
+
+        for (TeamStatRanked t : myApp.teamStatRanked[myApp.division()]) {
+            for (int color = 0; color < MyApp.NUM_ALLIANCES; color++) {
+
+                if ((this.teamNumber[color][k] == t.number)) {
+
+                    for (int i = 0; i < MyApp.NUM_SCORE_TYPES; i++) {
+                        if (type == Stat.Type.OPR) {
+                            this.score[color][i] = t.oprA[i];
+                        } else if (type == Stat.Type.DPR) {
+                            this.score[color][i] = t.dprA[i];
+                        } else if (type == Stat.Type.CCWM) {
+                            this.score[color][i] = t.ccwmA[i];
+                        }
+
+                    }
+                        /*
+                        if (this.displayType == Stat.Type.OPR) {
+                            this.score[color][MyApp.ScoreType.TOTAL.ordinal()] +=
+                                    t.oprA[MyApp.ScoreType.PENALTY.ordinal()];
+                        } else if (this.displayType == Stat.Type.DPR) {
+                            this.score[color][MyApp.ScoreType.TOTAL.ordinal()] +=
+                                    t.dprA[MyApp.ScoreType.PENALTY.ordinal()];
+                        } else if (this.displayType == Stat.Type.CCWM) {
+                            this.score[color][MyApp.ScoreType.TOTAL.ordinal()] +=
+                                    t.ccwmA[MyApp.ScoreType.PENALTY.ordinal()];
+                        }*/
+
+                }
+
+            }
+        }
 
     }
 
@@ -351,13 +456,13 @@ public class Match {
     public String toString() {
         String output;
         output = this.title + "," + this.resultStr;
-        for (int i=0; i<MyApp.NUM_ALLIANCES; i++) {
-            for (int j=0; j<MyApp.TEAMS_PER_ALLIANCE; j++) {
+        for (int i = 0; i < MyApp.NUM_ALLIANCES; i++) {
+            for (int j = 0; j < MyApp.TEAMS_PER_ALLIANCE; j++) {
                 output = output + "," + this.teamNumber[i][j];
             }
         }
-        for (int i=0; i<MyApp.NUM_ALLIANCES; i++) {
-            for (int j=0; j<MyApp.NUM_SCORE_TYPES; j++) {
+        for (int i = 0; i < MyApp.NUM_ALLIANCES; i++) {
+            for (int j = 0; j < MyApp.NUM_SCORE_TYPES; j++) {
                 output = output + "," + this.score[i][j];
             }
         }
@@ -371,17 +476,17 @@ public class Match {
         try {
             String input = fr.readLine();
             List<String> param = Arrays.asList(input.split(","));
-            int ind=0;
+            int ind = 0;
             m.title = param.get(ind++);
             m.resultStr = param.get(ind++);
-            for (int i=0; i<MyApp.NUM_ALLIANCES; i++) {
-                for (int j=0; j<MyApp.TEAMS_PER_ALLIANCE; j++) {
-                    m.teamNumber[i][j]=Integer.valueOf(param.get(ind++));
+            for (int i = 0; i < MyApp.NUM_ALLIANCES; i++) {
+                for (int j = 0; j < MyApp.TEAMS_PER_ALLIANCE; j++) {
+                    m.teamNumber[i][j] = Integer.valueOf(param.get(ind++));
                 }
             }
-            for (int i=0; i<MyApp.NUM_ALLIANCES; i++) {
-                for (int j=0; j<MyApp.NUM_SCORE_TYPES; j++) {
-                    m.score[i][j]=Double.valueOf(param.get(ind++));
+            for (int i = 0; i < MyApp.NUM_ALLIANCES; i++) {
+                for (int j = 0; j < MyApp.NUM_SCORE_TYPES; j++) {
+                    m.score[i][j] = Double.valueOf(param.get(ind++));
                 }
             }
         } catch (Exception e) {

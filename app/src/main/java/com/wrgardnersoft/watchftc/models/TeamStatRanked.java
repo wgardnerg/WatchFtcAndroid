@@ -13,6 +13,7 @@ public class TeamStatRanked {
     public double oprA[];
     public double dprA[];
     public double ccwmA[];
+    public String name;
 
 
     public TeamStatRanked() {
@@ -22,15 +23,7 @@ public class TeamStatRanked {
         this.oprA = new double[MyApp.ScoreType.values().length];
         this.dprA = new double[MyApp.ScoreType.values().length];
         this.ccwmA = new double[MyApp.ScoreType.values().length];
-    }
-
-    public TeamStatRanked(int num) {
-        this.number = num;
-        this.ftcRank = 0;
-        this.winPercent = 0;
-        this.oprA = new double[MyApp.ScoreType.values().length];
-        this.dprA = new double[MyApp.ScoreType.values().length];
-        this.ccwmA = new double[MyApp.ScoreType.values().length];
+        this.name="";
     }
 
     public String toString() {
@@ -47,7 +40,7 @@ public class TeamStatRanked {
     }
 
     public enum SortParameter {
-        NUMBER_SORT, FTCRANK_SORT, WINPERCENT_SORT, OPR_SORT, DPR_SORT, CCWM_SORT
+        NUMBER_SORT, FTCRANK_SORT, WINPERCENT_SORT, OPR_SORT, DPR_SORT, CCWM_SORT, NAME_SORT
     }
 
     private static class TeamStatRankedComparator implements Comparator<TeamStatRanked> {
@@ -83,6 +76,10 @@ public class TeamStatRanked {
                         break;
                     case CCWM_SORT:
                         comparison = (int)(-100000 * (o1.ccwmA[MyApp.ScoreType.TOTAL.ordinal()] - o2.ccwmA[MyApp.ScoreType.TOTAL.ordinal()]));
+                        if (comparison!=0) return comparison;
+                        break;
+                    case NAME_SORT:
+                        comparison = o1.name.compareTo(o2.name);
                         if (comparison!=0) return comparison;
                         break;
                 }
