@@ -45,5 +45,6 @@
     <string name="file">File</string>
     <string name="save">Save</string>
     <string name="load">Load</string>
+    <string name="teamBreakdown">Team Breakdown</string>
 
 </resources>

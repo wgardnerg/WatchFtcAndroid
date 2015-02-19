@@ -149,8 +149,59 @@ public class CommonMenuActivity extends ActionBarActivity implements AsyncRespon
                     Toast.makeText(this, text, duration).show();
                 }
             }
-
+            Intent getNameScreenIntent = new Intent(this, TeamsActivity.class);
+            getNameScreenIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(getNameScreenIntent);
+            finish();
             return true;
+        } else if (id == R.id.action_test1) {
+
+            try {
+                InputStream iS = assetManager.open("TestPaPartWatchFtcFmt.csv");
+                InputStreamReader fr = new InputStreamReader(iS);
+
+                BufferedReader br = new BufferedReader(fr);
+
+                MyApp.loadTournamentData(br);
+
+                fr.close();
+
+                CharSequence text = "Loading test1 tournament.";
+                int duration = Toast.LENGTH_LONG;
+                Toast.makeText(this, text, duration).show();
+            } catch (Exception e2) {
+                CharSequence text = "Error: Can't load tournament data!!!";
+                int duration = Toast.LENGTH_LONG;
+                Toast.makeText(this, text, duration).show();
+            }
+            Intent getNameScreenIntent = new Intent(this, TeamsActivity.class);
+            getNameScreenIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(getNameScreenIntent);
+            finish();
+        } else if (id == R.id.action_test2) {
+
+            try {
+                InputStream iS = assetManager.open("TestPaFullWatchFtcFmt.csv");
+                InputStreamReader fr = new InputStreamReader(iS);
+
+                BufferedReader br = new BufferedReader(fr);
+
+                MyApp.loadTournamentData(br);
+
+                fr.close();
+
+                CharSequence text = "Loading test2 tournament.";
+                int duration = Toast.LENGTH_LONG;
+                Toast.makeText(this, text, duration).show();
+            } catch (Exception e2) {
+                CharSequence text = "Error: Can't load tournament data!!!";
+                int duration = Toast.LENGTH_LONG;
+                Toast.makeText(this, text, duration).show();
+            }
+            Intent getNameScreenIntent = new Intent(this, TeamsActivity.class);
+            getNameScreenIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(getNameScreenIntent);
+            finish();
         } else if (id == R.id.action_share) {
             String shareOutput = "";
             if (myApp.team[0].size() > 0) {
@@ -205,6 +256,7 @@ public class CommonMenuActivity extends ActionBarActivity implements AsyncRespon
                 }
                 // restart activity to load data from new division
                 Intent intent = new Intent(this, TeamsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 finish();
                 startActivity(intent);
             }

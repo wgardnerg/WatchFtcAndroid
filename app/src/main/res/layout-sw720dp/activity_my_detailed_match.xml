@@ -605,6 +605,7 @@
         android:gravity="center_horizontal"
         android:orientation="horizontal">
 
+
         <Button
             android:id="@+id/mdm_opr"
             android:layout_width="wrap_content"
@@ -613,7 +614,7 @@
             android:paddingBottom="8dp"
             android:layout_gravity="center_horizontal|bottom"
             android:onClick="onClickMdmOprButton"
-            android:text="OPR" />
+            android:text="Off" />
         <Button
             android:id="@+id/mdm_dpr"
             android:layout_width="wrap_content"
@@ -622,7 +623,7 @@
             android:paddingBottom="8dp"
             android:layout_gravity="center_horizontal|bottom"
             android:onClick="onClickMdmDprButton"
-            android:text="DPR" />
+            android:text="Def" />
         <Button
             android:id="@+id/mdm_ccwm"
             android:layout_width="wrap_content"
@@ -631,7 +632,8 @@
             android:paddingBottom="8dp"
             android:layout_gravity="center_horizontal|bottom"
             android:onClick="onClickMdmCcwmButton"
-            android:text="CCWM" />
+            android:text="Cmb" />
+
 
         </LinearLayout>
 

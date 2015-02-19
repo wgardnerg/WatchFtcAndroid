@@ -76,35 +76,57 @@ public class MyMatchActivity extends CommonMenuActivity implements AsyncResponse
 
         if ((mm.score[MyApp.RED][MyApp.ScoreType.TOTAL.ordinal()] < 0) && (myApp.enableMatchPrediction)) {
             mm.predicted = true;
-            for (int i = 0; i < MyApp.NUM_ALLIANCES; i++) {
-                for (int j = 0; j < MyApp.NUM_SCORE_TYPES; j++) {
-                    mm.score[i][j] = 0;
+            double sf=1.0;
+            if (mm.teamNumber[MyApp.RED][2]>0) { // 3 team alliance so scale scores by 2/3
+                sf=2.0/3.0;
+            }
+            for (int i=0; i<MyApp.NUM_ALLIANCES; i++) {
+                for (int j=0; j<MyApp.NUM_SCORE_TYPES; j++) {
+                    mm.score[i][j]=0;
                 }
             }
+            for (int color=0; color<MyApp.NUM_ALLIANCES; color++) {
+                for (int j=0; j<MyApp.NUM_SCORE_TYPES-1; j++) {
+                    mm.score[color][j]+=myApp.meanOffenseScoreTotal[myApp.division()][j]*MyApp.TEAMS_PER_MATCH;
+                    //   Log.i("Mean "+String.valueOf(j), String.valueOf(mm.score[color][j]));
+                }
+                mm.score[1 - color][MyApp.ScoreType.PENALTY.ordinal()] -=
+                        myApp.meanOffenseScoreTotal[myApp.division()][MyApp.ScoreType.PENALTY.ordinal()]*MyApp.TEAMS_PER_MATCH;
+                mm.score[1-color][MyApp.ScoreType.TOTAL.ordinal()] -=
+                        myApp.meanOffenseScoreTotal[myApp.division()][MyApp.ScoreType.PENALTY.ordinal()]*MyApp.TEAMS_PER_MATCH;
+                mm.score[color][MyApp.ScoreType.TOTAL.ordinal()] -=
+                        myApp.meanOffenseScoreTotal[myApp.division()][MyApp.ScoreType.PENALTY.ordinal()]*MyApp.TEAMS_PER_MATCH;
+              //  for (int j=0; j<MyApp.NUM_SCORE_TYPES; j++) {
+                //    Log.i("Mean* "+String.valueOf(color)+" "+String.valueOf(j), String.valueOf(mm.score[color][j]));
+               // }
+
+            }
             for (TeamStatRanked t : myApp.teamStatRanked[myApp.division()]) {
-                for (int color = 0; color < MyApp.NUM_ALLIANCES; color++) {
+                for (int color = 0; color< MyApp.NUM_ALLIANCES; color++) {
+
                     if ((mm.teamNumber[color][0] == t.number) ||
                             (mm.teamNumber[color][1] == t.number) ||
                             (mm.teamNumber[color][2] == t.number)) {
 
                         for (int i = 0; i < MyApp.NUM_SCORE_TYPES - 1; i++) {
-                            mm.score[color][i] += t.oprA[i];
+                            mm.score[color][i] += sf*t.oprA[i];
                         }
-                        mm.score[1 - color][MyApp.ScoreType.PENALTY.ordinal()] -=
+                        mm.score[1 - color][MyApp.ScoreType.PENALTY.ordinal()] -=sf*
                                 t.oprA[MyApp.ScoreType.PENALTY.ordinal()];
-                        mm.score[color][MyApp.ScoreType.TOTAL.ordinal()] -=
+                        mm.score[1 - color][MyApp.ScoreType.TOTAL.ordinal()] -=sf*
                                 t.oprA[MyApp.ScoreType.PENALTY.ordinal()];
-                        mm.score[1 - color][MyApp.ScoreType.TOTAL.ordinal()] -=
+                        mm.score[color][MyApp.ScoreType.TOTAL.ordinal()] -=sf*
                                 t.oprA[MyApp.ScoreType.PENALTY.ordinal()];
 
                         for (int i = 0; i < MyApp.NUM_SCORE_TYPES - 1; i++) {
-                            mm.score[1 - color][i] -= t.dprA[i];
+                            mm.score[1 - color][i] -= sf*t.dprA[i];
                         }
-                        mm.score[color][MyApp.ScoreType.PENALTY.ordinal()] +=
+                        mm.score[color][MyApp.ScoreType.PENALTY.ordinal()] +=sf*
                                 t.dprA[MyApp.ScoreType.PENALTY.ordinal()];
-                        mm.score[color][MyApp.ScoreType.TOTAL.ordinal()] +=
+                        mm.score[color][MyApp.ScoreType.TOTAL.ordinal()] +=sf*
                                 t.dprA[MyApp.ScoreType.PENALTY.ordinal()];
-                        mm.score[1-color][MyApp.ScoreType.TOTAL.ordinal()] +=
+
+                        mm.score[1-color][MyApp.ScoreType.TOTAL.ordinal()] +=sf*
                                 t.dprA[MyApp.ScoreType.PENALTY.ordinal()];
 
                     }
@@ -201,7 +223,7 @@ public class MyMatchActivity extends CommonMenuActivity implements AsyncResponse
         int tvId[][] = {{R.id.mm_rTot, R.id.mm_rAuto, R.id.mm_rAutoB, R.id.mm_rTele, R.id.mm_rEndG, R.id.mm_rPen},
                 {R.id.mm_bTot, R.id.mm_bAuto, R.id.mm_bAutoB, R.id.mm_bTele, R.id.mm_bEndG, R.id.mm_bPen}};
 
-        if ((mm.score[MyApp.RED][MyApp.ScoreType.TOTAL.ordinal()] >= 0)||(mm.predicted)) {
+        if ((mm.score[MyApp.RED][MyApp.ScoreType.TOTAL.ordinal()] >= 0) || (mm.predicted)) {
             if (mm.predicted) {
                 tv = (TextView) findViewById(R.id.mm_rTot);
                 tv.setTypeface(null, Typeface.ITALIC);
@@ -300,7 +322,7 @@ public class MyMatchActivity extends CommonMenuActivity implements AsyncResponse
         // as you specify a parent activity in AndroidManifest.xml.
         boolean saveReturn;
 
-        MyApp myApp = MyApp.getInstance();
+        //MyApp myApp = MyApp.getInstance();
 
         int id = item.getItemId();
 
@@ -311,9 +333,9 @@ public class MyMatchActivity extends CommonMenuActivity implements AsyncResponse
             clientTask.execute();
             return true;
         }
-        saveReturn =  super.onOptionsItemSelected(item);
+        saveReturn = super.onOptionsItemSelected(item);
 
-        if ((id == R.id.action_load)&&saveReturn) { // just loaded data, so refresh
+        if ((id == R.id.action_load) && saveReturn) { // just loaded data, so refresh
             processFinish(0);
         }
 

@@ -28,6 +28,18 @@
                 android:title="@string/save"/>
             <item android:id="@+id/action_load"
                 android:title="@string/load"/>
+            <item
+                android:id="@+id/action_test1"
+                android:orderInCategory="100000"
+                android:title="Load PA-32"
+                android:visible="false"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/action_test2"
+                android:orderInCategory="100001"
+                android:title="Load PA-Full"
+                android:visible="false"
+                app:showAsAction="never" />
         </menu>
         </item>
     <item
@@ -67,5 +79,6 @@
         android:orderInCategory="9"
         android:title="@string/change_division"
         app:showAsAction="never" />
+
 
 </menu>

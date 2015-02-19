@@ -45,6 +45,14 @@ public class Match {
                 this.score[i][j]=m.score[i][j];
             }
         }
+        for (int i=0; i<MyApp.NUM_ALLIANCES; i++) {
+            for (int j=0; j<MyApp.TEAMS_PER_ALLIANCE; j++) {
+                this.teamNumber[i][j]=m.teamNumber[i][j];
+            }
+            for (int j=0; j<MyApp.NUM_SCORE_TYPES; j++) {
+                this.score[i][j]=m.score[i][j];
+            }
+        }
         this.predicted = m.predicted;
     }
 
@@ -359,7 +367,7 @@ public class Match {
 
     public static Match readFromBR(BufferedReader fr) {
         Match m = new Match();
-        int matchNum=0;
+        //int matchNum=0;
         try {
             String input = fr.readLine();
             List<String> param = Arrays.asList(input.split(","));

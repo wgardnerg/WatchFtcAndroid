@@ -49,7 +49,7 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
         String teamsUrl;
-        String[] urlSuffix = {"", ":8080"};
+        String[] urlSuffix = {""}; //, ":8080"};
 
         MyApp myApp = MyApp.getInstance();
 

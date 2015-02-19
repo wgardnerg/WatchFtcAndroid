@@ -213,6 +213,12 @@ public class StatRankingsActivity extends CommonMenuActivity implements AsyncRes
         item = menu.findItem(R.id.action_toggle_forecast);
         item.setVisible(true);
 
+        item = menu.findItem(R.id.action_test1);
+        item.setVisible(true);
+
+        item = menu.findItem(R.id.action_test2);
+        item.setVisible(true);
+
         if (myApp.enableMatchPrediction) {
             menu.findItem(R.id.action_toggle_forecast).setTitle("Disable Forecast");
         } else {
@@ -229,7 +235,7 @@ public class StatRankingsActivity extends CommonMenuActivity implements AsyncRes
         // as you specify a parent activity in AndroidManifest.xml.
         boolean saveReturn;
 
-        MyApp myApp = MyApp.getInstance();
+       // MyApp myApp = MyApp.getInstance();
 
         int id = item.getItemId();
 

@@ -29,68 +29,95 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:text="OPR: modified Offensive Power Rating"
+                android:text="Off: estimated offensive contribution"
                 android:textSize="16sp"
                 android:padding="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:text="   An estimate of the number of points a team can score minus the number of penalty points they are likely to grant the other team.  A positive OPR is good!"
+                android:text="   Off is an estimate of the number of points a team can score minus the number of penalty points they are likely to grant the other team, compared to the average team.  A positive Off is good!"
                 android:textSize="16sp"
                 android:padding="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:text="DPR: modified Offensive Power Rating"
+                android:text="   This starts as the average points scored by the team's alliances relative to the average, and switches to the traditional OPR measure after a sufficient number of matches have been played."
                 android:textSize="16sp"
                 android:padding="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:text="   An estimate of the number of points a team will prevent the other alliance from scoring, relative to the average team in the tournament.  Unlike the traditional DPR, this has a zero average.  Also, a positive modified DPR is good!"
+                android:text="Def: estimated defensive contribution"
                 android:textSize="16sp"
                 android:padding="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:text="   This modified DPR stat will only appear after all teams have played 4 matches, as it is computed jointly with the modified OPR in one matrix computation, unlike the traditional OPR and DPR stats."
+                android:text="   Def is an estimate of the number of points a team will prevent the other alliance from scoring, compared to the average team.  A positive Def is good!  This is hard to estimate.  Estimates will only appear after each team has played 5 matches, and estimates will be small due to the inherent difficulty in measuring this reliably."
                 android:textSize="16sp"
                 android:padding="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:text="CCWM: modified Combined Contribution to Winning Margin"
+                android:text="   This is computed as the negative of the average number of points scored by a team's opposing alliances (compared to the average), minus the Off ratings of the opposing alliance teams.  So a team with good defense will cause their opponents to score fewer points than they usually do.  This factor is weighted by 0.25, as 0.25 was found to result in better prediction in simulations."
                 android:textSize="16sp"
                 android:padding="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:text="   An estimate of the number of points a team will contribute to their alliance's winning margin, through a combination of better offense, better defense, and fewer penalties than average.  This has a zero average, and a positive modified CCWM is good!"
+                android:text="Cmb: estimated combined contribution"
                 android:textSize="16sp"
                 android:padding="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:text="   This is computed as the modified OPR plus the modified DPR minus the average OPR."
+                android:text="   Cmb is an estimate of the number of points a team will contribute to their alliance's winning margin, through a combination of better offense, better defense, and fewer penalties compared to the average team in the tournament.  A positive Cmb is good!"
                 android:textSize="16sp"
                 android:padding="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:text="   For more detailed information, contact the app developer as shown on Google Play."
+                android:text="   This is computed as Off plus Def."
                 android:textSize="16sp"
                 android:padding="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+            <TextView
+                android:text="Match Forecast:"
+                android:textSize="16sp"
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="   Forecasting is done by computing adding the Cmb scores for both teams on an alliance for all offensive measures, the Cmb score for the opposing alliance penalties, and the average scores.  This can occasionally result in negative forecast predictions for specific score items or for total scores if two particularly low scoring teams play together on an alliance."
+                android:textSize="16sp"
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="   For three team alliances in elimination rounds, the forecast sums the scores for the three teams and scales the result by 2/3.  Different results may occur when two specific teams are paired on the field at one time.  Check the specific team breakdowns by tapping on the team names in the Match Prediction screen to see how each team on a particular alliance contributes to the alliance total."
+                android:textSize="16sp"
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="For more detailed information on how the stats are specifically computed, contact the app developer as shown on Google Play."
+                android:textSize="16sp"
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
 
         </LinearLayout>

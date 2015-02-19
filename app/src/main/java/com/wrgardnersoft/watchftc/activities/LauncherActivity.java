@@ -20,7 +20,7 @@ public class LauncherActivity extends ActionBarActivity {
         getSupportActionBar().setIcon(R.drawable.ic_launcher);
         setContentView(R.layout.activity_launcher);
 
-        setTitle(getString(R.string.app_name) + ":" + BuildConfig.VERSION_NAME);
+        setTitle(getString(R.string.app_name) + ": " + BuildConfig.VERSION_NAME);
     }
 
 

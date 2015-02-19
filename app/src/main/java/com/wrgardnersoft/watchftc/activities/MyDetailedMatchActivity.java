@@ -3,7 +3,6 @@ package com.wrgardnersoft.watchftc.activities;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -33,7 +32,7 @@ public class MyDetailedMatchActivity extends CommonMenuActivity implements Async
 
     enum DisplayType {OPR, DPR, CCWM}
 
-    String displayString[] = {"OPR", "DPR", "CCWM"};
+    String displayString[] = {"Off", "Def", "Cmb"};
 
     DisplayType displayType;
 
@@ -122,7 +121,7 @@ public class MyDetailedMatchActivity extends CommonMenuActivity implements Async
         if (mm.teamNumber[MyApp.RED][2] <= 0) {
             teamsPerAllianceInThisMatch = 2;
         }
-        Log.i("Teams this match", String.valueOf(teamsPerAllianceInThisMatch));
+    //    Log.i("Teams this match", String.valueOf(teamsPerAllianceInThisMatch));
 
         for (int k = 0; k < teamsPerAllianceInThisMatch; k++) {
             for (int i = 0; i < MyApp.NUM_ALLIANCES; i++) {
@@ -165,7 +164,7 @@ public class MyDetailedMatchActivity extends CommonMenuActivity implements Async
         }
 
         tv = (TextView) findViewById(R.id.my_detailed_match_title);
-        tv.setText(getString(R.string.predictedBreakdown) + ": " + displayString[displayType.ordinal()] + " ");
+        tv.setText(getString(R.string.teamBreakdown) + ": " + displayString[displayType.ordinal()] + " ");
         tv.setTypeface(null, Typeface.BOLD_ITALIC);
 
         for (int k = 0; k < teamsPerAllianceInThisMatch; k++) {
@@ -224,7 +223,7 @@ public class MyDetailedMatchActivity extends CommonMenuActivity implements Async
         // as you specify a parent activity in AndroidManifest.xml.
         boolean saveReturn;
 
-        MyApp myApp = MyApp.getInstance();
+        //MyApp myApp = MyApp.getInstance();
 
         int id = item.getItemId();
 

@@ -16,11 +16,12 @@ public class MyApp extends Application {
     public static final int RED = 0;
     public static final int BLUE = 1; // BLUE MUST BE 1-RED!!!
 
+    public static final int TEAMS_PER_MATCH = 2;
     public static final int TEAMS_PER_ALLIANCE = 3;
 
 
     public enum ScoreType { // TOTAL MUST BE FIRST, PENALTY MUST BE LAST!!!!!
-        TOTAL, AUTONOMOUS, AUTO_BONUS, TELEOP, END_GAME, PENALTY;
+        TOTAL, AUTONOMOUS, AUTO_BONUS, TELEOP, END_GAME, PENALTY
     }
 
     public static final int NUM_SCORE_TYPES = ScoreType.values().length;
@@ -41,10 +42,11 @@ public class MyApp extends Application {
 
     public boolean enableMatchPrediction;
 
-    public ArrayList<com.wrgardnersoft.watchftc.models.Team>[] team = (ArrayList<Team>[]) new ArrayList[2];  // full team info from team server page
+    public ArrayList<Team>[] team = (ArrayList<Team>[]) new ArrayList[2];  // full team info from team server page
     public ArrayList<TeamFtcRanked>[] teamFtcRanked = (ArrayList<TeamFtcRanked>[]) new ArrayList[2];
     public ArrayList<Match>[] match = (ArrayList<Match>[]) new ArrayList[2];
     public ArrayList<TeamStatRanked>[] teamStatRanked = (ArrayList<TeamStatRanked>[]) new ArrayList[2];
+    public double meanOffenseScoreTotal[][] = new double[2][NUM_SCORE_TYPES];
 
     public int currentTeamNumber, currentMatchNumber;
 
@@ -146,7 +148,8 @@ public class MyApp extends Application {
         MyApp myApp = MyApp.getInstance();
         try {
             int numDivisions = Integer.valueOf(br.readLine());
-
+            myApp.setDivision(0);
+            myApp.dualDivision = (numDivisions == 2);
             for (int i = 0; i < numDivisions; i++) {
                 int div = Integer.valueOf(br.readLine());
                 int numTeams = Integer.valueOf(br.readLine());
@@ -169,7 +172,7 @@ public class MyApp extends Application {
                             myApp.match[div].get(j).number=j;
                         }
                     }
-                    Stat.computeAll(myApp.division());
+                    Stat.computeAll(div);
                 }
             }
         } catch (Exception e) {
