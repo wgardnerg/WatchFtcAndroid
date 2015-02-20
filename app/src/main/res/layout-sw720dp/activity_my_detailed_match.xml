@@ -612,6 +612,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
+            android:textSize="24sp"
             android:layout_gravity="center_horizontal|bottom"
             android:onClick="onClickMdmOprButton"
             android:text="Off" />
@@ -621,6 +622,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
+            android:textSize="24sp"
             android:layout_gravity="center_horizontal|bottom"
             android:onClick="onClickMdmDprButton"
             android:text="Def" />
@@ -630,6 +632,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
+            android:textSize="24sp"
             android:layout_gravity="center_horizontal|bottom"
             android:onClick="onClickMdmCcwmButton"
             android:text="Cmb" />
