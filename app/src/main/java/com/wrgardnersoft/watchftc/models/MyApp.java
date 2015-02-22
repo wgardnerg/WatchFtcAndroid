@@ -36,15 +36,19 @@ public class MyApp extends Application {
     //public class MyApp extends Application {
     public String[] serverAddressString = new String[2];
     public boolean[] useAdvancedStats = new boolean[2];
+    public String tournamentName;
+    public String[] divisionName = new String[2];
     private boolean dualDivision;
     private int division;
     public ArrayList<Integer> selectedTeams;
 
-    public boolean enableMatchPrediction;
+
 
     public ArrayList<Team>[] team = (ArrayList<Team>[]) new ArrayList[2];  // full team info from team server page
     public ArrayList<TeamFtcRanked>[] teamFtcRanked = (ArrayList<TeamFtcRanked>[]) new ArrayList[2];
     public ArrayList<Match>[] match = (ArrayList<Match>[]) new ArrayList[2];
+
+    public boolean enableMatchPrediction;
     public ArrayList<TeamStatRanked>[] teamStatRanked = (ArrayList<TeamStatRanked>[]) new ArrayList[2];
     public double meanOffenseScoreTotal[][] = new double[2][NUM_SCORE_TYPES];
 
@@ -57,6 +61,10 @@ public class MyApp extends Application {
     public MyApp() {
 
         myAppInstance = this;
+
+        this.tournamentName="";
+        this.divisionName[0]="";
+        this.divisionName[1]="";
 
         this.division = 0;
         this.dualDivision = true;

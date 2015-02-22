@@ -205,7 +205,11 @@ public class CommonMenuActivity extends ActionBarActivity implements AsyncRespon
         } else if (id == R.id.action_share) {
             String shareOutput = "";
             if (myApp.team[0].size() > 0) {
-                shareOutput = shareOutput + "Division,0" + System.getProperty("line.separator");
+                shareOutput = shareOutput + "Division,0";
+                if (!myApp.divisionName[0].contentEquals("")) {
+                    shareOutput = shareOutput +","+myApp.divisionName[0];
+                }
+                shareOutput = shareOutput + System.getProperty("line.separator");
                 shareOutput = shareOutput + "Teams," + myApp.team[0].size() + System.getProperty("line.separator");
                 shareOutput = shareOutput + Team.shareHeader();
                 for (Team t : myApp.team[0]) {
@@ -221,7 +225,11 @@ public class CommonMenuActivity extends ActionBarActivity implements AsyncRespon
                 }
             }
             if (myApp.team[1].size() > 0) {
-                shareOutput = shareOutput + "Division,1" + System.getProperty("line.separator");
+                shareOutput = shareOutput + "Division,1";
+                if (!myApp.divisionName[1].contentEquals("")) {
+                    shareOutput = shareOutput +","+myApp.divisionName[1];
+                }
+                shareOutput = shareOutput + System.getProperty("line.separator");
                 shareOutput = shareOutput + "Teams," + myApp.team[1].size() + System.getProperty("line.separator");
                 shareOutput = shareOutput + Team.shareHeader();
                 for (Team t : myApp.team[1]) {
@@ -241,7 +249,11 @@ public class CommonMenuActivity extends ActionBarActivity implements AsyncRespon
                 intent.setType("message/rfc822");
 
 // Add data to the intent, the receiving app will decide what to do with it.
-                intent.putExtra(Intent.EXTRA_SUBJECT, "Watch FTC Data");
+                String subject = "Watch FTC Data";
+                if (!myApp.tournamentName.contentEquals("")) {
+                    subject = subject + ": " + myApp.tournamentName;
+                }
+                intent.putExtra(Intent.EXTRA_SUBJECT, subject);
                 intent.putExtra(Intent.EXTRA_TEXT, shareOutput);
                 startActivity(Intent.createChooser(intent, "Select share option"));
             }

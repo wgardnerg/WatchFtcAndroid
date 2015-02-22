@@ -63,6 +63,18 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
                 teamsUrl = teamsUrlHeader + "TeamList";
                 Document document = Jsoup.connect(teamsUrl).get();
 
+                Elements hTags = document.select("h2");
+                String info = hTags.get(0).text();
+            //    Log.i("H2 Tag", hTags.get(0).text());
+                info = info.replace(" Team Information","");
+                String[] parts = info.split(" Division: ");
+                myApp.tournamentName=parts[0];
+                if (parts.length>1) {
+                    myApp.divisionName[myApp.division()]=parts[1];
+                }
+             //   Log.i("Tname", myApp.tournamentName);
+             //   Log.i("Dname", myApp.divisionName[myApp.division()]);
+
                 Element table = document.select("table").get(0); //select the first table.
                 Elements rows = table.select("tr");
 

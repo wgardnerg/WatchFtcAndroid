@@ -103,17 +103,17 @@ public class MyMatchActivity extends CommonMenuActivity implements AsyncResponse
         }
         tv = (TextView) findViewById(R.id.mm_rT2);
         if (mm.teamNumber[MyApp.RED][2] > 0) {
+            TextView tv2 = (TextView) findViewById(R.id.mm_rT0);
+            LinearLayout.LayoutParams param2 = (LinearLayout.LayoutParams) tv2.getLayoutParams();
+            LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) tv.getLayoutParams();
+            param.height = param2.height;
+            tv.setLayoutParams(param);
             tv.setText(String.valueOf(mm.teamNumber[MyApp.RED][2]));
             if (myApp.selectedTeams.contains(mm.teamNumber[MyApp.RED][2])) {
                 tv.setBackgroundResource(R.color.yellow);
             } else {
                 tv.setBackgroundResource(R.color.lighter_red);
             }
-            TextView tv2 = (TextView) findViewById(R.id.mm_rT0);
-            LinearLayout.LayoutParams param2 = (LinearLayout.LayoutParams) tv2.getLayoutParams();
-            LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) tv.getLayoutParams();
-            param.height = param2.height;
-            tv.setLayoutParams(param);
         } else {
             tv.setText("");
             tv.setBackgroundResource(R.color.lighter_red);
@@ -143,17 +143,17 @@ public class MyMatchActivity extends CommonMenuActivity implements AsyncResponse
         }
         tv = (TextView) findViewById(R.id.mm_bT2);
         if (mm.teamNumber[MyApp.BLUE][2] > 0) {
+            TextView tv2 = (TextView) findViewById(R.id.mm_bT0);
+            LinearLayout.LayoutParams param2 = (LinearLayout.LayoutParams) tv2.getLayoutParams();
+            LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) tv.getLayoutParams();
+            param.height = param2.height;
+            tv.setLayoutParams(param);
             tv.setText(String.valueOf(mm.teamNumber[MyApp.BLUE][2]));
             if (myApp.selectedTeams.contains(mm.teamNumber[MyApp.BLUE][2])) {
                 tv.setBackgroundResource(R.color.yellow);
             } else {
                 tv.setBackgroundResource(R.color.lighter_blue);
             }
-            TextView tv2 = (TextView) findViewById(R.id.mm_bT0);
-            LinearLayout.LayoutParams param2 = (LinearLayout.LayoutParams) tv2.getLayoutParams();
-            LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) tv.getLayoutParams();
-            param.height = param2.height;
-            tv.setLayoutParams(param);
         } else {
             tv.setText("");
             tv.setBackgroundResource(R.color.lighter_blue);
