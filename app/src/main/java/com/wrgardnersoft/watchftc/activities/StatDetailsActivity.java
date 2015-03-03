@@ -10,7 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.wrgardnersoft.watchftc.R;
-import com.wrgardnersoft.watchftc.adapters.StatRankingsListAdapter;
+import com.wrgardnersoft.watchftc.adapters.StatDetailsListAdapter;
 import com.wrgardnersoft.watchftc.interfaces.AsyncResponse;
 import com.wrgardnersoft.watchftc.internet.ClientTask;
 import com.wrgardnersoft.watchftc.models.MyApp;
@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 
-public class StatRankingsActivity extends CommonMenuActivity implements AsyncResponse {
+public class StatDetailsActivity extends CommonMenuActivity implements AsyncResponse {
 
     private ListView listView;
     ClientTask clientTask;
@@ -37,12 +37,12 @@ public class StatRankingsActivity extends CommonMenuActivity implements AsyncRes
         //     team = new ArrayList<Team>();
 
         if (myApp.dualDivision()) {
-            setTitle(" " + getString(R.string.stats) + ", Division " + Integer.toString(myApp.division() + 1));
+            setTitle(" " + getString(R.string.stats)+", "+Stat.TypeDisplayString[myApp.detailType.ordinal()] + ", Division " + Integer.toString(myApp.division() + 1));
         } else {
-            setTitle(" " + getString(R.string.stats));
+            setTitle(" " + getString(R.string.stats)+", "+Stat.TypeDisplayString[myApp.detailType.ordinal()]);
         }
 
-        setContentView(R.layout.activity_stat_rankings);
+        setContentView(R.layout.activity_stat_details);
 
         if (myApp.team[myApp.division()].size() > 0) {
             inflateMe();
@@ -56,9 +56,9 @@ public class StatRankingsActivity extends CommonMenuActivity implements AsyncRes
     private void inflateMe() {
         MyApp myApp = MyApp.getInstance();
 
-        StatRankingsListAdapter adapter = new StatRankingsListAdapter(this,
-                R.layout.list_item_stat_ranking, myApp.teamStatRanked[myApp.division()]);
-        listView = (ListView) findViewById(R.id.stat_rankings_list_view);
+        StatDetailsListAdapter adapter = new StatDetailsListAdapter(this,
+                R.layout.list_item_stat_details, myApp.teamStatRanked[myApp.division()]);
+        listView = (ListView) findViewById(R.id.stat_details_list_view);
         listView.setAdapter(adapter);
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -96,7 +96,7 @@ public class StatRankingsActivity extends CommonMenuActivity implements AsyncRes
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        setContentView(R.layout.activity_stat_rankings);
+        setContentView(R.layout.activity_stat_details);
 
         MyApp myApp = (MyApp) getApplication();
         if (myApp.teamStatRanked[myApp.division()].size() > 0) {
@@ -122,82 +122,105 @@ public class StatRankingsActivity extends CommonMenuActivity implements AsyncRes
         Comparator<TeamStatRanked> ct = TeamStatRanked.getComparator(TeamStatRanked.SortParameter.NUMBER_SORT);
         Collections.sort(myApp.teamStatRanked[myApp.division()], ct);
 
-        listView = (ListView) findViewById(R.id.stat_rankings_list_view);
+        listView = (ListView) findViewById(R.id.stat_details_list_view);
         listView.invalidateViews();
     }
 
-    public void onClickFtcRankTextView(View view) {
+    public void onClickAutoTextView(View view) {
 
         // save all setup info to globals in myApp class
         MyApp myApp = (MyApp) getApplication();
 
-        Comparator<TeamStatRanked> ct = TeamStatRanked.getComparator(TeamStatRanked.SortParameter.FTCRANK_SORT);
+        Comparator<TeamStatRanked> ct;
+        if (myApp.detailType == Stat.Type.OPR) {
+            ct = TeamStatRanked.getComparator(TeamStatRanked.SortParameter.OFF_AUTO_SORT);
+        } else if (myApp.detailType == Stat.Type.DPR) {
+            ct = TeamStatRanked.getComparator(TeamStatRanked.SortParameter.DEF_AUTO_SORT);
+        } else {
+            ct = TeamStatRanked.getComparator(TeamStatRanked.SortParameter.CMB_AUTO_SORT);
+        }
         Collections.sort(myApp.teamStatRanked[myApp.division()], ct);
 
-        listView = (ListView) findViewById(R.id.stat_rankings_list_view);
+        listView = (ListView) findViewById(R.id.stat_details_list_view);
         listView.invalidateViews();
     }
 
-    public void onClickWinPercentTextView(View view) {
+    public void onClickTeleopTextView(View view) {
 
         // save all setup info to globals in myApp class
         MyApp myApp = (MyApp) getApplication();
 
-        Comparator<TeamStatRanked> ct =
-                TeamStatRanked.getComparator(TeamStatRanked.SortParameter.WINPERCENT_SORT,
-                        TeamStatRanked.SortParameter.OPR_SORT,
-                        TeamStatRanked.SortParameter.CCWM_SORT,
-                        TeamStatRanked.SortParameter.FTCRANK_SORT);
+        Comparator<TeamStatRanked> ct;
+        if (myApp.detailType == Stat.Type.OPR) {
+            ct = TeamStatRanked.getComparator(TeamStatRanked.SortParameter.OFF_TELE_SORT);
+        } else if (myApp.detailType == Stat.Type.DPR) {
+            ct = TeamStatRanked.getComparator(TeamStatRanked.SortParameter.DEF_TELE_SORT);
+        } else {
+            ct = TeamStatRanked.getComparator(TeamStatRanked.SortParameter.CMB_TELE_SORT);
+        }
         Collections.sort(myApp.teamStatRanked[myApp.division()], ct);
 
-        listView = (ListView) findViewById(R.id.stat_rankings_list_view);
+        listView = (ListView) findViewById(R.id.stat_details_list_view);
         listView.invalidateViews();
     }
 
-    public void onClickOprTextView(View view) {
+    public void onClickEndGameTextView(View view) {
 
         // save all setup info to globals in myApp class
         MyApp myApp = (MyApp) getApplication();
 
-        Comparator<TeamStatRanked> ct = TeamStatRanked.getComparator(TeamStatRanked.SortParameter.OPR_SORT,
-                TeamStatRanked.SortParameter.CCWM_SORT,
-                TeamStatRanked.SortParameter.WINPERCENT_SORT,
-                TeamStatRanked.SortParameter.FTCRANK_SORT);
+        Comparator<TeamStatRanked> ct;
+        if (myApp.detailType == Stat.Type.OPR) {
+            ct = TeamStatRanked.getComparator(TeamStatRanked.SortParameter.OFF_ENDG_SORT);
+        } else if (myApp.detailType == Stat.Type.DPR) {
+            ct = TeamStatRanked.getComparator(TeamStatRanked.SortParameter.DEF_ENDG_SORT);
+        } else {
+            ct = TeamStatRanked.getComparator(TeamStatRanked.SortParameter.CMB_ENDG_SORT);
+        }
         Collections.sort(myApp.teamStatRanked[myApp.division()], ct);
 
-        listView = (ListView) findViewById(R.id.stat_rankings_list_view);
+        listView = (ListView) findViewById(R.id.stat_details_list_view);
         listView.invalidateViews();
     }
 
-    public void onClickDprTextView(View view) {
+    public void onClickPenaltyTextView(View view) {
 
         // save all setup info to globals in myApp class
         MyApp myApp = (MyApp) getApplication();
 
-        Comparator<TeamStatRanked> ct = TeamStatRanked.getComparator(TeamStatRanked.SortParameter.DPR_SORT,
-                TeamStatRanked.SortParameter.OPR_SORT,
-                TeamStatRanked.SortParameter.WINPERCENT_SORT,
-                TeamStatRanked.SortParameter.FTCRANK_SORT);
+        Comparator<TeamStatRanked> ct;
+        if (myApp.detailType == Stat.Type.OPR) {
+            ct = TeamStatRanked.getComparator(TeamStatRanked.SortParameter.OFF_PEN_SORT);
+        } else if (myApp.detailType == Stat.Type.DPR) {
+            ct = TeamStatRanked.getComparator(TeamStatRanked.SortParameter.DEF_PEN_SORT);
+        } else {
+            ct = TeamStatRanked.getComparator(TeamStatRanked.SortParameter.CMB_PEN_SORT);
+        }
         Collections.sort(myApp.teamStatRanked[myApp.division()], ct);
 
-        listView = (ListView) findViewById(R.id.stat_rankings_list_view);
+        listView = (ListView) findViewById(R.id.stat_details_list_view);
         listView.invalidateViews();
     }
 
-    public void onClickCcwmTextView(View view) {
+    public void onClickTotalTextView(View view) {
 
         // save all setup info to globals in myApp class
         MyApp myApp = (MyApp) getApplication();
 
-        Comparator<TeamStatRanked> ct = TeamStatRanked.getComparator(TeamStatRanked.SortParameter.CCWM_SORT,
-                TeamStatRanked.SortParameter.OPR_SORT,
-                TeamStatRanked.SortParameter.WINPERCENT_SORT,
-                TeamStatRanked.SortParameter.FTCRANK_SORT);
+        Comparator<TeamStatRanked> ct;
+        if (myApp.detailType == Stat.Type.OPR) {
+            ct = TeamStatRanked.getComparator(TeamStatRanked.SortParameter.OPR_SORT);
+        } else if (myApp.detailType == Stat.Type.DPR) {
+            ct = TeamStatRanked.getComparator(TeamStatRanked.SortParameter.DPR_SORT);
+        } else {
+            ct = TeamStatRanked.getComparator(TeamStatRanked.SortParameter.CCWM_SORT);
+        }
         Collections.sort(myApp.teamStatRanked[myApp.division()], ct);
 
-        listView = (ListView) findViewById(R.id.stat_rankings_list_view);
+        listView = (ListView) findViewById(R.id.stat_details_list_view);
         listView.invalidateViews();
     }
+
 
     public void onClickNameTextView(View view) {
 
@@ -209,7 +232,7 @@ public class StatRankingsActivity extends CommonMenuActivity implements AsyncRes
                 TeamStatRanked.SortParameter.FTCRANK_SORT);
         Collections.sort(myApp.teamStatRanked[myApp.division()], ct);
 
-        listView = (ListView) findViewById(R.id.stat_rankings_list_view);
+        listView = (ListView) findViewById(R.id.stat_details_list_view);
         listView.invalidateViews();
     }
 
@@ -234,9 +257,6 @@ public class StatRankingsActivity extends CommonMenuActivity implements AsyncRes
         item = menu.findItem(R.id.action_test2);
         item.setVisible(true);
 
-        item = menu.findItem(R.id.action_test3);
-        item.setVisible(true);
-
         item = menu.findItem(R.id.action_details);
         item.setVisible(true);
 
@@ -256,7 +276,7 @@ public class StatRankingsActivity extends CommonMenuActivity implements AsyncRes
         // as you specify a parent activity in AndroidManifest.xml.
         boolean saveReturn;
 
-       // MyApp myApp = MyApp.getInstance();
+        // MyApp myApp = MyApp.getInstance();
 
         int id = item.getItemId();
 
@@ -266,25 +286,25 @@ public class StatRankingsActivity extends CommonMenuActivity implements AsyncRes
             clientTask.delegate = this;
             clientTask.execute();
             return true;
-        } else if(id == R.id.action_details_off) {
+        } else if (id == R.id.action_details_off) {
             MyApp myApp = MyApp.getInstance();
             myApp.detailType = Stat.Type.OPR;
             Intent getNameScreenIntent = new Intent(this, StatDetailsActivity.class);
             startActivity(getNameScreenIntent);
-        } else if(id == R.id.action_details_def) {
+        } else if (id == R.id.action_details_def) {
             MyApp myApp = MyApp.getInstance();
             myApp.detailType = Stat.Type.DPR;
             Intent getNameScreenIntent = new Intent(this, StatDetailsActivity.class);
             startActivity(getNameScreenIntent);
-        } else if(id == R.id.action_details_cmb) {
+        } else if (id == R.id.action_details_cmb) {
             MyApp myApp = MyApp.getInstance();
             myApp.detailType = Stat.Type.CCWM;
             Intent getNameScreenIntent = new Intent(this, StatDetailsActivity.class);
             startActivity(getNameScreenIntent);
         }
-        saveReturn =  super.onOptionsItemSelected(item);
+        saveReturn = super.onOptionsItemSelected(item);
 
-        if ((id == R.id.action_load)&&saveReturn) { // just loaded data, so refresh
+        if ((id == R.id.action_load) && saveReturn) { // just loaded data, so refresh
             processFinish(0);
         }
 

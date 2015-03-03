@@ -29,6 +29,27 @@
                 android:layout_height="wrap_content" />
 
             <TextView
+                android:text="WM: estimated contribution to winning margin"
+                android:textSize="16sp"
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="   WM is an estimate of the number of points a team will contribute to their alliance's winning margin, through a combination of better offense, better defense, and fewer penalties compared to the average team in the tournament.  A positive WM is good!"
+                android:textSize="16sp"
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="   This starts as the average winning margin for the team's alliances relative to the average margin, and switches to the traditional Combined Contribution to Winning Margin (CCWM) measure after enough matches have been played."
+                android:textSize="16sp"
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
                 android:text="Off: estimated offensive contribution"
                 android:textSize="16sp"
                 android:padding="8dp"
@@ -43,50 +64,22 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:text="   This starts as the average points scored by the team's alliances relative to the average, and switches to the traditional Offensive Power Rating (OPR) measure after enough matches have been played."
+                android:text="   This starts as the average points scored by the team's alliances relative to the average, and switches to the traditional Offensive Power Rating (OPR) measure minus the average OPR after enough matches have been played."
                 android:textSize="16sp"
                 android:padding="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:text="Def: estimated defensive contribution"
+                android:text="Dif: difference between WM and Off"
                 android:textSize="16sp"
                 android:padding="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:text="   Def is an estimate of the number of points a team will prevent the other alliance from scoring, compared to the average team.  A positive Def is good!  This is hard to estimate.  Estimates will only appear after each team has played 5 matches, and estimates will be small due to the inherent difficulty in measuring this reliably."
-                android:textSize="16sp"
-                android:padding="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:text="   This is computed as the negative of the average number of points scored by a team's opposing alliances (compared to the average), minus the Off ratings of the opposing alliance teams.  So a team with good defense will cause their opponents to score fewer points than they usually do.  This factor is weighted by 0.25, as 0.25 was found to result in better prediction in simulations."
-                android:textSize="16sp"
-                android:padding="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:text="Cmb: estimated combined contribution"
-                android:textSize="16sp"
-                android:padding="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:text="   Cmb is an estimate of the number of points a team will contribute to their alliance's winning margin, through a combination of better offense, better defense, and fewer penalties compared to the average team in the tournament.  A positive Cmb is good!"
-                android:textSize="16sp"
-                android:padding="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:text="   This is computed as Off plus Def."
-                android:textSize="16sp"
+                android:text="  Dif measures a combination of the strength of the opposing alliances a team has faced and the strength of that team's defense.  A positive Dif is good for a team, and signifies that the team's opponents have scored fewer points than average by that amount."
+                                android:textSize="16sp"
                 android:padding="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -99,7 +92,7 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:text="   Forecasting is done by computing adding the Cmb scores for both teams on an alliance for all offensive measures, the Cmb score for the opposing alliance penalties, and the average scores.  This can occasionally result in negative forecast predictions for specific score items or for total scores if two particularly low scoring teams play together on an alliance."
+                android:text="   Forecasting is done by adding the Off scores for both teams on an alliance for all offensive measures, the Off score for the opposing alliance penalties, and the average scores, and then subtracting off the corresponding Dif scores from the opposing alliance teams.  This can occasionally result in negative forecast predictions for specific score items or for total scores if two particularly low scoring teams play together on an alliance."
                 android:textSize="16sp"
                 android:padding="8dp"
                 android:layout_width="match_parent"

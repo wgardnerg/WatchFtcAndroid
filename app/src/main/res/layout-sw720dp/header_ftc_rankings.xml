@@ -1,33 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ftc_rank_container"
+    android:id="@+id/ftc_header_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_below="@+id/teams_list_view"
     android:orientation="horizontal"
-    android:paddingRight="15dp">
-
+    android:paddingRight="10dp">
 
     <TextView
-        android:id="@+id/rank"
-        android:layout_width="90dp"
+        android:id="@+id/head_rank"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
         android:singleLine="true"
-        android:text="254"
+        android:gravity="center_horizontal"
+        android:text="Rank"
         android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textSize="26sp"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/number"
-        android:layout_width="90dp"
+        android:id="@+id/head_number"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:gravity="right"
         android:singleLine="true"
-        android:text="254"
+        android:text="Team"
         android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textSize="26sp"
         android:textStyle="bold" />
 
 
@@ -35,54 +33,54 @@
 
 
     <TextView
-        android:id="@+id/qp"
-        android:layout_width="66dp"
+        android:id="@+id/head_qp"
+        android:layout_width="45dp"
         android:layout_height="wrap_content"
         android:singleLine="true"
-        android:text="(12-0-0)"
         android:gravity="center_horizontal"
+        android:text="QP"
         android:textColor="@color/black"
         android:textSize="24sp" />
 
     <TextView
-        android:id="@+id/rp"
-        android:layout_width="66dp"
+        android:id="@+id/head_rp"
+        android:layout_width="45dp"
         android:layout_height="wrap_content"
         android:singleLine="true"
-        android:text="(12-0-0)"
         android:gravity="center_horizontal"
+        android:text="RP"
         android:textColor="@color/black"
         android:textSize="24sp" />
-
     <TextView
-        android:id="@+id/mp"
-        android:layout_width="66dp"
-        android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:text="(12-0-0)"
-        android:gravity="center_horizontal"
-        android:textColor="@color/gray"
-        android:textSize="24sp" />
-
-    <TextView
-        android:id="@+id/highest"
-        android:layout_width="90dp"
+        android:id="@+id/head_highest"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:singleLine="true"
         android:gravity="center_horizontal"
-        android:text="(12-0-0)"
+        android:text="High"
+        android:textColor="@color/gray"
+        android:textSize="24sp" />
+    <TextView
+        android:id="@+id/head_mp"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:gravity="center_horizontal"
+        android:text="MP"
         android:textColor="@color/gray"
         android:textSize="24sp" />
 
+
+
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/head_name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/ftc_rank_row1_container"
         android:singleLine="true"
-        android:text="254"
+        android:text="Name"
         android:textColor="@color/black"
-        android:textSize="24sp" />
+        android:textSize="26sp"
+        android:textStyle="bold" />
 
 
 </LinearLayout>

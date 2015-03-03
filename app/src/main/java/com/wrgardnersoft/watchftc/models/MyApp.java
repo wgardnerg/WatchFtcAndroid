@@ -42,6 +42,8 @@ public class MyApp extends Application {
     private int division;
     public ArrayList<Integer> selectedTeams;
 
+    public Stat.Type detailType;
+
 
 
     public ArrayList<Team>[] team = (ArrayList<Team>[]) new ArrayList[2];  // full team info from team server page
@@ -88,6 +90,8 @@ public class MyApp extends Application {
         this.match[1] = new ArrayList<>();
 
         this.currentTeamNumber = -1;
+
+        this.detailType = Stat.Type.OPR;
 
         this.enableMatchPrediction = false; //true;
     }

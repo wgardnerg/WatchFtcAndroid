@@ -55,6 +55,16 @@
         android:textSize="16sp" />
 
     <TextView
+        android:id="@+id/highest"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:gravity="center_horizontal"
+        android:text="(12-0-0)"
+        android:textColor="@color/gray"
+        android:textSize="16sp" />
+
+    <TextView
         android:id="@+id/mp"
         android:layout_width="45dp"
         android:layout_height="wrap_content"
@@ -64,15 +74,6 @@
         android:textColor="@color/gray"
         android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/highest"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:gravity="center_horizontal"
-        android:text="(12-0-0)"
-        android:textColor="@color/gray"
-        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/name"

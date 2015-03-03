@@ -40,7 +40,10 @@ public class TeamStatRanked {
     }
 
     public enum SortParameter {
-        NUMBER_SORT, FTCRANK_SORT, WINPERCENT_SORT, OPR_SORT, DPR_SORT, CCWM_SORT, NAME_SORT
+        NUMBER_SORT, FTCRANK_SORT, WINPERCENT_SORT, OPR_SORT, DPR_SORT, CCWM_SORT, NAME_SORT,
+        OFF_AUTO_SORT, OFF_TELE_SORT, OFF_ENDG_SORT, OFF_PEN_SORT,
+        DEF_AUTO_SORT, DEF_TELE_SORT, DEF_ENDG_SORT, DEF_PEN_SORT,
+        CMB_AUTO_SORT, CMB_TELE_SORT, CMB_ENDG_SORT, CMB_PEN_SORT
     }
 
     private static class TeamStatRankedComparator implements Comparator<TeamStatRanked> {
@@ -81,7 +84,59 @@ public class TeamStatRanked {
                     case NAME_SORT:
                         comparison = o1.name.compareTo(o2.name);
                         if (comparison!=0) return comparison;
+
                         break;
+                    case OFF_AUTO_SORT:
+                        comparison = (int)(-100000 * (o1.oprA[MyApp.ScoreType.AUTONOMOUS.ordinal()] - o2.oprA[MyApp.ScoreType.AUTONOMOUS.ordinal()]));
+                        if (comparison!=0) return comparison;
+                        break;
+                    case OFF_TELE_SORT:
+                        comparison = (int)(-100000 * (o1.oprA[MyApp.ScoreType.TELEOP.ordinal()] - o2.oprA[MyApp.ScoreType.TELEOP.ordinal()]));
+                        if (comparison!=0) return comparison;
+                        break;
+                    case OFF_ENDG_SORT:
+                        comparison = (int)(-100000 * (o1.oprA[MyApp.ScoreType.END_GAME.ordinal()] - o2.oprA[MyApp.ScoreType.END_GAME.ordinal()]));
+                        if (comparison!=0) return comparison;
+                        break;
+                    case OFF_PEN_SORT:
+                        comparison = (int)(-100000 * (o1.oprA[MyApp.ScoreType.PENALTY.ordinal()] - o2.oprA[MyApp.ScoreType.PENALTY.ordinal()]));
+                        if (comparison!=0) return comparison;
+                        break;
+
+                    case DEF_AUTO_SORT:
+                        comparison = (int)(-100000 * (o1.dprA[MyApp.ScoreType.AUTONOMOUS.ordinal()] - o2.dprA[MyApp.ScoreType.AUTONOMOUS.ordinal()]));
+                        if (comparison!=0) return comparison;
+                        break;
+                    case DEF_TELE_SORT:
+                        comparison = (int)(-100000 * (o1.dprA[MyApp.ScoreType.TELEOP.ordinal()] - o2.dprA[MyApp.ScoreType.TELEOP.ordinal()]));
+                        if (comparison!=0) return comparison;
+                        break;
+                    case DEF_ENDG_SORT:
+                        comparison = (int)(-100000 * (o1.dprA[MyApp.ScoreType.END_GAME.ordinal()] - o2.dprA[MyApp.ScoreType.END_GAME.ordinal()]));
+                        if (comparison!=0) return comparison;
+                        break;
+                    case DEF_PEN_SORT:
+                        comparison = (int)(-100000 * (o1.dprA[MyApp.ScoreType.PENALTY.ordinal()] - o2.dprA[MyApp.ScoreType.PENALTY.ordinal()]));
+                        if (comparison!=0) return comparison;
+                        break;
+
+                    case CMB_AUTO_SORT:
+                        comparison = (int)(-100000 * (o1.ccwmA[MyApp.ScoreType.AUTONOMOUS.ordinal()] - o2.ccwmA[MyApp.ScoreType.AUTONOMOUS.ordinal()]));
+                        if (comparison!=0) return comparison;
+                        break;
+                    case CMB_TELE_SORT:
+                        comparison = (int)(-100000 * (o1.ccwmA[MyApp.ScoreType.TELEOP.ordinal()] - o2.ccwmA[MyApp.ScoreType.TELEOP.ordinal()]));
+                        if (comparison!=0) return comparison;
+                        break;
+                    case CMB_ENDG_SORT:
+                        comparison = (int)(-100000 * (o1.ccwmA[MyApp.ScoreType.END_GAME.ordinal()] - o2.ccwmA[MyApp.ScoreType.END_GAME.ordinal()]));
+                        if (comparison!=0) return comparison;
+                        break;
+                    case CMB_PEN_SORT:
+                        comparison = (int)(-100000 * (o1.ccwmA[MyApp.ScoreType.PENALTY.ordinal()] - o2.ccwmA[MyApp.ScoreType.PENALTY.ordinal()]));
+                        if (comparison!=0) return comparison;
+                        break;
+
                 }
             }
             return 0;

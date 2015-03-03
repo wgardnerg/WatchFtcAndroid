@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -68,6 +67,24 @@ public class CommonMenuActivity extends ActionBarActivity implements AsyncRespon
             Intent getNameScreenIntent = new Intent(this, SetupActivity.class);
             startActivity(getNameScreenIntent);
             return true;
+        } else if (id == R.id.action_clear_all) {
+            for (int d = 0; d < 2; d++) {
+                myApp.team[d].clear();
+                myApp.teamFtcRanked[d].clear();
+                myApp.match[d].clear();
+                myApp.teamStatRanked[d].clear();
+            }
+            try {
+                this.deleteFile(this.getString(R.string.lastReceivedData));
+            } catch (Exception e) {
+                //     Log.i("No file to delete", "OK");
+            }
+
+            Intent getNameScreenIntent = new Intent(this, TeamsActivity.class);
+            getNameScreenIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(getNameScreenIntent);
+            finish();
+            return true;
         } else if (id == R.id.action_ftc_rankings) {
             Intent getNameScreenIntent = new Intent(this, FtcRankingsActivity.class);
             startActivity(getNameScreenIntent);
@@ -104,7 +121,7 @@ public class CommonMenuActivity extends ActionBarActivity implements AsyncRespon
             try {
                 this.deleteFile(tournamentDataFileName);
             } catch (Exception e) {
-                Log.i("No file to delete", "OK");
+                //     Log.i("No file to delete", "OK");
             }
             try {
                 FileOutputStream fOut = openFileOutput(tournamentDataFileName, MODE_PRIVATE);
@@ -202,12 +219,36 @@ public class CommonMenuActivity extends ActionBarActivity implements AsyncRespon
             getNameScreenIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(getNameScreenIntent);
             finish();
+        } else if (id == R.id.action_test3) {
+
+            try {
+                InputStream iS = assetManager.open("TestVa2015Kamen.csv");
+                InputStreamReader fr = new InputStreamReader(iS);
+
+                BufferedReader br = new BufferedReader(fr);
+
+                MyApp.loadTournamentData(br);
+
+                fr.close();
+
+                CharSequence text = "Loading test3 tournament.";
+                int duration = Toast.LENGTH_LONG;
+                Toast.makeText(this, text, duration).show();
+            } catch (Exception e2) {
+                CharSequence text = "Error: Can't load tournament data!!!";
+                int duration = Toast.LENGTH_LONG;
+                Toast.makeText(this, text, duration).show();
+            }
+            Intent getNameScreenIntent = new Intent(this, TeamsActivity.class);
+            getNameScreenIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(getNameScreenIntent);
+            finish();
         } else if (id == R.id.action_share) {
             String shareOutput = "";
             if (myApp.team[0].size() > 0) {
                 shareOutput = shareOutput + "Division,0";
                 if (!myApp.divisionName[0].contentEquals("")) {
-                    shareOutput = shareOutput +","+myApp.divisionName[0];
+                    shareOutput = shareOutput + "," + myApp.divisionName[0];
                 }
                 shareOutput = shareOutput + System.getProperty("line.separator");
                 shareOutput = shareOutput + "Teams," + myApp.team[0].size() + System.getProperty("line.separator");
@@ -227,7 +268,7 @@ public class CommonMenuActivity extends ActionBarActivity implements AsyncRespon
             if (myApp.team[1].size() > 0) {
                 shareOutput = shareOutput + "Division,1";
                 if (!myApp.divisionName[1].contentEquals("")) {
-                    shareOutput = shareOutput +","+myApp.divisionName[1];
+                    shareOutput = shareOutput + "," + myApp.divisionName[1];
                 }
                 shareOutput = shareOutput + System.getProperty("line.separator");
                 shareOutput = shareOutput + "Teams," + myApp.team[1].size() + System.getProperty("line.separator");

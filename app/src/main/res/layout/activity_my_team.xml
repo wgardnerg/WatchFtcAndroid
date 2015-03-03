@@ -21,9 +21,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"> </ListView>
 
+    <include layout="@layout/header_stat_rankings"
+        android:id="@+id/header_stat_rankings"
+        android:layout_below="@+id/ftc_rankings_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <ListView
+        android:id="@+id/stat_rankings_list_view"
+        android:layout_below="@+id/header_stat_rankings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <ExpandableListView
         android:id="@+id/matches_expListView"
-        android:layout_below="@id/ftc_rankings_list_view"
+        android:layout_below="@id/stat_rankings_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />

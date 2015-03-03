@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ftc_rank_container"
+    android:id="@+id/details_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -19,18 +19,7 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/ftcRank"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="right"
-        android:singleLine="true"
-        android:text="1"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/winPercent"
+        android:id="@+id/auto"
         android:layout_width="65dp"
         android:layout_height="wrap_content"
         android:singleLine="true"
@@ -41,7 +30,28 @@
 
 
     <TextView
-        android:id="@+id/ccwm"
+        android:id="@+id/tele"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:text="100"
+        android:gravity="right"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/endg"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:text="100"
+        android:gravity="right"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+
+    <TextView
+        android:id="@+id/pen"
         android:layout_width="65dp"
         android:layout_height="wrap_content"
         android:singleLine="true"
@@ -51,33 +61,22 @@
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/opr"
+        android:id="@+id/tot"
         android:layout_width="65dp"
         android:layout_height="wrap_content"
         android:singleLine="true"
-        android:text="100"
+        android:text="0"
         android:gravity="right"
         android:textColor="@color/black"
         android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/dpr"
-        android:layout_width="65dp"
-        android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:text="100"
-        android:gravity="right"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
-
-
 
     <TextView
         android:id="@+id/name"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:singleLine="true"
         android:text="254"
+        android:paddingLeft="16dp"
         android:textColor="@color/black"
         android:textSize="16sp" />
 

@@ -121,11 +121,6 @@ public class MyMatchActivity extends CommonMenuActivity implements AsyncResponse
             param.height = 0;
             tv.setLayoutParams(param);
         }
-        if (myApp.selectedTeams.contains(mm.teamNumber[MyApp.RED][0])) {
-            tv.setBackgroundResource(R.color.yellow);
-        } else {
-            tv.setBackgroundResource(R.color.lighter_red);
-        }
 
         tv = (TextView) findViewById(R.id.mm_bT0);
         tv.setText(String.valueOf(mm.teamNumber[MyApp.BLUE][0]));
@@ -219,21 +214,94 @@ public class MyMatchActivity extends CommonMenuActivity implements AsyncResponse
             }
         }
 
-        LinearLayout alRView = (LinearLayout) findViewById(R.id.mm_red_alliance);
-        alRView.setOnClickListener(new View.OnClickListener() {
-                                       @Override
-                                       public void onClick(View v) {
-                                           if (MyApp.getInstance().enableMatchPrediction) {
-                                               Intent getNameScreenIntent = new Intent(v.getContext(),
-                                                       MyDetailedMatchActivity.class);
-                                               startActivity(getNameScreenIntent);
-                                           }
-                                       }
-                                   }
+        TextView alR0View = (TextView) findViewById(R.id.mm_rT0);
+        alR0View.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            TextView tv = (TextView) v;
+                                            MyApp myApp = MyApp.getInstance();
+                                            myApp.currentTeamNumber = Integer.parseInt(tv.getText().toString());
+
+                                            Intent getNameScreenIntent = new Intent(v.getContext(), MyTeamActivity.class);
+                                            v.getContext().startActivity(getNameScreenIntent);
+                                        }
+                                    }
         );
 
-        LinearLayout alBView = (LinearLayout) findViewById(R.id.mm_blue_alliance);
-        alBView.setOnClickListener(new View.OnClickListener() {
+        TextView alR1View = (TextView) findViewById(R.id.mm_rT1);
+        alR1View.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            TextView tv = (TextView) v;
+                                            MyApp myApp = MyApp.getInstance();
+                                            myApp.currentTeamNumber = Integer.parseInt(tv.getText().toString());
+
+                                            Intent getNameScreenIntent = new Intent(v.getContext(), MyTeamActivity.class);
+                                            v.getContext().startActivity(getNameScreenIntent);
+                                        }
+                                    }
+        );
+
+        TextView alR2View = (TextView) findViewById(R.id.mm_rT2);
+        alR2View.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            TextView tv = (TextView) v;
+                                            MyApp myApp = MyApp.getInstance();
+                                            myApp.currentTeamNumber = Integer.parseInt(tv.getText().toString());
+
+                                            Intent getNameScreenIntent = new Intent(v.getContext(), MyTeamActivity.class);
+                                            v.getContext().startActivity(getNameScreenIntent);
+                                        }
+                                    }
+        );
+
+        TextView alB0View = (TextView) findViewById(R.id.mm_bT0);
+        alB0View.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            TextView tv = (TextView) v;
+                                            MyApp myApp = MyApp.getInstance();
+                                            myApp.currentTeamNumber = Integer.parseInt(tv.getText().toString());
+
+                                            Intent getNameScreenIntent = new Intent(v.getContext(), MyTeamActivity.class);
+                                            v.getContext().startActivity(getNameScreenIntent);
+                                        }
+                                    }
+        );
+
+
+        TextView alB1View = (TextView) findViewById(R.id.mm_bT1);
+        alB1View.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            TextView tv = (TextView) v;
+                                            MyApp myApp = MyApp.getInstance();
+                                            myApp.currentTeamNumber = Integer.parseInt(tv.getText().toString());
+
+                                            Intent getNameScreenIntent = new Intent(v.getContext(), MyTeamActivity.class);
+                                            v.getContext().startActivity(getNameScreenIntent);
+                                        }
+                                    }
+        );
+
+
+        TextView alB2View = (TextView) findViewById(R.id.mm_bT2);
+        alB2View.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            TextView tv = (TextView) v;
+                                            MyApp myApp = MyApp.getInstance();
+                                            myApp.currentTeamNumber = Integer.parseInt(tv.getText().toString());
+
+                                            Intent getNameScreenIntent = new Intent(v.getContext(), MyTeamActivity.class);
+                                            v.getContext().startActivity(getNameScreenIntent);
+                                        }
+                                    }
+        );
+
+        LinearLayout tableView = (LinearLayout) findViewById(R.id.tableLayout);
+        tableView.setOnClickListener(new View.OnClickListener() {
                                        @Override
                                        public void onClick(View v) {
                                            if (MyApp.getInstance().enableMatchPrediction) {

@@ -18,6 +18,12 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/action_clear_all"
+        android:orderInCategory="10000"
+        android:title="@string/clearAll"
+        app:showAsAction="never" />
+
+    <item
         android:orderInCategory="90"
         android:title="@string/file"
         app:showAsAction="never" >
@@ -40,8 +46,31 @@
                 android:title="Load PA-Full"
                 android:visible="false"
                 app:showAsAction="never" />
+            <item
+                android:id="@+id/action_test3"
+                android:orderInCategory="100001"
+                android:title="Load VA"
+                android:visible="false"
+                app:showAsAction="never" />
         </menu>
-        </item>
+    </item>
+
+    <item
+        android:id="@+id/action_details"
+        android:orderInCategory="80"
+        android:title="@string/details"
+        android:visible="false"
+        app:showAsAction="never" >
+        <menu>
+            <item android:id="@+id/action_details_cmb"
+                android:title="@string/margin"/>
+            <item android:id="@+id/action_details_off"
+                android:title="@string/offense"/>
+            <item android:id="@+id/action_details_def"
+                android:title="@string/difference"/>
+
+        </menu>
+    </item>
     <item
         android:id="@+id/action_matches"
         android:orderInCategory="2"

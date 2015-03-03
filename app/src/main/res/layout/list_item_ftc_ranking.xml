@@ -112,7 +112,27 @@
 
             <TextView
                 android:id="@+id/rp"
-                android:layout_width="40dp"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="(12-0-0)"
+                android:textColor="@color/gray"
+                android:textSize="14sp" />
+
+
+
+            <TextView
+                android:id="@+id/highestt"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="High:"
+                android:textColor="@color/gray"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/highest"
+                android:layout_width="45dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:text="(12-0-0)"
@@ -131,24 +151,6 @@
             <TextView
                 android:id="@+id/mp"
                 android:layout_width="20dp"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:text="(12-0-0)"
-                android:textColor="@color/gray"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/highestt"
-                android:layout_width="45dp"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:text="High:"
-                android:textColor="@color/gray"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/highest"
-                android:layout_width="45dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:text="(12-0-0)"

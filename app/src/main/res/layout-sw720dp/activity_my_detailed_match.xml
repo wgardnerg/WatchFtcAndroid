@@ -625,7 +625,7 @@
             android:textSize="24sp"
             android:layout_gravity="center_horizontal|bottom"
             android:onClick="onClickMdmDprButton"
-            android:text="Def" />
+            android:text="Dif" />
         <Button
             android:id="@+id/mdm_ccwm"
             android:layout_width="wrap_content"
@@ -635,7 +635,7 @@
             android:textSize="24sp"
             android:layout_gravity="center_horizontal|bottom"
             android:onClick="onClickMdmCcwmButton"
-            android:text="Cmb" />
+            android:text="WM" />
 
 
         </LinearLayout>

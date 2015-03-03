@@ -1,6 +1,7 @@
 package com.wrgardnersoft.watchftc.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wrgardnersoft.watchftc.R;
+import com.wrgardnersoft.watchftc.activities.MyTeamActivity;
 import com.wrgardnersoft.watchftc.models.Match;
 import com.wrgardnersoft.watchftc.models.MyApp;
 
@@ -79,7 +81,70 @@ public class MatchesExpandableListAdapter extends BaseExpandableListAdapter {
         holder.blue1View.setText(String.valueOf(child.teamNumber[MyApp.BLUE][1]));
         holder.blue2View.setText(String.valueOf(child.teamNumber[MyApp.BLUE][2]));
 
-        MyApp myApp = MyApp.getInstance();
+        final MyApp myApp = MyApp.getInstance();
+
+        holder.red0View.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                myApp.currentTeamNumber = child.teamNumber[MyApp.RED][0];
+
+                Intent getNameScreenIntent = new Intent(v.getContext(), MyTeamActivity.class);
+                v.getContext().startActivity(getNameScreenIntent);
+            }
+        });
+        holder.red1View.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                myApp.currentTeamNumber = child.teamNumber[MyApp.RED][1];
+
+                Intent getNameScreenIntent = new Intent(v.getContext(), MyTeamActivity.class);
+                v.getContext().startActivity(getNameScreenIntent);
+            }
+        });
+        holder.red2View.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                myApp.currentTeamNumber = child.teamNumber[MyApp.RED][2];
+
+                Intent getNameScreenIntent = new Intent(v.getContext(), MyTeamActivity.class);
+                v.getContext().startActivity(getNameScreenIntent);
+            }
+        });
+
+        holder.blue0View.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                myApp.currentTeamNumber = child.teamNumber[MyApp.BLUE][0];
+
+                Intent getNameScreenIntent = new Intent(v.getContext(), MyTeamActivity.class);
+                v.getContext().startActivity(getNameScreenIntent);
+            }
+        });
+        holder.blue1View.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                myApp.currentTeamNumber = child.teamNumber[MyApp.BLUE][1];
+
+                Intent getNameScreenIntent = new Intent(v.getContext(), MyTeamActivity.class);
+                v.getContext().startActivity(getNameScreenIntent);
+            }
+        });
+        holder.blue2View.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                myApp.currentTeamNumber = child.teamNumber[MyApp.BLUE][2];
+
+                Intent getNameScreenIntent = new Intent(v.getContext(), MyTeamActivity.class);
+                v.getContext().startActivity(getNameScreenIntent);
+            }
+        });
+
 
         if (myApp.selectedTeams.contains(child.teamNumber[MyApp.RED][0])) {
             holder.red0View.setBackgroundResource(R.color.yellow);

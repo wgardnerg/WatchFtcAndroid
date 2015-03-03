@@ -59,5 +59,31 @@ public class TeamFtcRanked {
         }
         return t;
     }
+    @Override
+    public boolean equals(Object o) {
+        if (o!=null && o instanceof TeamFtcRanked) {
+            if (this.number == ((TeamFtcRanked) o).number) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if (o!=null && o instanceof TeamStatRanked) {
+            if (this.number == ((TeamStatRanked) o).number) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if (o!=null && o instanceof Team) {
+            if (this.number == ((Team) o).number) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        return false;
+    }
 }
 

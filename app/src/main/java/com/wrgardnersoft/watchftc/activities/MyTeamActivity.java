@@ -11,12 +11,14 @@ import android.widget.ListView;
 import com.wrgardnersoft.watchftc.R;
 import com.wrgardnersoft.watchftc.adapters.FtcRankingsListAdapter;
 import com.wrgardnersoft.watchftc.adapters.MatchesExpandableListAdapter;
+import com.wrgardnersoft.watchftc.adapters.StatRankingsListAdapter;
 import com.wrgardnersoft.watchftc.interfaces.AsyncResponse;
 import com.wrgardnersoft.watchftc.internet.ClientTask;
 import com.wrgardnersoft.watchftc.models.Match;
 import com.wrgardnersoft.watchftc.models.MyApp;
 import com.wrgardnersoft.watchftc.models.Team;
 import com.wrgardnersoft.watchftc.models.TeamFtcRanked;
+import com.wrgardnersoft.watchftc.models.TeamStatRanked;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,11 +35,13 @@ public class MyTeamActivity extends CommonMenuActivity implements AsyncResponse 
 
     public ArrayList<Team> myTeam;  // full team info from team server page
     public ArrayList<TeamFtcRanked> myTeamFtcRanked;
+    public ArrayList<TeamStatRanked> myTeamStatRanked;
     public ArrayList<Match> myMatch;
 
     public MyTeamActivity() {
         this.myTeam = new ArrayList<>();
         this.myTeamFtcRanked = new ArrayList<>();
+        this.myTeamStatRanked = new ArrayList<>();
         this.myMatch = new ArrayList<>();
     }
 
@@ -63,6 +67,7 @@ public class MyTeamActivity extends CommonMenuActivity implements AsyncResponse 
         //this you will received result fired from async class of onPostExecute(result) method.
         myTeam.clear();
         myTeamFtcRanked.clear();
+        myTeamStatRanked.clear();
         myMatch.clear();
         inflateMeAll();
 
@@ -90,6 +95,19 @@ public class MyTeamActivity extends CommonMenuActivity implements AsyncResponse 
                 inflateMeTeamFtcRanked();
             }
         }
+
+        if (myApp.teamStatRanked[myApp.division()].size() > 0) {
+            for (TeamStatRanked t : myApp.teamStatRanked[myApp.division()]) {
+                if (t.number == myApp.currentTeamNumber) {
+                    myTeamStatRanked.add(t);
+                }
+            }
+            //         Log.i("FtcRankedSize: ", String.valueOf(myTeamFtcRanked.size()));
+            if (myTeamStatRanked.size() > 0) {
+                inflateMeTeamStatRanked();
+            }
+        }
+
         //     Log.i("MatchSize: ", String.valueOf(myApp.match[myApp.division()].size()));
         if (myApp.match[myApp.division()].size() > 0) {
             for (Match m : myApp.match[myApp.division()]) {
@@ -122,8 +140,15 @@ public class MyTeamActivity extends CommonMenuActivity implements AsyncResponse 
         ListView listViewTeamFtcRanked;
         listViewTeamFtcRanked = (ListView) findViewById(R.id.ftc_rankings_list_view);
         listViewTeamFtcRanked.setAdapter(adapter);
+    }
 
-
+    private void inflateMeTeamStatRanked() {
+        //Log.i("Inflater", "got here");
+        StatRankingsListAdapter adapter = new StatRankingsListAdapter(this,
+                R.layout.list_item_stat_ranking, myTeamStatRanked);
+        ListView listViewTeamStatRanked;
+        listViewTeamStatRanked = (ListView) findViewById(R.id.stat_rankings_list_view);
+        listViewTeamStatRanked.setAdapter(adapter);
     }
 
     /*
@@ -199,6 +224,41 @@ public class MyTeamActivity extends CommonMenuActivity implements AsyncResponse 
         }
 
         return saveReturn;
+    }
+
+    public void onClickNumberTextView(View view) {
+
+
+    }
+
+    public void onClickFtcRankTextView(View view) {
+
+
+    }
+
+    public void onClickWinPercentTextView(View view) {
+
+
+    }
+
+    public void onClickOprTextView(View view) {
+
+
+    }
+
+    public void onClickDprTextView(View view) {
+
+
+    }
+
+    public void onClickCcwmTextView(View view) {
+
+
+    }
+
+    public void onClickNameTextView(View view) {
+
+
     }
 
 }

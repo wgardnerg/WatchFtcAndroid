@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.io.BufferedReader;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -56,5 +57,67 @@ public class Team {
         }
         return t;
     }
+    public static Comparator<Team> getComparator(SortParameter... sortParameters) {
+        return new TeamComparator(sortParameters);
+    }
+
+    public enum SortParameter {
+        NUMBER_SORT, NAME_SORT
+    }
+
+    private static class TeamComparator implements Comparator<Team> {
+        private SortParameter[] parameters;
+
+        private TeamComparator(SortParameter[] parameters) {
+            this.parameters = parameters;
+        }
+
+        public int compare(Team o1, Team o2) {
+            int comparison;
+            for (SortParameter parameter: parameters) {
+                switch (parameter) {
+                    case NUMBER_SORT:
+                        comparison = o1.number - o2.number;
+                        if (comparison!=0) return comparison;
+                        break;
+                    case NAME_SORT:
+                        comparison = o1.name.compareTo(o2.name);
+                        if (comparison!=0) return comparison;
+                        break;
+                }
+            }
+            return 0;
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o!=null && o instanceof TeamFtcRanked) {
+            if (this.number == ((TeamFtcRanked) o).number) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if (o!=null && o instanceof TeamStatRanked) {
+            if (this.number == ((TeamStatRanked) o).number) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if (o!=null && o instanceof Team) {
+            if (this.number == ((Team) o).number) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        return false;
+    }
+
 }
+
+
 

@@ -9,6 +9,8 @@
     android:weightSum="1"
     tools:context=".FtcRankingsActivity">
 
+
+
     <ListView
         android:id="@+id/ftc_rankings_list_view"
         android:layout_width="match_parent"
