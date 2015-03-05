@@ -3,6 +3,7 @@ package com.wrgardnersoft.watchftc.activities;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -113,6 +114,27 @@ public class MyTeamStatsActivity extends CommonMenuActivity implements AsyncResp
         setContentView(R.layout.activity_my_team_stats);
 
         inflateMeAll();
+    }
+
+    public void onClickNumberTextView(View view) {
+    }
+
+    public void onClickAutoTextView(View view) {
+    }
+
+    public void onClickTeleopTextView(View view) {
+    }
+
+    public void onClickEndGameTextView(View view) {
+    }
+
+    public void onClickPenaltyTextView(View view) {
+    }
+
+    public void onClickTotalTextView(View view) {
+    }
+
+    public void onClickNameTextView(View view) {
     }
 
     @Override
