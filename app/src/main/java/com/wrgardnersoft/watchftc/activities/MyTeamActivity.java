@@ -5,8 +5,11 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.wrgardnersoft.watchftc.R;
 import com.wrgardnersoft.watchftc.adapters.FtcRankingsListAdapter;
@@ -52,12 +55,12 @@ public class MyTeamActivity extends CommonMenuActivity implements AsyncResponse 
 
         MyApp myApp = (MyApp) getApplication();
 
-   //     setTitle(" Team " + Integer.toString(myApp.currentTeamNumber));
+        //     setTitle(" Team " + Integer.toString(myApp.currentTeamNumber));
 
         setContentView(R.layout.activity_my_team);
 
         inflateMeAll();
-        if (myTeam.size()>0) {
+        if (myTeam.size() > 0) {
             setTitle(" Team " + Integer.toString(myApp.currentTeamNumber) + ": " + myTeam.get(0).name);
         }
 
@@ -96,15 +99,25 @@ public class MyTeamActivity extends CommonMenuActivity implements AsyncResponse 
             }
         }
 
-        if (myApp.teamStatRanked[myApp.division()].size() > 0) {
-            for (TeamStatRanked t : myApp.teamStatRanked[myApp.division()]) {
-                if (t.number == myApp.currentTeamNumber) {
-                    myTeamStatRanked.add(t);
+        if (myApp.enableMatchPrediction) {
+            if (myApp.teamStatRanked[myApp.division()].size() > 0) {
+
+                //         LinearLayout fRankHeader = (LinearLayout) findViewById(R.id.header_ftc_rankings);
+
+                LinearLayout sRankHeader = (LinearLayout) findViewById(R.id.header_stat_rankings);
+                RelativeLayout.LayoutParams sParams = (RelativeLayout.LayoutParams) sRankHeader.getLayoutParams();
+                sParams.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
+                sRankHeader.setLayoutParams(sParams);
+
+                for (TeamStatRanked t : myApp.teamStatRanked[myApp.division()]) {
+                    if (t.number == myApp.currentTeamNumber) {
+                        myTeamStatRanked.add(t);
+                    }
                 }
-            }
-            //         Log.i("FtcRankedSize: ", String.valueOf(myTeamFtcRanked.size()));
-            if (myTeamStatRanked.size() > 0) {
-                inflateMeTeamStatRanked();
+                //         Log.i("FtcRankedSize: ", String.valueOf(myTeamFtcRanked.size()));
+                if (myTeamStatRanked.size() > 0) {
+                    inflateMeTeamStatRanked();
+                }
             }
         }
 
@@ -149,6 +162,19 @@ public class MyTeamActivity extends CommonMenuActivity implements AsyncResponse 
         ListView listViewTeamStatRanked;
         listViewTeamStatRanked = (ListView) findViewById(R.id.stat_rankings_list_view);
         listViewTeamStatRanked.setAdapter(adapter);
+        listViewTeamStatRanked.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                TeamStatRanked teamPicked = (TeamStatRanked) parent.getItemAtPosition(position);
+
+                MyApp myApp = MyApp.getInstance();
+
+                myApp.currentTeamNumber = teamPicked.number;
+                Intent getNameScreenIntent = new Intent(view.getContext(), MyTeamStatsActivity.class);
+                startActivity(getNameScreenIntent);
+                return true;
+            }
+        });
     }
 
     /*
@@ -206,7 +232,7 @@ public class MyTeamActivity extends CommonMenuActivity implements AsyncResponse 
         // as you specify a parent activity in AndroidManifest.xml.
         boolean saveReturn;
 
-       // MyApp myApp = MyApp.getInstance();
+        // MyApp myApp = MyApp.getInstance();
 
         int id = item.getItemId();
 
@@ -217,9 +243,9 @@ public class MyTeamActivity extends CommonMenuActivity implements AsyncResponse 
             clientTask.execute();
             return true;
         }
-        saveReturn =  super.onOptionsItemSelected(item);
+        saveReturn = super.onOptionsItemSelected(item);
 
-        if ((id == R.id.action_load)&&saveReturn) { // just loaded data, so refresh
+        if ((id == R.id.action_load) && saveReturn) { // just loaded data, so refresh
             processFinish(0);
         }
 

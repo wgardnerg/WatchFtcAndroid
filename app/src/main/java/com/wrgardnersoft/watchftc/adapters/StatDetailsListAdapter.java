@@ -23,12 +23,14 @@ public class StatDetailsListAdapter extends ArrayAdapter<TeamStatRanked> {
     Context context;
     int layoutResourceId;
     ArrayList<TeamStatRanked> team;
+    Stat.Type type;
 
-    public StatDetailsListAdapter(Context context, int resource, ArrayList<TeamStatRanked> teamData) {
+    public StatDetailsListAdapter(Context context, int resource, ArrayList<TeamStatRanked> teamData, Stat.Type type) {
         super(context, resource, teamData);
         this.layoutResourceId = resource;
         this.context = context;
         this.team = teamData;
+        this.type=type;
     }
 
     /**
@@ -83,15 +85,23 @@ public class StatDetailsListAdapter extends ArrayAdapter<TeamStatRanked> {
             row.setBackgroundColor(Color.WHITE);
         }
    //     Log.i("Ftc adapter", "got here");
-        holder.numView.setText(String.format("%5d",thisTeam.number));
-        if (myApp.detailType == Stat.Type.OPR) {
+        if (thisTeam.number>0) {
+            holder.numView.setText(String.format("%5d", thisTeam.number));
+        } else if (type == Stat.Type.OPR) {
+            holder.numView.setText(Stat.TypeDisplayString[Stat.Type.OPR.ordinal()]);
+        } else if (type == Stat.Type.DPR) {
+            holder.numView.setText(Stat.TypeDisplayString[Stat.Type.DPR.ordinal()]);
+        } else if (type == Stat.Type.CCWM) {
+            holder.numView.setText(Stat.TypeDisplayString[Stat.Type.CCWM.ordinal()]);
+        }
+        if (type == Stat.Type.OPR) {
             holder.autoView.setText(String.format("%3d", Math.round(thisTeam.oprA[MyApp.ScoreType.AUTONOMOUS.ordinal()])));
             holder.teleView.setText(String.format("%3d", Math.round(thisTeam.oprA[MyApp.ScoreType.TELEOP.ordinal()])));
             holder.endgView.setText(String.format("%3d", Math.round(thisTeam.oprA[MyApp.ScoreType.END_GAME.ordinal()])));
             holder.penView.setText(String.format("%3d", Math.round(thisTeam.oprA[MyApp.ScoreType.PENALTY.ordinal()])));
             holder.totView.setText(String.format("%3d", Math.round(thisTeam.oprA[MyApp.ScoreType.TOTAL.ordinal()])));
         }
-        else if (myApp.detailType == Stat.Type.DPR) {
+        else if (type == Stat.Type.DPR) {
             holder.autoView.setText(String.format("%3d", Math.round(thisTeam.dprA[MyApp.ScoreType.AUTONOMOUS.ordinal()])));
             holder.teleView.setText(String.format("%3d", Math.round(thisTeam.dprA[MyApp.ScoreType.TELEOP.ordinal()])));
             holder.endgView.setText(String.format("%3d", Math.round(thisTeam.dprA[MyApp.ScoreType.END_GAME.ordinal()])));

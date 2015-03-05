@@ -358,16 +358,18 @@ public class Match {
                     this.score[color][MyApp.ScoreType.TOTAL.ordinal()] -= sf *
                             t.oprA[MyApp.ScoreType.PENALTY.ordinal()];
 
-                    for (int i = 0; i < MyApp.NUM_SCORE_TYPES - 1; i++) {
-                        this.score[1 - color][i] -= sf * t.dprA[i];
-                    }
-                    this.score[color][MyApp.ScoreType.PENALTY.ordinal()] += sf *
-                            t.dprA[MyApp.ScoreType.PENALTY.ordinal()];
-                    this.score[color][MyApp.ScoreType.TOTAL.ordinal()] += sf *
-                            t.dprA[MyApp.ScoreType.PENALTY.ordinal()];
+                    if (myApp.predictionType==Stat.Type.CCWM) {
+                        for (int i = 0; i < MyApp.NUM_SCORE_TYPES - 1; i++) {
+                            this.score[1 - color][i] -= sf * t.dprA[i];
+                        }
+                        this.score[color][MyApp.ScoreType.PENALTY.ordinal()] += sf *
+                                t.dprA[MyApp.ScoreType.PENALTY.ordinal()];
+                        this.score[color][MyApp.ScoreType.TOTAL.ordinal()] += sf *
+                                t.dprA[MyApp.ScoreType.PENALTY.ordinal()];
 
-                    this.score[1 - color][MyApp.ScoreType.TOTAL.ordinal()] += sf *
-                            t.dprA[MyApp.ScoreType.PENALTY.ordinal()];
+                        this.score[1 - color][MyApp.ScoreType.TOTAL.ordinal()] += sf *
+                                t.dprA[MyApp.ScoreType.PENALTY.ordinal()];
+                    }
 
                 }
             }

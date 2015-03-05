@@ -23,7 +23,7 @@
 
     <ListView
         android:id="@+id/ftc_rankings_list_view"
-        android:layout_below="@+id/ftc_header_view"
+        android:layout_below="@+id/header_ftc_rankings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"> </ListView>
 
@@ -31,7 +31,7 @@
         android:id="@+id/header_stat_rankings"
         android:layout_below="@+id/ftc_rankings_list_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="0dp"/>
 
     <ListView
         android:id="@+id/stat_rankings_list_view"
@@ -41,7 +41,7 @@
 
     <ExpandableListView
         android:id="@+id/matches_expListView"
-        android:layout_below="@id/ftc_rankings_list_view"
+        android:layout_below="@id/stat_rankings_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />

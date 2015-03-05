@@ -12,6 +12,7 @@ import com.wrgardnersoft.watchftc.R;
 import com.wrgardnersoft.watchftc.interfaces.AsyncResponse;
 import com.wrgardnersoft.watchftc.models.Match;
 import com.wrgardnersoft.watchftc.models.MyApp;
+import com.wrgardnersoft.watchftc.models.Stat;
 import com.wrgardnersoft.watchftc.models.Team;
 import com.wrgardnersoft.watchftc.models.TeamFtcRanked;
 
@@ -105,16 +106,31 @@ public class CommonMenuActivity extends ActionBarActivity implements AsyncRespon
             Intent getNameScreenIntent = new Intent(this, StatInfoActivity.class);
             startActivity(getNameScreenIntent);
             return true;
-        } else if (id == R.id.action_toggle_forecast) {
-            if (myApp.enableMatchPrediction) {
-                myApp.enableMatchPrediction = false;
-                item.setTitle(R.string.enableForecast);
-            } else {
-                myApp.enableMatchPrediction = true;
-                item.setTitle(R.string.disableForecast);
-            }
+        } else if (id == R.id.action_forecast_disable) {
+            myApp.enableMatchPrediction = false;
             item.setChecked(myApp.enableMatchPrediction);
-            this.invalidateOptionsMenu();
+            Intent getNameScreenIntent = new Intent(this, TeamsActivity.class);
+            getNameScreenIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(getNameScreenIntent);
+            finish();
+            return true;
+        } else if (id == R.id.action_forecast_off) {
+            myApp.enableMatchPrediction = true;
+            myApp.predictionType= Stat.Type.OPR;
+            item.setChecked(myApp.enableMatchPrediction);
+            Intent getNameScreenIntent = new Intent(this, TeamsActivity.class);
+            getNameScreenIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(getNameScreenIntent);
+            finish();
+            return true;
+        } else if (id == R.id.action_forecast_wm) {
+            myApp.enableMatchPrediction = true;
+            myApp.predictionType= Stat.Type.CCWM;
+            item.setChecked(myApp.enableMatchPrediction);
+            Intent getNameScreenIntent = new Intent(this, TeamsActivity.class);
+            getNameScreenIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(getNameScreenIntent);
+            finish();
             return true;
         } else if (id == R.id.action_save) {
 

@@ -13,8 +13,6 @@ public class Stat {
 
     public enum Type {OPR, DPR, CCWM}
 
-    ;
-
     public static String TypeDisplayString[] = {"Off", "Dif", "WM"};
 
     private static double OprComponent(Match m, int color, MyApp.ScoreType type) {

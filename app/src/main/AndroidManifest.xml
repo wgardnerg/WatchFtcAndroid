@@ -31,6 +31,10 @@
             android:label="@string/myTeam" >
         </activity>
         <activity
+            android:name=".activities.MyTeamStatsActivity"
+            android:label="Team Stats" >
+        </activity>
+        <activity
             android:name=".activities.MyMatchActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/myMatch"

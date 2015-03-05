@@ -22,6 +22,14 @@ public class Team {
         this.state="";
         this.country="";
     }
+    public Team(Team t) {
+        this.number=t.number;
+        this.name=t.name;
+        this.school=t.school;
+        this.city=t.city;
+        this.state=t.state;
+        this.country=t.country;
+    }
     public Team(int num, String sName, String sSchool, String sCity, String sState, String sCountry) {
         this.number=num;
         this.name=sName;

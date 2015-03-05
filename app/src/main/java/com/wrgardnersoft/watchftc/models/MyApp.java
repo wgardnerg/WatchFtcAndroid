@@ -51,6 +51,8 @@ public class MyApp extends Application {
     public ArrayList<Match>[] match = (ArrayList<Match>[]) new ArrayList[2];
 
     public boolean enableMatchPrediction;
+    public Stat.Type predictionType;
+
     public ArrayList<TeamStatRanked>[] teamStatRanked = (ArrayList<TeamStatRanked>[]) new ArrayList[2];
     public double meanOffenseScoreTotal[][] = new double[2][NUM_SCORE_TYPES];
 
@@ -94,6 +96,7 @@ public class MyApp extends Application {
         this.detailType = Stat.Type.OPR;
 
         this.enableMatchPrediction = false; //true;
+        this.predictionType = Stat.Type.OPR;
     }
 
     public int division() {

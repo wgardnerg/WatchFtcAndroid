@@ -26,6 +26,21 @@ public class TeamStatRanked {
         this.name="";
     }
 
+    public TeamStatRanked(TeamStatRanked t) {
+        this.number = t.number;
+        this.ftcRank = t.ftcRank;
+        this.winPercent = t.winPercent;
+        this.oprA = new double[MyApp.ScoreType.values().length];
+        this.dprA = new double[MyApp.ScoreType.values().length];
+        this.ccwmA = new double[MyApp.ScoreType.values().length];
+        for (int i=0; i<MyApp.ScoreType.values().length; i++) {
+            this.oprA[i]=t.oprA[i];
+            this.dprA[i]=t.dprA[i];
+            this.ccwmA[i]=t.ccwmA[i];
+        }
+        this.name=t.name;
+    }
+
     public String toString() {
         String output;
         output = this.number + "," + this.ftcRank + "," + this.winPercent;

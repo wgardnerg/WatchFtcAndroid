@@ -57,7 +57,7 @@ public class StatDetailsActivity extends CommonMenuActivity implements AsyncResp
         MyApp myApp = MyApp.getInstance();
 
         StatDetailsListAdapter adapter = new StatDetailsListAdapter(this,
-                R.layout.list_item_stat_details, myApp.teamStatRanked[myApp.division()]);
+                R.layout.list_item_stat_details, myApp.teamStatRanked[myApp.division()], myApp.detailType);
         listView = (ListView) findViewById(R.id.stat_details_list_view);
         listView.setAdapter(adapter);
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -65,14 +65,11 @@ public class StatDetailsActivity extends CommonMenuActivity implements AsyncResp
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 TeamStatRanked teamPicked = (TeamStatRanked) parent.getItemAtPosition(position);
 
-                MyApp myApp = (MyApp) getApplication();
+                MyApp myApp = MyApp.getInstance();
 
-                if (myApp.selectedTeams.contains(teamPicked.number)) {
-                    myApp.selectedTeams.remove(Integer.valueOf(teamPicked.number));
-                } else {
-                    myApp.selectedTeams.add(teamPicked.number);
-                }
-                listView.invalidateViews();
+                myApp.currentTeamNumber = teamPicked.number;
+                Intent getNameScreenIntent = new Intent(view.getContext(), MyTeamStatsActivity.class);
+                startActivity(getNameScreenIntent);
                 return true;
             }
         });

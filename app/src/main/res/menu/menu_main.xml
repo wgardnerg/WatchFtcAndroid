@@ -87,6 +87,23 @@
         android:title="@string/stats"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_forecast"
+        android:orderInCategory="80"
+        android:title="Forecast"
+        app:showAsAction="never" >
+        <menu>
+            <item android:id="@+id/action_forecast_off"
+                android:title="Enable w/ Off"/>
+            <item android:id="@+id/action_forecast_wm"
+                android:title="Enable w/ WM"/>
+            <item android:id="@+id/action_forecast_disable"
+                android:title="Disable"/>
+        </menu>
+    </item>
+
+
+
+    <item
         android:id="@+id/action_toggle_forecast"
         android:orderInCategory="7"
         android:title="@string/enableForecast"

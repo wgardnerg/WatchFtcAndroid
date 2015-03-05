@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.wrgardnersoft.watchftc.R;
 import com.wrgardnersoft.watchftc.adapters.StatRankingsListAdapter;
@@ -56,6 +57,51 @@ public class StatRankingsActivity extends CommonMenuActivity implements AsyncRes
     private void inflateMe() {
         MyApp myApp = MyApp.getInstance();
 
+        TextView tv = (TextView) findViewById(R.id.head_ccwm);
+        tv.setOnLongClickListener(new View.OnLongClickListener() {
+                                      @Override
+                                      public boolean onLongClick(View v) {
+                                          MyApp myApp = MyApp.getInstance();
+                                          myApp.detailType = Stat.Type.CCWM;
+                                          Intent getNameScreenIntent = new Intent(v.getContext(), StatDetailsActivity.class);
+                                          startActivity(getNameScreenIntent);
+                                          return true;
+                                      }
+                                  }
+
+
+        );
+
+        tv = (TextView) findViewById(R.id.head_opr);
+        tv.setOnLongClickListener(new View.OnLongClickListener() {
+                                      @Override
+                                      public boolean onLongClick(View v) {
+                                          MyApp myApp = MyApp.getInstance();
+                                          myApp.detailType = Stat.Type.OPR;
+                                          Intent getNameScreenIntent = new Intent(v.getContext(), StatDetailsActivity.class);
+                                          startActivity(getNameScreenIntent);
+                                          return true;
+                                      }
+                                  }
+
+
+        );
+
+        tv = (TextView) findViewById(R.id.head_dpr);
+        tv.setOnLongClickListener(new View.OnLongClickListener() {
+                                      @Override
+                                      public boolean onLongClick(View v) {
+                                          MyApp myApp = MyApp.getInstance();
+                                          myApp.detailType = Stat.Type.DPR;
+                                          Intent getNameScreenIntent = new Intent(v.getContext(), StatDetailsActivity.class);
+                                          startActivity(getNameScreenIntent);
+                                          return true;
+                                      }
+                                  }
+
+
+        );
+
         StatRankingsListAdapter adapter = new StatRankingsListAdapter(this,
                 R.layout.list_item_stat_ranking, myApp.teamStatRanked[myApp.division()]);
         listView = (ListView) findViewById(R.id.stat_rankings_list_view);
@@ -65,14 +111,11 @@ public class StatRankingsActivity extends CommonMenuActivity implements AsyncRes
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 TeamStatRanked teamPicked = (TeamStatRanked) parent.getItemAtPosition(position);
 
-                MyApp myApp = (MyApp) getApplication();
+                MyApp myApp = MyApp.getInstance();
 
-                if (myApp.selectedTeams.contains(teamPicked.number)) {
-                    myApp.selectedTeams.remove(Integer.valueOf(teamPicked.number));
-                } else {
-                    myApp.selectedTeams.add(teamPicked.number);
-                }
-                listView.invalidateViews();
+                myApp.currentTeamNumber = teamPicked.number;
+                Intent getNameScreenIntent = new Intent(view.getContext(), MyTeamStatsActivity.class);
+                startActivity(getNameScreenIntent);
                 return true;
             }
         });
@@ -169,6 +212,21 @@ public class StatRankingsActivity extends CommonMenuActivity implements AsyncRes
         listView.invalidateViews();
     }
 
+    public void onLongClickOprTextView(View view) {
+
+        // save all setup info to globals in myApp class
+        MyApp myApp = (MyApp) getApplication();
+
+        Comparator<TeamStatRanked> ct = TeamStatRanked.getComparator(TeamStatRanked.SortParameter.OPR_SORT,
+                TeamStatRanked.SortParameter.CCWM_SORT,
+                TeamStatRanked.SortParameter.WINPERCENT_SORT,
+                TeamStatRanked.SortParameter.FTCRANK_SORT);
+        Collections.sort(myApp.teamStatRanked[myApp.division()], ct);
+
+        listView = (ListView) findViewById(R.id.stat_rankings_list_view);
+        listView.invalidateViews();
+    }
+
     public void onClickDprTextView(View view) {
 
         // save all setup info to globals in myApp class
@@ -225,7 +283,7 @@ public class StatRankingsActivity extends CommonMenuActivity implements AsyncRes
         item = menu.findItem(R.id.action_stat_info);
         item.setVisible(true);
 
-        item = menu.findItem(R.id.action_toggle_forecast);
+        item = menu.findItem(R.id.action_forecast);
         item.setVisible(true);
 
         item = menu.findItem(R.id.action_test1);
@@ -240,12 +298,6 @@ public class StatRankingsActivity extends CommonMenuActivity implements AsyncRes
         item = menu.findItem(R.id.action_details);
         item.setVisible(true);
 
-        if (myApp.enableMatchPrediction) {
-            menu.findItem(R.id.action_toggle_forecast).setTitle("Disable Forecast");
-        } else {
-            menu.findItem(R.id.action_toggle_forecast).setTitle("Enable Forecast");
-        }
-
         return true;
     }
 
@@ -256,7 +308,7 @@ public class StatRankingsActivity extends CommonMenuActivity implements AsyncRes
         // as you specify a parent activity in AndroidManifest.xml.
         boolean saveReturn;
 
-       // MyApp myApp = MyApp.getInstance();
+        // MyApp myApp = MyApp.getInstance();
 
         int id = item.getItemId();
 
@@ -266,25 +318,25 @@ public class StatRankingsActivity extends CommonMenuActivity implements AsyncRes
             clientTask.delegate = this;
             clientTask.execute();
             return true;
-        } else if(id == R.id.action_details_off) {
+        } else if (id == R.id.action_details_off) {
             MyApp myApp = MyApp.getInstance();
             myApp.detailType = Stat.Type.OPR;
             Intent getNameScreenIntent = new Intent(this, StatDetailsActivity.class);
             startActivity(getNameScreenIntent);
-        } else if(id == R.id.action_details_def) {
+        } else if (id == R.id.action_details_def) {
             MyApp myApp = MyApp.getInstance();
             myApp.detailType = Stat.Type.DPR;
             Intent getNameScreenIntent = new Intent(this, StatDetailsActivity.class);
             startActivity(getNameScreenIntent);
-        } else if(id == R.id.action_details_cmb) {
+        } else if (id == R.id.action_details_cmb) {
             MyApp myApp = MyApp.getInstance();
             myApp.detailType = Stat.Type.CCWM;
             Intent getNameScreenIntent = new Intent(this, StatDetailsActivity.class);
             startActivity(getNameScreenIntent);
         }
-        saveReturn =  super.onOptionsItemSelected(item);
+        saveReturn = super.onOptionsItemSelected(item);
 
-        if ((id == R.id.action_load)&&saveReturn) { // just loaded data, so refresh
+        if ((id == R.id.action_load) && saveReturn) { // just loaded data, so refresh
             processFinish(0);
         }
 
