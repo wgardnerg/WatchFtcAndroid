@@ -91,8 +91,8 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
                 if (parts.length > 1) {
                     myApp.divisionName[myApp.division()] = parts[1];
                 }
-                Log.i("Tname", myApp.tournamentName);
-                Log.i("Dname", myApp.divisionName[myApp.division()]);
+            //    Log.i("Tname", myApp.tournamentName);
+           //     Log.i("Dname", myApp.divisionName[myApp.division()]);
 
                 Element table = document.select("table").get(0); //select the first table.
                 Elements rows = table.select("tr");
@@ -116,7 +116,7 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
                     );
                 }
 
-                Log.i("Got teams", "OK");
+             //   Log.i("Got teams", "OK");
 
                 Comparator<Team> ct = Team.getComparator(Team.SortParameter.NUMBER_SORT);
                 Collections.sort(myApp.team[myApp.division()], ct);
@@ -146,14 +146,14 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
                     ));
                 }
 
-                Log.i("Got rankings", "OK");
+              //  Log.i("Got rankings", "OK");
 
                 // Clear out extra teams that might be in the team list but not in this division
                 if (myApp.teamFtcRanked[myApp.division()].size() > 0) {
                     ArrayList<Team> teamsToDelete = new ArrayList<Team>();
 
                     for (Team t : myApp.team[myApp.division()]) {
-                        if (myApp.teamFtcRanked[myApp.division()].contains(t) == false) {
+                        if (!myApp.teamFtcRanked[myApp.division()].contains(t)) {
                             //       Log.i("Num to delete", String.valueOf(t.number));
                             teamsToDelete.add(t);
                         }
@@ -225,7 +225,7 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
 
                 }
 
-                Log.i("Got matches", "OK");
+            //    Log.i("Got matches", "OK");
 
                 Stat.computeAll(myApp.division());
                 serverOK = true;
@@ -247,7 +247,7 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                if (serverOK == false) {
+                if (!serverOK) {
                     if (myApp.team[myApp.division()].size() == 0) {
                         try {
                             FileInputStream fi = context.openFileInput(lastDataFileName);
