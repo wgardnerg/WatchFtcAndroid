@@ -24,8 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:orientation="vertical">
 
 
             <CheckBox
@@ -34,100 +33,86 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="0dp"
                 android:paddingTop="0dp"
-                android:text="@string/dualDivisionTournament"
+                android:text="Dual Division Tournament?"
                 android:textSize="24sp" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Division #1 Server Address"
+                android:paddingTop="16dp"
+                android:textSize="24sp" />
+
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
+                android:focusableInTouchMode="true"
                 android:orientation="horizontal">
 
-                <LinearLayout
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:text="http://"
+                    android:textSize="24sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:text="@string/division1ServerAddress"
-                        android:paddingTop="16dp"
-                        android:textSize="24sp" />
+                <EditText
+                    android:id="@+id/div0ServerAddressEditText"
+                    android:layout_width="match_parent"
+                    android:minWidth="150dp"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:inputType="textUri"
+                    android:textSize="22sp"/>
+            </LinearLayout>
 
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Division #2 Server Address"
+                android:paddingTop="16dp"
+                android:textSize="24sp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="http://"
-                            android:textSize="24sp" />
 
-                        <EditText
-                            android:id="@+id/div0ServerAddressEditText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:imeOptions="actionDone"
-                            android:textSize="24sp"
-                            android:inputType="textUri" />
-                    </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal">
 
-                </LinearLayout>
-
-                <LinearLayout
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:text="http://"
+                    android:textSize="24sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:text="@string/division2ServerAddress"
-                        android:paddingTop="16dp"
-                        android:textSize="24sp" />
-
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="http://"
-                            android:textSize="24sp" />
-
-                        <EditText
-                            android:id="@+id/div1ServerAddressEditText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:imeOptions="actionDone"
-                            android:textSize="24sp"
-                            android:inputType="textUri" />
-                    </LinearLayout>
-                </LinearLayout>
+                <EditText
+                    android:id="@+id/div1ServerAddressEditText"
+                    android:layout_width="match_parent"
+                    android:minWidth="150dp"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:inputType="textUri"
+                    android:textSize="22sp"/>
             </LinearLayout>
 
             <Button
                 android:id="@+id/setupDoneButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
                 android:layout_gravity="center_horizontal|bottom"
                 android:onClick="onClickSetupDoneButton"
-                android:text="@string/done" />
+                android:text="Done" />
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -146,9 +131,11 @@
                 android:textColor="@color/black"
                 android:paddingTop="16dp"
                 android:textSize="24sp" />
+
         </LinearLayout>
 
     </ScrollView>
 
 
 </RelativeLayout>
+

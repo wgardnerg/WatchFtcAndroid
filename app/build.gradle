@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
-def VER_CODE = 24
-def VER_NAME = "3.08"
+def VER_CODE = 25
+def VER_NAME = "1.00"
 
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "com.wrgardnersoft.watchftc"
+        applicationId "com.wrgardnersoft.watchftctournament"
         minSdkVersion 16
         targetSdkVersion 21
         versionCode VER_CODE

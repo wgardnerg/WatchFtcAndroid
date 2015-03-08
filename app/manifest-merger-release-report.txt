@@ -39,7 +39,7 @@ MERGED from com.android.support:support-v4:21.0.3:16:5
 		ADDED from AndroidManifest.xml:14:9
 	android:name
 		ADDED from AndroidManifest.xml:10:9
-activity#com.wrgardnersoft.watchftc.activities.LauncherActivity
+activity#com.wrgardnersoft.watchftctournament.activities.LauncherActivity
 ADDED from AndroidManifest.xml:15:9
 	android:label
 		ADDED from AndroidManifest.xml:17:13
@@ -55,7 +55,7 @@ category#android.intent.category.LAUNCHER
 ADDED from AndroidManifest.xml:21:17
 	android:name
 		ADDED from AndroidManifest.xml:21:27
-activity#com.wrgardnersoft.watchftc.activities.SetupActivity
+activity#com.wrgardnersoft.watchftctournament.activities.SetupActivity
 ADDED from AndroidManifest.xml:24:9
 	android:label
 		ADDED from AndroidManifest.xml:26:13
@@ -63,19 +63,19 @@ ADDED from AndroidManifest.xml:24:9
 		ADDED from AndroidManifest.xml:27:13
 	android:name
 		ADDED from AndroidManifest.xml:25:13
-activity#com.wrgardnersoft.watchftc.activities.MyTeamActivity
+activity#com.wrgardnersoft.watchftctournament.activities.MyTeamActivity
 ADDED from AndroidManifest.xml:29:9
 	android:label
 		ADDED from AndroidManifest.xml:31:13
 	android:name
 		ADDED from AndroidManifest.xml:30:13
-activity#com.wrgardnersoft.watchftc.activities.MyTeamStatsActivity
+activity#com.wrgardnersoft.watchftctournament.activities.MyTeamStatsActivity
 ADDED from AndroidManifest.xml:33:9
 	android:label
 		ADDED from AndroidManifest.xml:35:13
 	android:name
 		ADDED from AndroidManifest.xml:34:13
-activity#com.wrgardnersoft.watchftc.activities.MyMatchActivity
+activity#com.wrgardnersoft.watchftctournament.activities.MyMatchActivity
 ADDED from AndroidManifest.xml:37:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:41:13
@@ -85,7 +85,7 @@ ADDED from AndroidManifest.xml:37:9
 		ADDED from AndroidManifest.xml:39:13
 	android:name
 		ADDED from AndroidManifest.xml:38:13
-activity#com.wrgardnersoft.watchftc.activities.MyDetailedMatchActivity
+activity#com.wrgardnersoft.watchftctournament.activities.MyDetailedMatchActivity
 ADDED from AndroidManifest.xml:43:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:47:13
@@ -95,7 +95,7 @@ ADDED from AndroidManifest.xml:43:9
 		ADDED from AndroidManifest.xml:45:13
 	android:name
 		ADDED from AndroidManifest.xml:44:13
-activity#com.wrgardnersoft.watchftc.activities.TeamsActivity
+activity#com.wrgardnersoft.watchftctournament.activities.TeamsActivity
 ADDED from AndroidManifest.xml:49:9
 	android:label
 		ADDED from AndroidManifest.xml:52:13
@@ -103,7 +103,7 @@ ADDED from AndroidManifest.xml:49:9
 		ADDED from AndroidManifest.xml:51:13
 	android:name
 		ADDED from AndroidManifest.xml:50:13
-activity#com.wrgardnersoft.watchftc.activities.MatchesActivity
+activity#com.wrgardnersoft.watchftctournament.activities.MatchesActivity
 ADDED from AndroidManifest.xml:54:9
 	android:label
 		ADDED from AndroidManifest.xml:57:13
@@ -111,7 +111,7 @@ ADDED from AndroidManifest.xml:54:9
 		ADDED from AndroidManifest.xml:56:13
 	android:name
 		ADDED from AndroidManifest.xml:55:13
-activity#com.wrgardnersoft.watchftc.activities.FtcRankingsActivity
+activity#com.wrgardnersoft.watchftctournament.activities.FtcRankingsActivity
 ADDED from AndroidManifest.xml:59:9
 	android:label
 		ADDED from AndroidManifest.xml:62:13
@@ -119,7 +119,7 @@ ADDED from AndroidManifest.xml:59:9
 		ADDED from AndroidManifest.xml:61:13
 	android:name
 		ADDED from AndroidManifest.xml:60:13
-activity#com.wrgardnersoft.watchftc.activities.StatRankingsActivity
+activity#com.wrgardnersoft.watchftctournament.activities.StatRankingsActivity
 ADDED from AndroidManifest.xml:64:9
 	android:label
 		ADDED from AndroidManifest.xml:67:13
@@ -127,7 +127,7 @@ ADDED from AndroidManifest.xml:64:9
 		ADDED from AndroidManifest.xml:66:13
 	android:name
 		ADDED from AndroidManifest.xml:65:13
-activity#com.wrgardnersoft.watchftc.activities.StatInfoActivity
+activity#com.wrgardnersoft.watchftctournament.activities.StatInfoActivity
 ADDED from AndroidManifest.xml:69:9
 	android:label
 		ADDED from AndroidManifest.xml:72:13
@@ -135,7 +135,7 @@ ADDED from AndroidManifest.xml:69:9
 		ADDED from AndroidManifest.xml:71:13
 	android:name
 		ADDED from AndroidManifest.xml:70:13
-activity#com.wrgardnersoft.watchftc.activities.StatDetailsActivity
+activity#com.wrgardnersoft.watchftctournament.activities.StatDetailsActivity
 ADDED from AndroidManifest.xml:74:9
 	android:label
 		ADDED from AndroidManifest.xml:76:13
