@@ -30,11 +30,7 @@ public class TeamsActivity extends CommonMenuActivity implements AsyncResponse {
 
         MyApp myApp = (MyApp) getApplication();
 
-        if (myApp.dualDivision()) {
-            setTitle(" " + getString(R.string.teams) + ", Division " + Integer.toString(myApp.division() + 1));
-        } else {
-            setTitle(" " + getString(R.string.teams));
-        }
+        setTitle(" " + getString(R.string.teams));
 
         setContentView(R.layout.activity_teams);
 
@@ -60,6 +56,10 @@ public class TeamsActivity extends CommonMenuActivity implements AsyncResponse {
     private void inflateMe() {
 
         MyApp myApp = (MyApp) getApplication();
+        if (myApp.dualDivision()) {
+            setTitle(" " + getString(R.string.teams) + ", Division " + Integer.toString(myApp.division() + 1)
+                    + ": " + myApp.divisionName[myApp.division()]);
+        }
 
         TeamListAdapter adapter = new TeamListAdapter(this,
                 R.layout.list_item_team, myApp.team[myApp.division()]);
@@ -117,8 +117,6 @@ public class TeamsActivity extends CommonMenuActivity implements AsyncResponse {
         // Inflate the menu; this adds items to the action bar if it is present.
         super.onCreateOptionsMenu(menu);
 
-        MyApp myApp = MyApp.getInstance();
-
         MenuItem item = menu.findItem(R.id.action_teams);
         item.setVisible(false);
 
@@ -132,8 +130,6 @@ public class TeamsActivity extends CommonMenuActivity implements AsyncResponse {
         // as you specify a parent activity in AndroidManifest.xml.
         boolean saveReturn;
 
-        MyApp myApp = MyApp.getInstance();
-
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -143,9 +139,9 @@ public class TeamsActivity extends CommonMenuActivity implements AsyncResponse {
             clientTask.execute();
             return true;
         }
-        saveReturn =  super.onOptionsItemSelected(item);
+        saveReturn = super.onOptionsItemSelected(item);
 
-        if ((id == R.id.action_load)&&saveReturn) { // just loaded data, so refresh
+        if ((id == R.id.action_load) && saveReturn) { // just loaded data, so refresh
             processFinish(0);
         }
 

@@ -30,13 +30,9 @@ public class FtcRankingsActivity extends CommonMenuActivity implements AsyncResp
 
         MyApp myApp = (MyApp) getApplication();
 
-        //     team = new ArrayList<Team>();
+        setTitle(" " + getString(R.string.ftcRankings));
 
-        if (myApp.dualDivision()) {
-            setTitle(" " + getString(R.string.ftcRankings) + ", Division " + Integer.toString(myApp.division() + 1));
-        } else {
-            setTitle(" " + getString(R.string.ftcRankings));
-        }
+
 
         setContentView(R.layout.activity_ftc_rankings);
 
@@ -51,6 +47,10 @@ public class FtcRankingsActivity extends CommonMenuActivity implements AsyncResp
 
     private void inflateMe() {
         MyApp myApp = MyApp.getInstance();
+        if (myApp.dualDivision()) {
+            setTitle(" " + getString(R.string.ftcRankings) + ", Division " + Integer.toString(myApp.division() + 1)
+                    + ": " + myApp.divisionName[myApp.division()]);
+        }
 
         FtcRankingsListAdapter adapter = new FtcRankingsListAdapter(this,
                 R.layout.list_item_ftc_ranking, myApp.teamFtcRanked[myApp.division()]);
@@ -114,8 +114,6 @@ public class FtcRankingsActivity extends CommonMenuActivity implements AsyncResp
         // Inflate the menu; this adds items to the action bar if it is present.
         super.onCreateOptionsMenu(menu);
 
-        MyApp myApp = MyApp.getInstance();
-
         MenuItem item = menu.findItem(R.id.action_ftc_rankings);
         item.setVisible(false);
 
@@ -127,8 +125,6 @@ public class FtcRankingsActivity extends CommonMenuActivity implements AsyncResp
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-
-        MyApp myApp = MyApp.getInstance();
 
         int id = item.getItemId();
 

@@ -34,13 +34,9 @@ public class StatDetailsActivity extends CommonMenuActivity implements AsyncResp
 
         MyApp myApp = (MyApp) getApplication();
 
-        //     team = new ArrayList<Team>();
+        setTitle(" " + getString(R.string.stats)+", "+Stat.TypeDisplayString[myApp.detailType.ordinal()]);
 
-        if (myApp.dualDivision()) {
-            setTitle(" " + getString(R.string.stats)+", "+Stat.TypeDisplayString[myApp.detailType.ordinal()] + ", Division " + Integer.toString(myApp.division() + 1));
-        } else {
-            setTitle(" " + getString(R.string.stats)+", "+Stat.TypeDisplayString[myApp.detailType.ordinal()]);
-        }
+
 
         setContentView(R.layout.activity_stat_details);
 
@@ -55,6 +51,10 @@ public class StatDetailsActivity extends CommonMenuActivity implements AsyncResp
 
     private void inflateMe() {
         MyApp myApp = MyApp.getInstance();
+        if (myApp.dualDivision()) {
+            setTitle(" " + getString(R.string.stats)+", "+Stat.TypeDisplayString[myApp.detailType.ordinal()] + ", Division " + Integer.toString(myApp.division() + 1)
+                    + ": " + myApp.divisionName[myApp.division()]);
+        }
 
         StatDetailsListAdapter adapter = new StatDetailsListAdapter(this,
                 R.layout.list_item_stat_details, myApp.teamStatRanked[myApp.division()], myApp.detailType);

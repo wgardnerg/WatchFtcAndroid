@@ -36,12 +36,7 @@ public class StatRankingsActivity extends CommonMenuActivity implements AsyncRes
         MyApp myApp = (MyApp) getApplication();
 
         //     team = new ArrayList<Team>();
-
-        if (myApp.dualDivision()) {
-            setTitle(" " + getString(R.string.stats) + ", Division " + Integer.toString(myApp.division() + 1));
-        } else {
-            setTitle(" " + getString(R.string.stats));
-        }
+        setTitle(" " + getString(R.string.stats));
 
         setContentView(R.layout.activity_stat_rankings);
 
@@ -56,6 +51,10 @@ public class StatRankingsActivity extends CommonMenuActivity implements AsyncRes
 
     private void inflateMe() {
         MyApp myApp = MyApp.getInstance();
+        if (myApp.dualDivision()) {
+            setTitle(" " + getString(R.string.stats) + ", Division " + Integer.toString(myApp.division() + 1)
+                    + ": " + myApp.divisionName[myApp.division()]);
+        }
 
         TextView tv = (TextView) findViewById(R.id.head_ccwm);
         tv.setOnLongClickListener(new View.OnLongClickListener() {
@@ -276,7 +275,6 @@ public class StatRankingsActivity extends CommonMenuActivity implements AsyncRes
         // Inflate the menu; this adds items to the action bar if it is present.
         super.onCreateOptionsMenu(menu);
 
-        MyApp myApp = MyApp.getInstance();
         MenuItem item = menu.findItem(R.id.action_stat_rankings);
         item.setVisible(false);
 

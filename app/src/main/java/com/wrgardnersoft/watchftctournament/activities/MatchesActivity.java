@@ -35,13 +35,9 @@ public class MatchesActivity extends CommonMenuActivity implements AsyncResponse
 
         MyApp myApp = (MyApp) getApplication();
 
-        //     team = new ArrayList<Team>();
+        setTitle(" " + getString(R.string.matches));
 
-        if (myApp.dualDivision()) {
-            setTitle(" " + getString(R.string.matches) + ", Division " + Integer.toString(myApp.division() + 1));
-        } else {
-            setTitle(" " + getString(R.string.matches));
-        }
+
 
         setContentView(R.layout.activity_matches);
 
@@ -57,6 +53,13 @@ public class MatchesActivity extends CommonMenuActivity implements AsyncResponse
 
     private void inflateMe() {
         MyApp myApp = MyApp.getInstance();
+
+        if (myApp.dualDivision()) {
+            setTitle(" " + getString(R.string.matches) + ", Division " + Integer.toString(myApp.division() + 1)
+                    + ": " + myApp.divisionName[myApp.division()]);
+        }
+
+
         ArrayList<Match> localMatch = new ArrayList<>();
 
         for (Match m : myApp.match[myApp.division()]) {

@@ -53,16 +53,13 @@ public class MyTeamActivity extends CommonMenuActivity implements AsyncResponse 
 
         super.onCreate(savedInstanceState);
 
-        MyApp myApp = (MyApp) getApplication();
-
+        setTitle(" Team");
         //     setTitle(" Team " + Integer.toString(myApp.currentTeamNumber));
 
         setContentView(R.layout.activity_my_team);
 
         inflateMeAll();
-        if (myTeam.size() > 0) {
-            setTitle(" Team " + Integer.toString(myApp.currentTeamNumber) + ": " + myTeam.get(0).name);
-        }
+
 
     }
 
@@ -78,6 +75,9 @@ public class MyTeamActivity extends CommonMenuActivity implements AsyncResponse 
 
     private void inflateMeAll() {
         MyApp myApp = (MyApp) getApplication();
+        if (myTeam.size() > 0) {
+            setTitle(" Team " + Integer.toString(myApp.currentTeamNumber) + ": " + myTeam.get(0).name);
+        }
 
         for (Team t : myApp.team[myApp.division()]) {
             if (t.number == myApp.currentTeamNumber) {
