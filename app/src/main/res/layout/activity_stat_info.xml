@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:text="   Forecasting is done by adding the Off scores for both teams on an alliance for all offensive measures, the Off score for the opposing alliance penalties, and the average scores, and then subtracting off the corresponding Dif scores from the opposing alliance teams.  This can occasionally result in negative forecast predictions for specific score items or for total scores if two particularly low scoring teams play together on an alliance."
+                android:text="   Forecasting is done by adding the scores for both teams on an alliance, the scores for the opposing alliance penalties, and the average scores.  This can occasionally result in negative forecast predictions for specific score items or for total scores if two particularly low scoring teams play together on an alliance."
                 android:textSize="16sp"
                 android:padding="8dp"
                 android:layout_width="match_parent"
@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:text="For more detailed information on how the stats are specifically computed, contact the app developer as shown on Google Play."
+                android:text="For more detailed information on how the stats are specifically computed, contact the app developer via Google Play."
                 android:textSize="16sp"
                 android:padding="8dp"
                 android:layout_width="match_parent"

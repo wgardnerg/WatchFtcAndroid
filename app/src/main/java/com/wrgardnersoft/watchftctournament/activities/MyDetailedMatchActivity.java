@@ -1,5 +1,6 @@
 package com.wrgardnersoft.watchftctournament.activities;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -163,7 +164,91 @@ public class MyDetailedMatchActivity extends CommonMenuActivity implements Async
                 }
             }
         }
+        TextView alR0View = (TextView) findViewById(R.id.mdm_rT0);
+        alR0View.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            TextView tv = (TextView) v;
+                                            MyApp myApp = MyApp.getInstance();
+                                            myApp.currentTeamNumber = Integer.parseInt(tv.getText().toString());
 
+                                            Intent getNameScreenIntent = new Intent(v.getContext(), MyTeamActivity.class);
+                                            v.getContext().startActivity(getNameScreenIntent);
+                                        }
+                                    }
+        );
+
+        TextView alR1View = (TextView) findViewById(R.id.mdm_rT1);
+        alR1View.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            TextView tv = (TextView) v;
+                                            MyApp myApp = MyApp.getInstance();
+                                            myApp.currentTeamNumber = Integer.parseInt(tv.getText().toString());
+
+                                            Intent getNameScreenIntent = new Intent(v.getContext(), MyTeamActivity.class);
+                                            v.getContext().startActivity(getNameScreenIntent);
+                                        }
+                                    }
+        );
+
+        TextView alR2View = (TextView) findViewById(R.id.mdm_rT2);
+        alR2View.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            TextView tv = (TextView) v;
+                                            MyApp myApp = MyApp.getInstance();
+                                            myApp.currentTeamNumber = Integer.parseInt(tv.getText().toString());
+
+                                            Intent getNameScreenIntent = new Intent(v.getContext(), MyTeamActivity.class);
+                                            v.getContext().startActivity(getNameScreenIntent);
+                                        }
+                                    }
+        );
+
+        TextView alB0View = (TextView) findViewById(R.id.mdm_bT0);
+        alB0View.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            TextView tv = (TextView) v;
+                                            MyApp myApp = MyApp.getInstance();
+                                            myApp.currentTeamNumber = Integer.parseInt(tv.getText().toString());
+
+                                            Intent getNameScreenIntent = new Intent(v.getContext(), MyTeamActivity.class);
+                                            v.getContext().startActivity(getNameScreenIntent);
+                                        }
+                                    }
+        );
+
+
+        TextView alB1View = (TextView) findViewById(R.id.mdm_bT1);
+        alB1View.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            TextView tv = (TextView) v;
+                                            MyApp myApp = MyApp.getInstance();
+                                            myApp.currentTeamNumber = Integer.parseInt(tv.getText().toString());
+
+                                            Intent getNameScreenIntent = new Intent(v.getContext(), MyTeamActivity.class);
+                                            v.getContext().startActivity(getNameScreenIntent);
+                                        }
+                                    }
+        );
+
+
+        TextView alB2View = (TextView) findViewById(R.id.mdm_bT2);
+        alB2View.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            TextView tv = (TextView) v;
+                                            MyApp myApp = MyApp.getInstance();
+                                            myApp.currentTeamNumber = Integer.parseInt(tv.getText().toString());
+
+                                            Intent getNameScreenIntent = new Intent(v.getContext(), MyTeamActivity.class);
+                                            v.getContext().startActivity(getNameScreenIntent);
+                                        }
+                                    }
+        );
     }
 
     @Override

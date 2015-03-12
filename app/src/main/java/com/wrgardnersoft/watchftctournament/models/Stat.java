@@ -151,7 +151,7 @@ public class Stat {
 
 
                 A1 = A2.getMatrix(0, 2 * numMatches - 1, 0, numTeams - 1); // only offense, left of AA2
-             //   Log.i("A1 NormInf", String.valueOf(A1.normInf()));
+                //   Log.i("A1 NormInf", String.valueOf(A1.normInf()));
 
                 SingularValueDecomposition svdA1 = new SingularValueDecomposition(A1.transpose().times(A1));
                 Matrix sA1 = svdA1.getS();
@@ -270,8 +270,8 @@ public class Stat {
                     //     Log.i(String.valueOf(BoprA.getRowDimension()),String.valueOf(BoprA.getColumnDimension()));
 
                     toprA1 = AtAinvA1.times(A1.transpose().times(BoprA));
-                    for (int i=0; i<numTeams; i++) {
-     //                   Log.i("O "+String.valueOf(AtAinvA1.times(A1.transpose()).get(0,i)),String.valueOf(BoprA.get(i,0)));
+                    for (int i = 0; i < numTeams; i++) {
+                        //                   Log.i("O "+String.valueOf(AtAinvA1.times(A1.transpose()).get(0,i)),String.valueOf(BoprA.get(i,0)));
                     }
                     tdprA1 = AtAinvA1d.times(A1d.transpose().times(BoprA));
 
@@ -314,7 +314,9 @@ public class Stat {
                             //    Log.i("C", String.valueOf(toprA.get(i, 0) + toprA.get(i + numTeams, 0)));
                         }
                     } else */
-                    if (svdA1.rank() == numTeams) {
+                    //                  if (svdA1.rank() == numTeams) {
+
+                    if ((svdA1.rank() == numTeams) && (numMatches * 4 / numTeams >= 3)) { // if have played at least 3 matches per team on average
                         for (int i = 0; i < numTeams; i++) {
                             myApp.teamStatRanked[division].get(i).oprA[type.ordinal()] = toprA1.get(i, 0);
 
@@ -352,10 +354,12 @@ public class Stat {
                         for (int i = 0; i < numTeams; i++) {
                             if (matchesPerTeam[i] > 0) {
                                 myApp.teamStatRanked[division].get(i).oprA[type.ordinal()] = offensePerTeam[i] / (double) (matchesPerTeam[i]) / 2 - myApp.meanOffenseScoreTotal[division][type.ordinal()];
-                                myApp.teamStatRanked[division].get(i).dprA[type.ordinal()] = 0; //-(defensePerTeam[i] / (double) (matchesPerTeam[i]) - myApp.meanOffenseScoreTotal[division][type.ordinal()]);
                                 myApp.teamStatRanked[division].get(i).ccwmA[type.ordinal()] = marginPerTeam[i] / (double) (matchesPerTeam[i]) / 2;
 
-                            //    Log.i("OPR "+String.valueOf(i), String.valueOf(myApp.teamStatRanked[division].get(i).oprA[type.ordinal()]));
+                                //                              myApp.teamStatRanked[division].get(i).dprA[type.ordinal()] = 0; //-(defensePerTeam[i] / (double) (matchesPerTeam[i]) - myApp.meanOffenseScoreTotal[division][type.ordinal()]);
+                                myApp.teamStatRanked[division].get(i).dprA[type.ordinal()] = myApp.teamStatRanked[division].get(i).ccwmA[type.ordinal()]
+                                        - myApp.teamStatRanked[division].get(i).oprA[type.ordinal()];
+                                //    Log.i("OPR "+String.valueOf(i), String.valueOf(myApp.teamStatRanked[division].get(i).oprA[type.ordinal()]));
                                 //    myApp.teamStatRanked[division].get(i).ccwmA[type.ordinal()] = offensePerTeam[i] / (double) (matchesPerTeam[i]) / 2 - myApp.meanOffenseScoreTotal[division][type.ordinal()];
                             } else {
                                 myApp.teamStatRanked[division].get(i).oprA[type.ordinal()] = 0;

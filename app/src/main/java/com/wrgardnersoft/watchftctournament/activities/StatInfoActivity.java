@@ -17,7 +17,7 @@ public class StatInfoActivity extends ActionBarActivity {
         getSupportActionBar().setIcon(R.drawable.ic_launcher);
         setContentView(R.layout.activity_stat_info);
 
-        setTitle(getString(R.string.statInfo));
+        setTitle(" "+getString(R.string.statInfo));
     }
 
 
