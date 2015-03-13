@@ -1,9 +1,6 @@
-Save ip addresses and reload
-QR scan of ip addresses?
-add info button for individual teams
-match list
-add info button for match details
-advanced stats computation
-code for :8080 in a clean loop
-division swap
-alliance picker helper?
+QR scan of ip addresses
+alliance picker helper
+save data to online database
+read data from current tournament to online database
+read data from historical tournaments to online database
+setup online database with full FIRST team info and links
